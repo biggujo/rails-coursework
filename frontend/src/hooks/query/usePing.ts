@@ -4,7 +4,7 @@ import API from '../../utils/api.ts';
 function UsePing() {
   return useQuery({
     queryKey: ['ping'],
-    queryFn: API.getPing,
+    queryFn: API.debug.getPing,
   });
 }
 
