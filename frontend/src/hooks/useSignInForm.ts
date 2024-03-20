@@ -22,7 +22,7 @@ const validationSchema = Yup.object({
 
 function useSignInForm() {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { setUser, setIsLoggedIn } = useAuth();
   const signInMutation = useSignInMutation();
 
   // Save Bearer on success
@@ -33,7 +33,8 @@ function useSignInForm() {
       return;
     }
 
-    setUser(data);
+    setUser(data!.data.data);
+    setIsLoggedIn(true);
     API.auth.setBearerToken(data!.headers.authorization);
 
     navigate('/');
@@ -53,12 +54,7 @@ function useSignInForm() {
       try {
         await signInMutation.mutateAsync(values);
       } catch (e: unknown) {
-        if (e instanceof AxiosError) {
-          toast.error(e.message);
-          return;
-        }
-
-        if (e instanceof Error) {
+        if (e instanceof AxiosError || e instanceof Error) {
           toast.error(e.message);
           return;
         }

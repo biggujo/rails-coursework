@@ -33,6 +33,16 @@ const signIn = async (data: UserFormAPI) => {
   }
 };
 
+const getProfile = async () => {
+  try {
+    const response: AxiosResponse = await axios.get('/users/profile');
+
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const API = {
   debug: {
     getPing,
@@ -41,6 +51,9 @@ const API = {
     setBearerToken,
     clearBearerToken,
     signIn,
+  },
+  profile: {
+    getProfile,
   },
 };
 

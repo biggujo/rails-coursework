@@ -1,1 +1,1 @@
-export { default } from './usePing.ts';
+export { default } from './usePingQuery.ts';

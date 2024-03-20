@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import API from '../../utils/api.ts';
 
-function UsePing() {
+function usePingQuery() {
   return useQuery({
     queryKey: ['ping'],
     queryFn: API.debug.getPing,
   });
 }
 
-export default UsePing;
+export default usePingQuery;
