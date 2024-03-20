@@ -1,29 +1,22 @@
-import useLocalStorage from '../hooks';
-import { useEffect, useRef } from 'react';
-import Keys from '../utils/ls-keys.tsx';
-import useUserSignInMutation from '../hooks/mutation/useSignInMutation.ts';
-import usePing from '../hooks/query';
-import useSignInMutation from '../hooks/mutation/useSignInMutation.ts';
+import { useNavigate } from 'react-router-dom';
+import { Button, Container, Typography } from '@mui/material';
 import { useAuth } from '../providers';
+import axios from 'axios';
 
 
 export default function HomePage() {
-  const signInMutation = useSignInMutation();
-
-  useEffect(() => {
-    const mutateSignIn = async () => {
-      const response = await signInMutation.mutateAsync({
-        email: 'b@b.b',
-        password: 'bbbbbb',
-      });
-
-      console.log(response!.headers.authorization);
-    };
-
-    mutateSignIn();
-  }, [signInMutation]);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   return (<>
-    <div>HomePage</div>
+    <Container>
+      <Typography variant={'h1'}>Home Page</Typography>
+      <Typography>Current user: <b>{user?.email ? user.email : 'No user'}</b></Typography>
+      <Typography>Token: {axios.defaults.headers.common.Authorization}</Typography>
+      <Button onClick={() => navigate('/sign-in')}
+              variant={'contained'}>
+        Sign in
+      </Button>
+    </Container>
   </>);
 }

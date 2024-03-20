@@ -1,7 +1,15 @@
 import axios, { AxiosResponse } from 'axios';
-import SignInDataInterface from '../interfaces';
+import { UserFormAPI } from '../interfaces';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
+
+const setBearerToken = (bearer: string) => {
+  axios.defaults.headers.common.Authorization = bearer;
+};
+
+const clearBearerToken = () => {
+  axios.defaults.headers.common.Authorization = '';
+};
 
 // For testing purposes
 const getPing = async () => {
@@ -13,7 +21,7 @@ const getPing = async () => {
   }
 };
 
-const signIn = async (data: SignInDataInterface) => {
+const signIn = async (data: UserFormAPI) => {
   try {
     const response: AxiosResponse = await axios.post('/sign_in', {
       user: data,
@@ -30,6 +38,8 @@ const API = {
     getPing,
   },
   auth: {
+    setBearerToken,
+    clearBearerToken,
     signIn,
   },
 };
