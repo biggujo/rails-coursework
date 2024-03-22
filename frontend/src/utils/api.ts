@@ -3,14 +3,6 @@ import { UserFormAPI } from '../interfaces';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
-const setBearerToken = (bearer: string) => {
-  axios.defaults.headers.common.Authorization = bearer;
-};
-
-const clearBearerToken = () => {
-  axios.defaults.headers.common.Authorization = '';
-};
-
 // For testing purposes
 const getPing = async () => {
   try {
@@ -33,9 +25,9 @@ const signIn = async (data: UserFormAPI) => {
   }
 };
 
-const getProfile = async () => {
+const signOut = async () => {
   try {
-    const response: AxiosResponse = await axios.get('/users/profile');
+    const response: AxiosResponse = await axios.delete('/sign_out');
 
     return response;
   } catch (e) {
@@ -43,14 +35,18 @@ const getProfile = async () => {
   }
 };
 
+const getProfile = async () => {
+  const response: AxiosResponse = await axios.get('/users/profile');
+  return response;
+};
+
 const API = {
   debug: {
     getPing,
   },
   auth: {
-    setBearerToken,
-    clearBearerToken,
     signIn,
+    signOut,
   },
   profile: {
     getProfile,

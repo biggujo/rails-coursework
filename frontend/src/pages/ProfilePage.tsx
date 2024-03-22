@@ -1,42 +1,15 @@
 import { useAuth } from '../providers';
 import { Box, Button, Container, Typography } from '@mui/material';
 import useGetProfileQuery from '../hooks/query/useGetProfileQuery.ts';
-import { useEffect } from 'react';
-import { AxiosError } from 'axios';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import useCheckSessionExpiration from '../hooks/useCheckSessionExpiration.tsx';
+import { AxiosError } from 'axios';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const profileQuery = useGetProfileQuery({
-    enabled: false,
-  });
+  const profileQuery = useGetProfileQuery();
   const { isLoggedIn, user } = useAuth();
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      return;
-    }
-
-    const fetch = async () => {
-      try {
-        await profileQuery.refetch();
-
-        const response = profileQuery.data;
-
-        console.log(response);
-      } catch (e) {
-        if (e instanceof AxiosError || e instanceof Error) {
-          toast.error(e.message);
-          return;
-        }
-
-        console.log(e);
-      }
-    };
-
-    fetch();
-  }, []);
+  useCheckSessionExpiration(profileQuery.error);
 
   if (!isLoggedIn) {
     return <Container>
@@ -53,14 +26,13 @@ export default function ProfilePage() {
     </Container>;
   }
 
-  console.log(user);
+  console.log(profileQuery.error);
 
   return (<Container>
     <Box>
-      {profileQuery.isFetching && <Typography>Loading...</Typography>}
-      {profileQuery.isSuccess && <><Typography variant={'h2'}>Profile</Typography>
-        <Typography>Email: <b>{user.email}</b></Typography>
-      </>}
+      <Typography variant={'h2'}>Profile</Typography>
+      {profileQuery.isError && <Typography>{(profileQuery.error as AxiosError).response!.statusText}</Typography>}
+      {profileQuery.isSuccess && <Typography>Email: <b>{user.email}</b></Typography>}
     </Box>
   </Container>);
-};
+}

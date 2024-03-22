@@ -323,6 +323,6 @@ Devise.setup do |config|
       ['DELETE', "/sign_out"]
     ]
 
-    jwt.expiration_time = 1.minutes.to_i
+    jwt.expiration_time = 24.hours.to_i
   end
 end

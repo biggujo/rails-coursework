@@ -1,9 +1,12 @@
+import { Dispatch, SetStateAction } from 'react';
+
 interface AuthInformation {
   isLoggedIn: boolean,
-  isRefreshing: boolean, // Is in progress of login
+  setIsLoggedIn: Dispatch<SetStateAction<boolean>>,
   user: {
     email: string,
-  }
+  },
+  setUser: Dispatch<SetStateAction<object | null>>,
 }
 
 export default AuthInformation;

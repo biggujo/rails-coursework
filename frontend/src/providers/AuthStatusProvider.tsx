@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 import { AuthInformation } from '../interfaces';
+import useLocalStorage from '../hooks';
 
 const AuthStatusContext = createContext<AuthInformation>(null!);
 
@@ -10,8 +11,8 @@ interface Props {
 }
 
 export const AuthStatusProvider = ({ children }: Props) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null!);
+  const [isLoggedIn, setIsLoggedIn] = useLocalStorage('is-logged-in');
+  const [user, setUser] = useLocalStorage('user');
 
   const authStatus = {
     isLoggedIn,

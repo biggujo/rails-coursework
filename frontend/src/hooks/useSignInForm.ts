@@ -3,11 +3,9 @@ import { UserFormAPI } from '../interfaces';
 import { useFormik } from 'formik';
 import useSignInMutation from './mutation/useSignInMutation.ts';
 import { useEffect } from 'react';
-import API from '../utils/api.ts';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
-import { useAuth } from '../providers';
 
 const validationSchema = Yup.object({
   email: Yup
@@ -22,20 +20,13 @@ const validationSchema = Yup.object({
 
 function useSignInForm() {
   const navigate = useNavigate();
-  const { setUser, setIsLoggedIn } = useAuth();
   const signInMutation = useSignInMutation();
 
   // Save Bearer on success
   useEffect(() => {
-    const { data, status } = signInMutation;
-
-    if (status !== 'success') {
+    if (signInMutation.status !== 'success') {
       return;
     }
-
-    setUser(data!.data.data);
-    setIsLoggedIn(true);
-    API.auth.setBearerToken(data!.headers.authorization);
 
     navigate('/');
     toast.success('Successful sign in!');
