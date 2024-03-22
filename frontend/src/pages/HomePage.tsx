@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Typography } from '@mui/material';
 import { useAuth } from '../providers';
-import useSignOutMutation from '../hooks/mutation/useSignOutMutation.ts';
+import useSignOutMutation from '../hooks/mutation/useSignOutMutation.tsx';
 import useToken from '../hooks/useToken.ts';
 
 

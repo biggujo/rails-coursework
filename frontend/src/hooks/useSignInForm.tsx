@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
+import CustomAlert from '../components/CustomAlert';
 
 const validationSchema = Yup.object({
   email: Yup
@@ -29,7 +30,7 @@ function useSignInForm() {
     }
 
     navigate('/');
-    toast.success('Successful sign in!');
+    toast.custom(<CustomAlert message={'Successful sign in!'} severity={'success'} />);
     // eslint-disable-next-line
   }, [signInMutation.status]);
 
@@ -45,8 +46,8 @@ function useSignInForm() {
       try {
         await signInMutation.mutateAsync(values);
       } catch (e: unknown) {
-        if (e instanceof AxiosError || e instanceof Error) {
-          toast.error(e.message);
+        if (e instanceof AxiosError) {
+          toast.custom(<CustomAlert message={e.response!.data} severity={'error'} />);
           return;
         }
 

@@ -14,25 +14,17 @@ const getPing = async () => {
 };
 
 const signIn = async (data: UserFormAPI) => {
-  try {
-    const response: AxiosResponse = await axios.post('/sign_in', {
-      user: data,
-    });
+  const response: AxiosResponse = await axios.post('/sign_in', {
+    user: data,
+  });
 
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
+  return response;
 };
 
 const signOut = async () => {
-  try {
-    const response: AxiosResponse = await axios.delete('/sign_out');
+  const response: AxiosResponse = await axios.delete('/sign_out');
 
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
+  return response;
 };
 
 const getProfile = async () => {
