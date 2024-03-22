@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { UserFormAPI } from '../interfaces';
+import { UserSignInFormAPI } from '../interfaces';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
@@ -13,7 +13,15 @@ const getPing = async () => {
   }
 };
 
-const signIn = async (data: UserFormAPI) => {
+const signUp = async (data: UserSignInFormAPI) => {
+  const response: AxiosResponse = await axios.post('/sign_up', {
+    user: data,
+  });
+
+  return response;
+};
+
+const signIn = async (data: UserSignInFormAPI) => {
   const response: AxiosResponse = await axios.post('/sign_in', {
     user: data,
   });
@@ -38,6 +46,7 @@ const API = {
   },
   auth: {
     signIn,
+    signUp,
     signOut,
   },
   profile: {

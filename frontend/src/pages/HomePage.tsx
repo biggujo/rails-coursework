@@ -25,6 +25,11 @@ export default function HomePage() {
               disabled={isLoggedIn}>
         Sign in
       </Button>
+      <Button onClick={() => navigate('/sign-up')}
+              variant={'contained'}
+              disabled={isLoggedIn}>
+        Sign up
+      </Button>
       <Button onClick={() => signOutMutation.mutate()}
               variant={'contained'}
               disabled={!isLoggedIn}>

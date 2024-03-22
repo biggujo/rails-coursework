@@ -26,13 +26,18 @@ export default function ProfilePage() {
     </Container>;
   }
 
-  console.log(profileQuery.error);
-
   return (<Container>
     <Box>
       <Typography variant={'h2'}>Profile</Typography>
       {profileQuery.isError && <Typography>{(profileQuery.error as AxiosError).response!.statusText}</Typography>}
-      {profileQuery.isSuccess && <Typography>Email: <b>{user.email}</b></Typography>}
+      {profileQuery.isSuccess && <ul>
+        <li>
+          <Typography>Email: <b>{profileQuery.data.data.email}</b></Typography>
+        </li>
+        <li>
+          <Typography>Nickname: <b>{profileQuery.data.data.nickname}</b></Typography>
+        </li>
+      </ul>}
     </Box>
   </Container>);
 }

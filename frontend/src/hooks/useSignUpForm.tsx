@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import CustomAlert from '../components/CustomAlert';
+import useSignUpMutation from './mutation/useSignUpMutation.ts';
+import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 
 const validationSchema = Yup.object({
   email: Yup
@@ -17,26 +19,31 @@ const validationSchema = Yup.object({
     .string()
     .min(6, 'Password have to be more than 6 symbols')
     .required('Password is required'),
+  nickname: Yup
+    .string()
+    .min(3, 'Nickname have to be more than 3 symbols')
+    .required('Nickname is required'),
 });
 
-function useSignInForm() {
+function useSignUpForm() {
   const navigate = useNavigate();
-  const signInMutation = useSignInMutation();
+  const signUpMutation = useSignUpMutation();
 
   // Save Bearer on success
   useEffect(() => {
-    if (signInMutation.status !== 'success') {
+    if (signUpMutation.status !== 'success') {
       return;
     }
 
     navigate('/');
-    toast.custom(<CustomAlert message={'Successful sign in!'} severity={'success'} />);
+    toast.custom(<CustomAlert message={'Successful sign up!'} severity={'success'} />);
     // eslint-disable-next-line
-  }, [signInMutation.status]);
+  }, [signUpMutation.status]);
 
-  const initialValues: UserSignInFormAPI = {
+  const initialValues: UserSignUpFormAPI = {
     email: '',
     password: '',
+    nickname: '',
   };
 
   return useFormik({
@@ -44,7 +51,7 @@ function useSignInForm() {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await signInMutation.mutateAsync(values);
+        await signUpMutation.mutateAsync(values);
       } catch (e: unknown) {
         if (e instanceof AxiosError) {
           toast.custom(<CustomAlert message={e.response!.data} severity={'error'} />);
@@ -57,4 +64,4 @@ function useSignInForm() {
   });
 }
 
-export default useSignInForm;
+export default useSignUpForm;

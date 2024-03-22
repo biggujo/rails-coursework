@@ -5,6 +5,8 @@ interface AuthInformation {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>,
   user: {
     email: string,
+    nickname: string,
+    created_at: string,
   },
   setUser: Dispatch<SetStateAction<object | null>>,
 }
