@@ -1,11 +1,10 @@
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Link, Stack, TextField } from '@mui/material';
 import { FormikProvider } from 'formik';
 import ButtonSubmit from '../ButtonSubmit';
 import useSignUpForm from '../../hooks/useSignUpForm.tsx';
 
 export default function SignUpForm() {
-  const navigate = useNavigate();
   const formik = useSignUpForm();
 
   return (
