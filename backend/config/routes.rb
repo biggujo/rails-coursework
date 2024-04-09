@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :pings, only: [:index]
 
   get "/users/profile", to: "users#profile"
+  get "/users/refresh", to: "users#refresh"
   # get "/users", to: "users#index"
 
   # Defines the root path route ("/")
