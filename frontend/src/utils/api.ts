@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { UserSignInFormAPI } from '../interfaces';
+import { User, UserSignInFormAPI } from '../interfaces';
+import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
@@ -13,7 +14,7 @@ const getPing = async () => {
   }
 };
 
-const signUp = async (data: UserSignInFormAPI) => {
+const signUp = async (data: UserSignUpFormAPI) => {
   const response: AxiosResponse = await axios.post('/sign_up', {
     user: data,
   });
@@ -40,6 +41,11 @@ const getProfile = async () => {
   return response;
 };
 
+const refreshUser = async () => {
+  const response: AxiosResponse = await axios.get('/users/refresh');
+  return response.data as User;
+};
+
 const API = {
   debug: {
     getPing,
@@ -51,6 +57,7 @@ const API = {
   },
   profile: {
     getProfile,
+    refreshUser,
   },
 };
 

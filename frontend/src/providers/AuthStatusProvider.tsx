@@ -1,10 +1,17 @@
-import { createContext, ReactNode, useContext } from 'react';
-import { AuthInformation } from '../interfaces';
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import { User } from '../interfaces';
 import useLocalStorage from '../hooks';
 
-const AuthStatusContext = createContext<AuthInformation>(null!);
+interface AuthProviderValues {
+  isLoggedIn: boolean;
+  setIsLoggedIn: Dispatch<SetStateAction<boolean | null>>;
+  user: User;
+  setUser: Dispatch<SetStateAction<object | null>>;
+}
 
-export const useAuth: () => AuthInformation = () => useContext(AuthStatusContext)!;
+const AuthStatusContext = createContext<AuthProviderValues>(null!);
+
+export const useAuth: () => AuthProviderValues = () => useContext(AuthStatusContext);
 
 interface Props {
   children: ReactNode;
@@ -12,7 +19,7 @@ interface Props {
 
 export const AuthStatusProvider = ({ children }: Props) => {
   const [isLoggedIn, setIsLoggedIn] = useLocalStorage('is-logged-in');
-  const [user, setUser] = useLocalStorage('user');
+  const [user, setUser] = useState('user');
 
   const authStatus = {
     isLoggedIn,

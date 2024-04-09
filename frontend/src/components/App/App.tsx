@@ -4,11 +4,17 @@ import { Toaster } from 'react-hot-toast';
 import { HomePage, NotFound, ProfilePage, SignInPage, SignUpPage } from '../../pages';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../PrivateRoute';
+import useRefreshUserQuery from '../../hooks/query/useRefreshUser.ts';
 
 export default function App() {
+  const refreshUserQuery = useRefreshUserQuery();
   const navigate = useNavigate();
 
-  return (<>
+  if (refreshUserQuery.isError) {
+    return refreshUserQuery.error.message;
+  }
+
+  return <>
     <Button onClick={() => navigate('/')}>Go home</Button>
     <Routes>
       <Route path={'/'}
@@ -29,5 +35,5 @@ export default function App() {
     </Routes>
     <CssBaseline />
     <Toaster position={'top-right'} />
-  </>);
+  </>;
 }
