@@ -8,7 +8,7 @@ import { AxiosError } from 'axios';
 export default function ProfilePage() {
   const navigate = useNavigate();
   const profileQuery = useGetProfileQuery();
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn } = useAuth();
   useCheckSessionExpiration(profileQuery.error);
 
   if (!isLoggedIn) {
