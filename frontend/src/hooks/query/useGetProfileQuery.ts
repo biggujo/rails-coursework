@@ -5,7 +5,6 @@ function useGetProfileQuery() {
   return useQuery({
     queryKey: ['users/profile'],
     queryFn: API.profile.getProfile,
-    retry: 0,
     // @ts-ignore
     cacheTime: 0,
   });

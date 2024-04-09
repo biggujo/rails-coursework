@@ -9,7 +9,13 @@ import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-qu
 import { AuthStatusProvider } from './providers';
 import App from './components/App/App.tsx';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
