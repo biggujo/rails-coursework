@@ -13,4 +13,4 @@ export default function ButtonSubmit({ isSubmitting, children }: Props) {
       {children}
     </Button>
   );
-};
+}

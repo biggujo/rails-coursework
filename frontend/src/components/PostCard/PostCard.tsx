@@ -56,4 +56,4 @@ export default function PostCard({}: Props) {
       </CardActions>
     </Card>
   );
-};
+}

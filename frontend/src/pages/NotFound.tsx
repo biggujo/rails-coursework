@@ -4,4 +4,4 @@ export default function NotFound() {
   return (
     <Navigate to={'/'} />
   );
-};
+}

@@ -17,4 +17,4 @@ export default function Feed({}: Props) {
       </Stack>
     </Box>
   );
-};
+}

@@ -24,4 +24,4 @@ export default function NavBar({}: Props) {
       </Container>
     </AppBar>
   );
-};
+}

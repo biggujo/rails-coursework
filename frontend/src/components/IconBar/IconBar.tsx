@@ -55,4 +55,4 @@ export default function IconBar({}: Props) {
       </Menu>
     </Stack>
   );
-};
+}

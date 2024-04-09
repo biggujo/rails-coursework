@@ -13,4 +13,4 @@ export default function SearchBar({}: Props) {
       }} placeholder={'John vacation photos'} />
     </Box>
   );
-};
+}

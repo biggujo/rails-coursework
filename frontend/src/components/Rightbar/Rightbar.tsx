@@ -27,4 +27,4 @@ export default function Rightbar({}: Props) {
       </Box>
     </Box>
   );
-};
+}
