@@ -1,11 +1,7 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Button, CssBaseline } from '@mui/material';
-import HomePage from '../../pages/HomePage.tsx';
-import NotFound from '../../pages/NotFound.tsx';
-import SignInPage from '../../pages/SignInPage.tsx';
 import { Toaster } from 'react-hot-toast';
-import ProfilePage from '../../pages/ProfilePage.tsx';
-import SignUpPage from '../../pages/SignUpPage.tsx';
+import { HomePage, NotFound, ProfilePage, SignInPage, SignUpPage } from '../../pages';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../PrivateRoute';
 
