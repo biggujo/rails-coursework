@@ -18,7 +18,7 @@ interface Props {
 }
 
 export const AuthStatusProvider = ({ children }: Props) => {
-  const [isLoggedIn, setIsLoggedIn] = useLocalStorage('is-logged-in');
+  const [isLoggedIn, setIsLoggedIn] = useState('is-logged-in');
   const [user, setUser] = useState('user');
 
   const authStatus = {
