@@ -13,6 +13,7 @@ export default function RestrictedRoute({
                                         }: Props) {
   const { isLoggedIn } = useAuth();
 
+  console.log(isLoggedIn);
 
   return isLoggedIn ? <Navigate to={redirectTo} /> : Component;
 }

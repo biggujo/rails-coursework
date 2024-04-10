@@ -1,18 +1,14 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { Button, CssBaseline } from '@mui/material';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { HomePage, NotFound, ProfilePage, SignInPage, SignUpPage } from '../../pages';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../PrivateRoute';
 import useRefreshUserQuery from '../../hooks/query/useRefreshUser.ts';
 
 export default function App() {
-  const refreshUserQuery = useRefreshUserQuery();
+  useRefreshUserQuery();
   const navigate = useNavigate();
-
-  if (refreshUserQuery.isError) {
-    return refreshUserQuery.error.message;
-  }
 
   return <>
     <Button onClick={() => navigate('/')}>Go home</Button>
