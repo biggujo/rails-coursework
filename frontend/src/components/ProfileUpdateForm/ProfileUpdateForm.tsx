@@ -7,36 +7,29 @@ import { LoadingButton } from '@mui/lab';
 export default function ProfileUpdateForm() {
   const formik = useUpdateProfileForm();
 
-  return <>
-    <Typography variant={'h4'}
-                component={'h3'}
-                marginBottom={2}>
-      Update profile
-    </Typography>
-    <FormikProvider value={formik}>
-      <Stack component={'form'}
-             alignItems={'start'}
-             direction={'column'}
-             onSubmit={(event) => {
-               event.preventDefault();
-               formik.handleSubmit();
-             }}
-             gap={2}>
-        <FormField name={'email'}
-                   label={'New email *'}
-                   formik={formik}
-                   disabled={formik.isSubmitting} />
-        <FormField name={'nickname'}
-                   label={'New nickname *'}
-                   formik={formik}
-                   disabled={formik.isSubmitting} />
-        <LoadingButton
-          type={'submit'}
-          loading={formik.isSubmitting}
-          variant={'contained'}>
-          Update
-        </LoadingButton>
-      </Stack>
-    </FormikProvider>
-  </>;
+  return <FormikProvider value={formik}>
+    <Stack component={'form'}
+           alignItems={'start'}
+           direction={'column'}
+           onSubmit={(event) => {
+             event.preventDefault();
+             formik.handleSubmit();
+           }}
+           gap={2}>
+      <FormField name={'email'}
+                 label={'New email *'}
+                 formik={formik}
+                 disabled={formik.isSubmitting} />
+      <FormField name={'nickname'}
+                 label={'New nickname *'}
+                 formik={formik}
+                 disabled={formik.isSubmitting} />
+      <LoadingButton
+        type={'submit'}
+        loading={formik.isSubmitting}
+        variant={'contained'}>
+        Update
+      </LoadingButton>
+    </Stack>
+  </FormikProvider>;
 }
