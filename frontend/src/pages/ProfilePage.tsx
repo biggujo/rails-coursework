@@ -1,7 +1,7 @@
 import { useAuth } from '../providers';
 import { Box, Button, Container, Typography } from '@mui/material';
 import useGetProfileQuery from '../hooks/query/useGetProfileQuery.ts';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import useCheckSessionExpiration from '../hooks/useCheckSessionExpiration.tsx';
 import { AxiosError } from 'axios';
 
@@ -38,6 +38,7 @@ export default function ProfilePage() {
           <Typography>Nickname: <b>{profileQuery.data.data.nickname}</b></Typography>
         </li>
       </ul>}
+      <Outlet />
     </Box>
   </Container>);
 }

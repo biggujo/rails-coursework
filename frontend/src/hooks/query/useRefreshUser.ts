@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function useRefreshUser() {
   const [token, setToken] = useToken();
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { setUser, setIsLoggedIn, setIsRefreshing } = useAuth();
 
   const query = useQuery({
     queryKey: ['refresh'],
@@ -21,11 +21,15 @@ export default function useRefreshUser() {
   useEffect(() => {
     if (query.isSuccess) {
       setUser(query.data);
+      setIsRefreshing(false);
+      setIsLoggedIn(true);
       return;
     }
 
     if (query.isError) {
       toast.error('Your session has expired. Sign in again');
+
+      setIsRefreshing(false);
 
       setToken('');
       navigate('/sign-in');

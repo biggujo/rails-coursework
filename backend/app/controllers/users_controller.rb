@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  # before_action :authenticate_user!, only: [:profile]
+  before_action :authenticate_user!
 
   def index
     render json: {
@@ -13,21 +13,31 @@ class UsersController < ApplicationController
   end
 
   def update
-    json_body = JSON.parse(request.body.read)
+    begin
+      json_body = JSON.parse(request.body.read)
 
-    user = User.find(params[:user_id])
+      user = User.find(current_user.id)
 
-    if json_body['nickname']
-      user.nickname = json_body['nickname']
+      new_email = json_body['email']
+      new_nickname = json_body['nickname']
+
+      if new_email
+        user.email = new_email
+      end
+
+      if new_nickname
+        user.nickname = new_nickname
+      end
+
+      user.save!
+
+      render json: UserSerializer.new(user).to_h
+
+    rescue Exception => message
+      render json: {
+        error: "No data is provided"
+      }, status: :bad_request
     end
-
-    if json_body['email']
-      user.email = json_body['email']
-    end
-
-    user.save!
-
-    render json: UserSerializer.new(user).to_h
   end
 
   def refresh

@@ -5,6 +5,7 @@ import { HomePage, NotFound, ProfilePage, SignInPage, SignUpPage } from '../../p
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../PrivateRoute';
 import useRefreshUserQuery from '../../hooks/query/useRefreshUser.ts';
+import ProfileUpdateForm from '../ProfileUpdateForm';
 
 export default function App() {
   useRefreshUserQuery();
@@ -25,7 +26,9 @@ export default function App() {
                component={<SignUpPage />} />} />
       <Route path={'/profile'}
              element={<PrivateRoute redirectTo={'/sign-in'}
-                                    component={<ProfilePage />} />} />
+                                    component={<ProfilePage />} />}>
+        <Route path={'settings'} element={<ProfileUpdateForm />} />
+      </Route>
       <Route path={'*'}
              element={<NotFound />} />
     </Routes>

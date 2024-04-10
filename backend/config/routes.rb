@@ -14,12 +14,11 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  resources :users, only: [:index, :profile] do
-    post 'update', as: :member
-  end
+  resources :users, only: [:index, :profile]
   resources :pings, only: [:index]
 
-  get "/users/profile", to: "users#profile"
+  post "/profile/update", to: "users#update"
+  get "/profile", to: "users#profile"
   get "/users/refresh", to: "users#refresh"
   # get "/users", to: "users#index"
 

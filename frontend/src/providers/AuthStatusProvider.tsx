@@ -5,6 +5,8 @@ import useLocalStorage from '../hooks';
 interface AuthProviderValues {
   isLoggedIn: boolean;
   setIsLoggedIn: Dispatch<SetStateAction<boolean | null>>;
+  isRefreshing: boolean;
+  setIsRefreshing: Dispatch<SetStateAction<boolean | null>>;
   user: User;
   setUser: Dispatch<SetStateAction<object | null>>;
 }
@@ -19,11 +21,14 @@ interface Props {
 
 export const AuthStatusProvider = ({ children }: Props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(true);
   const [user, setUser] = useState(null);
 
   const authStatus = {
     isLoggedIn,
     setIsLoggedIn,
+    isRefreshing,
+    setIsRefreshing,
     user,
     setUser,
   };
