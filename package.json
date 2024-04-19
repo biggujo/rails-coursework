@@ -10,5 +10,8 @@
     "@commitlint/cli": "^19.2.2",
     "@commitlint/config-conventional": "^19.2.2",
     "conventional-changelog-metahub": "^4.0.1"
+  },
+  "dependencies": {
+    "prettier": "^3.2.5"
   }
 }

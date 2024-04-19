@@ -9,3 +9,5 @@ pre-commit:
       run: docker exec -it coursework-rails rake rubocop
     react-linting:
       run: docker exec -it coursework-react npm run lint
+    react-styling:
+      run: npx prettier frontend --write
