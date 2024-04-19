@@ -59,6 +59,9 @@ const API = {
     getProfile,
     refreshUser,
   },
+  webSocket: {
+    URL: 'ws://localhost:5401/cable',
+  },
 };
 
 export default API;

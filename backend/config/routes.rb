@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
   get "/users/profile", to: "users#profile"
   get "/users/refresh", to: "users#refresh"
+
+  mount ActionCable.server => '/cable'
   # get "/users", to: "users#index"
 
   # Defines the root path route ("/")
