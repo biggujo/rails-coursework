@@ -18,18 +18,16 @@ import { FavoriteBorder } from '@mui/icons-material';
 export default function PostCard() {
   return (
     <Card>
-      <CardHeader avatar={
-        <Avatar sx={{ bgcolor: blue[500] }}>
-          R
-        </Avatar>
-      }
-                  action={
-                    <IconButton>
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Lorem ipsum"
-                  subheader="5 minutes ago" />
+      <CardHeader
+        avatar={<Avatar sx={{ bgcolor: blue[500] }}>R</Avatar>}
+        action={
+          <IconButton>
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title="Lorem ipsum"
+        subheader="5 minutes ago"
+      />
       <CardMedia
         component="img"
         height="400"
@@ -43,10 +41,7 @@ export default function PostCard() {
       </CardContent>
       <CardActions>
         <IconButton>
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<FavoriteIcon />}
-          />
+          <Checkbox icon={<FavoriteBorder />} checkedIcon={<FavoriteIcon />} />
         </IconButton>
         <IconButton>
           <ShareIcon />

@@ -20,7 +20,9 @@ function useSignOutMutation() {
       setIsLoggedIn(false);
       setToken('');
 
-      toast.custom(<CustomAlert message={'Successful sign out'} severity={'success'} />);
+      toast.custom(
+        <CustomAlert message={'Successful sign out'} severity={'success'} />
+      );
     },
     onError: (error) => {
       if ((error as AxiosError).response!.status === 401) {

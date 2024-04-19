@@ -8,8 +8,14 @@ interface Props {
 
 export default function ButtonSubmit({ isSubmitting, children }: Props) {
   return (
-    <Button type="submit" variant={'contained'} disabled={isSubmitting}
-            startIcon={isSubmitting ? <CircularProgress size={16} color={'info'} /> : null}>
+    <Button
+      type="submit"
+      variant={'contained'}
+      disabled={isSubmitting}
+      startIcon={
+        isSubmitting ? <CircularProgress size={16} color={'info'} /> : null
+      }
+    >
       {children}
     </Button>
   );

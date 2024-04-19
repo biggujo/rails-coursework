@@ -1,7 +1,10 @@
 import Alert from '@mui/material/Alert';
 import { useState } from 'react';
 import { OverridableStringUnion } from '@mui/types';
-import { AlertColor, AlertPropsColorOverrides } from '@mui/material/Alert/Alert';
+import {
+  AlertColor,
+  AlertPropsColorOverrides,
+} from '@mui/material/Alert/Alert';
 
 interface Props {
   message: string;
@@ -13,16 +16,20 @@ export default function CustomAlert({ message, severity }: Props) {
 
   const handleClose = () => setIsOpen(false);
 
-  return (<>
-    {isOpen && <Alert
-      severity={severity}
-      sx={{
-        width: '320px',
-        cursor: 'pointer',
-      }}
-      onClick={handleClose}
-    >
-      {message}
-    </Alert>}
-  </>);
+  return (
+    <>
+      {isOpen && (
+        <Alert
+          severity={severity}
+          sx={{
+            width: '320px',
+            cursor: 'pointer',
+          }}
+          onClick={handleClose}
+        >
+          {message}
+        </Alert>
+      )}
+    </>
+  );
 }

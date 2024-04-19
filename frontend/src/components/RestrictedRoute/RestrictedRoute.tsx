@@ -8,11 +8,10 @@ interface Props {
 }
 
 export default function RestrictedRoute({
-                                          redirectTo,
-                                          component: Component,
-                                        }: Props) {
+  redirectTo,
+  component: Component,
+}: Props) {
   const { isLoggedIn } = useAuth();
-
 
   return isLoggedIn ? <Navigate to={redirectTo} /> : Component;
 }

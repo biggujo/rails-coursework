@@ -1,7 +1,7 @@
 // This file contains local storage keys enumeration
 
 const enum Keys {
-  AUTH_TOKEN = 'auth-token'
+  AUTH_TOKEN = 'auth-token',
 }
 
 export default Keys;

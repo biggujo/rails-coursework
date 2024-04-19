@@ -9,16 +9,13 @@ import useSignUpMutation from './mutation/useSignUpMutation.ts';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 
 const validationSchema = Yup.object({
-  email: Yup
-    .string()
+  email: Yup.string()
     .email('Enter a valid email')
     .required('Email is required'),
-  password: Yup
-    .string()
+  password: Yup.string()
     .min(6, 'Password have to be more than 6 symbols')
     .required('Password is required'),
-  nickname: Yup
-    .string()
+  nickname: Yup.string()
     .min(3, 'Nickname have to be more than 3 symbols')
     .required('Nickname is required'),
 });
@@ -34,7 +31,9 @@ function useSignUpForm() {
     }
 
     navigate('/');
-    toast.custom(<CustomAlert message={'Successful sign up!'} severity={'success'} />);
+    toast.custom(
+      <CustomAlert message={'Successful sign up!'} severity={'success'} />
+    );
     // eslint-disable-next-line
   }, [signUpMutation.status]);
 
@@ -52,7 +51,9 @@ function useSignUpForm() {
         await signUpMutation.mutateAsync(values);
       } catch (e: unknown) {
         if (e instanceof AxiosError) {
-          toast.custom(<CustomAlert message={e.response!.data} severity={'error'} />);
+          toast.custom(
+            <CustomAlert message={e.response!.data} severity={'error'} />
+          );
           return;
         }
       }

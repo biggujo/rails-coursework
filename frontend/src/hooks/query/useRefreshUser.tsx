@@ -23,9 +23,12 @@ export default function useRefreshUser() {
     }
 
     if (query.isError) {
-      toast.custom(<CustomAlert
-        severity={'warning'}
-        message={'Session has expired. Sign in again'} />);
+      toast.custom(
+        <CustomAlert
+          severity={'warning'}
+          message={'Session has expired. Sign in again'}
+        />
+      );
       setUser(null);
       setToken('');
     }

@@ -19,9 +19,12 @@ function useCheckSessionExpiration(error: object | null) {
     if (isLoggedIn && (error as AxiosError).response!.status === 401) {
       setIsLoggedIn(false);
       setToken('');
-      toast.custom(<CustomAlert
-        severity={'warning'}
-        message={'Session has expired. Sign in again'} />);
+      toast.custom(
+        <CustomAlert
+          severity={'warning'}
+          message={'Session has expired. Sign in again'}
+        />
+      );
     }
   }, [isLoggedIn, error, setIsLoggedIn, setToken]);
 }

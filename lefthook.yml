@@ -8,6 +8,6 @@ pre-commit:
     rails-linting:
       run: docker exec -it coursework-rails rake rubocop
     react-linting:
-      run: docker exec -it coursework-react npm run lint
+      run: docker exec -it coursework-react yarn run lint
     react-styling:
-      run: npx prettier frontend --write
+      run: docker exec -it coursework-react yarn run style:fix

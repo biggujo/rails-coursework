@@ -12,32 +12,43 @@ export default function ProfilePage() {
   useCheckSessionExpiration(profileQuery.error);
 
   if (!isLoggedIn) {
-    return <Container>
-      <Box>
-        <Typography variant={'h2'}>Profile</Typography>
-        <Typography>
-          You need to sign in first
-        </Typography>
-        <Button onClick={() => navigate('/sign-in')}
-                variant={'contained'}>
-          Sign in
-        </Button>
-      </Box>
-    </Container>;
+    return (
+      <Container>
+        <Box>
+          <Typography variant={'h2'}>Profile</Typography>
+          <Typography>You need to sign in first</Typography>
+          <Button onClick={() => navigate('/sign-in')} variant={'contained'}>
+            Sign in
+          </Button>
+        </Box>
+      </Container>
+    );
   }
 
-  return (<Container>
-    <Box>
-      <Typography variant={'h2'}>Profile</Typography>
-      {profileQuery.isError && <Typography>{(profileQuery.error as AxiosError).response!.statusText}</Typography>}
-      {profileQuery.isSuccess && <ul>
-        <li>
-          <Typography>Email: <b>{profileQuery.data.data.email}</b></Typography>
-        </li>
-        <li>
-          <Typography>Nickname: <b>{profileQuery.data.data.nickname}</b></Typography>
-        </li>
-      </ul>}
-    </Box>
-  </Container>);
+  return (
+    <Container>
+      <Box>
+        <Typography variant={'h2'}>Profile</Typography>
+        {profileQuery.isError && (
+          <Typography>
+            {(profileQuery.error as AxiosError).response!.statusText}
+          </Typography>
+        )}
+        {profileQuery.isSuccess && (
+          <ul>
+            <li>
+              <Typography>
+                Email: <b>{profileQuery.data.data.email}</b>
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                Nickname: <b>{profileQuery.data.data.nickname}</b>
+              </Typography>
+            </li>
+          </ul>
+        )}
+      </Box>
+    </Container>
+  );
 }

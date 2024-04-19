@@ -1,4 +1,11 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState,
+} from 'react';
 import { User } from '../interfaces';
 import useLocalStorage from '../hooks';
 
@@ -11,7 +18,8 @@ interface AuthProviderValues {
 
 const AuthStatusContext = createContext<AuthProviderValues>(null!);
 
-export const useAuth: () => AuthProviderValues = () => useContext(AuthStatusContext);
+export const useAuth: () => AuthProviderValues = () =>
+  useContext(AuthStatusContext);
 
 interface Props {
   children: ReactNode;
@@ -28,7 +36,9 @@ export const AuthStatusProvider = ({ children }: Props) => {
     setUser,
   };
 
-  return <AuthStatusContext.Provider value={authStatus}>
-    {children}
-  </AuthStatusContext.Provider>;
+  return (
+    <AuthStatusContext.Provider value={authStatus}>
+      {children}
+    </AuthStatusContext.Provider>
+  );
 };
