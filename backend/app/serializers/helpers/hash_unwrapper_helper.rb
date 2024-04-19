@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HashUnwrapperHelper
   def to_h
     data = serializable_hash

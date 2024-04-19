@@ -4,15 +4,11 @@ import { Toaster } from 'react-hot-toast';
 import { HomePage, NotFound, ProfilePage, SignInPage, SignUpPage } from '../../pages';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../PrivateRoute';
-import useRefreshUserQuery from '../../hooks/query/useRefreshUser.ts';
+import useRefreshUserQuery from '../../hooks/query/useRefreshUser.tsx';
 
 export default function App() {
-  const refreshUserQuery = useRefreshUserQuery();
+  useRefreshUserQuery();
   const navigate = useNavigate();
-
-  if (refreshUserQuery.isError) {
-    return refreshUserQuery.error.message;
-  }
 
   return <>
     <Button onClick={() => navigate('/')}>Go home</Button>

@@ -47,9 +47,9 @@ const refreshUser = async () => {
 };
 
 const API = {
-  debug: {
-    getPing,
-  },
+  // debug: {
+  //   getPing,
+  // },
   auth: {
     signIn,
     signUp,
