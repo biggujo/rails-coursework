@@ -1,0 +1,9 @@
+pre-commit:
+  commands:
+    test:
+      run: exit seq 1 | awk 'BEGIN{srand()} {print(int(rand()*2))}'
+#    rails-linting:
+#      run: docker exec -it coursework-rails rake rubocop
+#    react-linting:
+#      run: docker exec -it coursework-react npm run lint
+
