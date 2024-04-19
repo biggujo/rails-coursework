@@ -20,11 +20,3 @@ echo "Lefthook is installed"
 git config core.hooksPath .githooks
 
 echo "Hooks are linked to .githooks"
-
-# Scaffold the project
-printf 'Scaffold the Docker project now (y/n)? '
-read answer
-
-if [ "$answer" != "${answer#[Yy]}" ] ;then
-    docker compose up
-fi

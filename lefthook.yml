@@ -1,9 +1,11 @@
+commit-msg:
+  scripts:
+    "commitlint.sh":
+      runner: bash
+
 pre-commit:
   commands:
-    test:
-      run: exit $((RANDOM % 2))
-#    rails-linting:
-#      run: docker exec -it coursework-rails rake rubocop
-#    react-linting:
-#      run: docker exec -it coursework-react npm run lint
-
+    rails-linting:
+      run: docker exec -it coursework-rails rake rubocop
+    react-linting:
+      run: docker exec -it coursework-react npm run lint
