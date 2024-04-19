@@ -8,5 +8,5 @@ Rails.application.load_tasks
 
 Rails.application.load_tasks
 RuboCop::RakeTask.new(:rubocop) do |t|
-  t.options = ["--server", "--extra-details", "--display-only-failed", "--fail-level", "R", "--format", "junit"]
+  t.options = ["--server", "--extra-details", "--fail-level", "R", "--format", "clang"]
 end
