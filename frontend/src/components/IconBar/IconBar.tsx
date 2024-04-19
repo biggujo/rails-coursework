@@ -3,9 +3,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useRef, useState } from 'react';
 
-type Props = {};
-
-export default function IconBar({}: Props) {
+export default function IconBar() {
   const [isOpen, setIsOpen] = useState(false);
   const avatarRef = useRef(null);
 

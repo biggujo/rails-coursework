@@ -2,10 +2,7 @@ import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from 
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
-
-type Props = {};
-
-export default function SideBar({}: Props) {
+export default function SideBar() {
   return (
     <Box sx={{
       flex: 1.5,

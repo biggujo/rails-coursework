@@ -2,9 +2,7 @@ import { AppBar, Container, Toolbar, Typography } from '@mui/material';
 import IconBar from '../IconBar';
 import SearchBar from '../SearchBar';
 
-type Props = {};
-
-export default function NavBar({}: Props) {
+export default function NavBar() {
   return (
     <AppBar position={'sticky'} sx={{
       p: 0.5,

@@ -1,7 +1,5 @@
 import * as Yup from 'yup';
-import { UserSignInFormAPI } from '../interfaces';
 import { useFormik } from 'formik';
-import useSignInMutation from './mutation/useSignInMutation.ts';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -57,8 +55,6 @@ function useSignUpForm() {
           toast.custom(<CustomAlert message={e.response!.data} severity={'error'} />);
           return;
         }
-
-        console.log(e);
       }
     },
   });

@@ -50,8 +50,6 @@ function useSignInForm() {
           toast.custom(<CustomAlert message={e.response!.data} severity={'error'} />);
           return;
         }
-
-        console.log(e);
       }
     },
   });

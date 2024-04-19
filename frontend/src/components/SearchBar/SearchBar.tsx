@@ -1,8 +1,6 @@
 import { Box, InputBase } from '@mui/material';
 
-type Props = {};
-
-export default function SearchBar({}: Props) {
+export default function SearchBar() {
   return (
     <Box>
       <InputBase sx={{

@@ -1,9 +1,7 @@
 import { Box, Stack } from '@mui/material';
 import PostCard from '../PostCard';
 
-type Props = {};
-
-export default function Feed({}: Props) {
+export default function Feed() {
   return (
     <Box sx={{
       flex: 4,

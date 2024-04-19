@@ -15,9 +15,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import { FavoriteBorder } from '@mui/icons-material';
 
-type Props = {};
-
-export default function PostCard({}: Props) {
+export default function PostCard() {
   return (
     <Card>
       <CardHeader avatar={

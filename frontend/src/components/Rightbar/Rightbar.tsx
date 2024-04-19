@@ -1,8 +1,6 @@
 import { Avatar, AvatarGroup, Box, Typography } from '@mui/material';
 
-type Props = {};
-
-export default function Rightbar({}: Props) {
+export default function Rightbar() {
   return (
     <Box sx={{
       flex: 2,
