@@ -13,9 +13,18 @@ else
   exit 1
 fi
 
+echo "Lefthook is installed"
+
 # Say to Git that our hooks are in .githooks folder
 # This setting is set because hooks are in .git by default, which cannot be added to repository
 git config core.hooksPath .githooks
 
+echo "Hooks are linked to .githooks"
+
 # Scaffold the project
-#docker compose up
+printf 'Scaffold the Docker project now (y/n)? '
+read answer
+
+if [ "$answer" != "${answer#[Yy]}" ] ;then
+    docker compose up
+fi
