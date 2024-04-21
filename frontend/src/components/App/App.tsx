@@ -7,12 +7,8 @@ import PrivateRoute from '../PrivateRoute';
 import useRefreshUserQuery from '../../hooks/query/useRefreshUser.ts';
 
 export default function App() {
-  const refreshUserQuery = useRefreshUserQuery();
+  useRefreshUserQuery();
   const navigate = useNavigate();
-
-  if (refreshUserQuery.isError) {
-    return refreshUserQuery.error.message;
-  }
 
   return <>
     <Button onClick={() => navigate('/')}>Go home</Button>
@@ -29,7 +25,8 @@ export default function App() {
                component={<SignUpPage />} />} />
       <Route path={'/profile'}
              element={<PrivateRoute redirectTo={'/sign-in'}
-                                    component={<ProfilePage />} />} />
+                                    component={<ProfilePage />} />}>
+      </Route>
       <Route path={'*'}
              element={<NotFound />} />
     </Routes>
