@@ -7,6 +7,7 @@ function useToken(): [string | null, (value: string) => void] {
   const [token, setToken] = useLocalStorage<string>(Keys.AUTH_TOKEN);
 
   useEffect(() => {
+    document.cookie = `X-Authorization=${token !== null ? token.slice(7) : ''}; path=/`;
     axios.defaults.headers.common.Authorization = token;
   }, [token]);
 
