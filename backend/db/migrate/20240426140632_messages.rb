@@ -5,10 +5,11 @@ class Messages < ActiveRecord::Migration[7.1]
       t.references :author, null: false
       t.string :message, null: false
 
+      t.foreign_key "private_chats", column: "private_chat_id"
+      t.foreign_key "users", column: "author_id"
+
       t.timestamps
     end
 
-    add_foreign_key "messages", "private_chats", column: "private_chat_id"
-    add_foreign_key "messages", "users", column: "author_id"
   end
 end

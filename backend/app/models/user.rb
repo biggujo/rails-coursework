@@ -6,4 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
+
+  def private_chats
+    PrivateChat.where("user_1_id = ? OR user_2_id = ?", self.id, self.id)
+  end
 end

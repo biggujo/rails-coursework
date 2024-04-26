@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_26_140632) do
     t.bigint "user_2_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_1_id", "user_2_id"], name: "index_private_chats_on_user_1_id_and_user_2_id", unique: true
     t.index ["user_1_id"], name: "index_private_chats_on_user_1_id"
     t.index ["user_2_id"], name: "index_private_chats_on_user_2_id"
   end
