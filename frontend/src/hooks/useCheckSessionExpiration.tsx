@@ -4,10 +4,12 @@ import toast from 'react-hot-toast';
 import CustomAlert from '../components/CustomAlert';
 import { useAuth } from '../providers';
 import useToken from './useToken.ts';
+import { useNavigate } from 'react-router-dom';
 
 function useCheckSessionExpiration(error: object | null) {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [, setToken] = useToken();
+  const navigate = useNavigate();
 
   // Clear auth data on session expiration
   // Go to sign in
@@ -19,9 +21,13 @@ function useCheckSessionExpiration(error: object | null) {
     if (isLoggedIn && (error as AxiosError).response!.status === 401) {
       setIsLoggedIn(false);
       setToken('');
-      toast.custom(<CustomAlert
-        severity={'warning'}
-        message={'Session has expired. Sign in again'} />);
+      toast.custom(
+        <CustomAlert
+          severity={'warning'}
+          message={'Session has expired. Sign in again'}
+        />
+      );
+      navigate('/sign-in');
     }
   }, [isLoggedIn, error, setIsLoggedIn, setToken]);
 }

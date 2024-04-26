@@ -14,12 +14,8 @@ import useRefreshUserQuery from '../../hooks/query/useRefreshUser.ts';
 import SharedChatPage from '../../pages/SharedChatPage.tsx';
 
 export default function App() {
-  const refreshUserQuery = useRefreshUserQuery();
+  useRefreshUserQuery();
   const navigate = useNavigate();
-
-  if (refreshUserQuery.isError) {
-    return refreshUserQuery.error.message;
-  }
 
   return (
     <>
