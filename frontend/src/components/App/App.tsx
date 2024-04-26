@@ -13,6 +13,7 @@ import PrivateRoute from '../PrivateRoute';
 import SharedChatPage from '../../pages/SharedChatPage.tsx';
 import UsersPage from '../../pages/UsersPage.tsx';
 import useRefreshUser from '../../hooks/query/useRefreshUser.ts';
+import ChatPage from '../../pages/ChatPage.tsx';
 
 export default function App() {
   const refreshUserQuery = useRefreshUser();
@@ -49,6 +50,12 @@ export default function App() {
           path={'/users'}
           element={
             <PrivateRoute redirectTo={'/sign-in'} component={<UsersPage />} />
+          }
+        />
+        <Route
+          path={'/chat/:id'}
+          element={
+            <PrivateRoute redirectTo={'/sign-in'} component={<ChatPage />} />
           }
         />
         <Route
