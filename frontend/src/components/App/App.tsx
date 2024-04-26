@@ -10,12 +10,17 @@ import {
 } from '../../pages';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../PrivateRoute';
-import useRefreshUserQuery from '../../hooks/query/useRefreshUser.ts';
 import SharedChatPage from '../../pages/SharedChatPage.tsx';
+import UsersPage from '../../pages/UsersPage.tsx';
+import useRefreshUser from '../../hooks/query/useRefreshUser.ts';
 
 export default function App() {
-  useRefreshUserQuery();
+  const refreshUserQuery = useRefreshUser();
   const navigate = useNavigate();
+
+  if (refreshUserQuery.isLoading) {
+    return null;
+  }
 
   return (
     <>
@@ -38,6 +43,12 @@ export default function App() {
           path={'/profile'}
           element={
             <PrivateRoute redirectTo={'/sign-in'} component={<ProfilePage />} />
+          }
+        />
+        <Route
+          path={'/users'}
+          element={
+            <PrivateRoute redirectTo={'/sign-in'} component={<UsersPage />} />
           }
         />
         <Route

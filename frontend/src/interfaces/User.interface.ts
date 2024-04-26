@@ -1,5 +1,6 @@
 interface User {
-  email: string;
+  id: string;
+  email?: string;
   nickname: string;
 }
 

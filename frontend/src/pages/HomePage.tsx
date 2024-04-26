@@ -26,6 +26,13 @@ export default function HomePage() {
           Profile
         </Button>
         <Button
+          onClick={() => navigate('/users')}
+          variant={'contained'}
+          color={'secondary'}
+        >
+          All users
+        </Button>
+        <Button
           onClick={() => navigate('/chat')}
           variant={'contained'}
           color={'secondary'}

@@ -4,5 +4,5 @@ class UserSerializer
   include FastJsonapi::ObjectSerializer
   include HashUnwrapperHelper
 
-  attributes :id, :email, :created_at
+  attributes :id, :nickname, :created_at
 end

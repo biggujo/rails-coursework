@@ -46,6 +46,13 @@ const refreshUser = async () => {
   return response.data as User;
 };
 
+const getAllUsers = async () => {
+  const response: AxiosResponse = await axios.get('/users');
+  return response.data as {
+    data: Array<User>;
+  };
+};
+
 const API = {
   debug: {
     getPing,
@@ -58,6 +65,9 @@ const API = {
   profile: {
     getProfile,
     refreshUser,
+  },
+  user: {
+    getAll: getAllUsers,
   },
   webSocket: {
     URL: 'ws://localhost:5401/cable',

@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { useAuth } from '../../providers';
 import { Navigate } from 'react-router-dom';
+import useRefreshUserQuery from '../../hooks/query/useRefreshUser.ts';
 
 interface Props {
   redirectTo: string;
@@ -8,9 +9,9 @@ interface Props {
 }
 
 export default function PrivateRoute({
-                                       redirectTo,
-                                       component: Component,
-                                     }: Props) {
+  redirectTo,
+  component: Component,
+}: Props) {
   const { isLoggedIn } = useAuth();
 
   return isLoggedIn ? Component : <Navigate to={redirectTo} />;
