@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   get "/users/profile", to: "users#profile"
   get "/users/refresh", to: "users#refresh"
 
+  get "/chats", to: "private_chats#my_chats"
+  get "/chats/:id", to: "private_chats#show"
+
   mount ActionCable.server => '/cable'
   # get "/users", to: "users#index"
 
