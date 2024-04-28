@@ -1,11 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show update destroy ]
-
-  # GET /comments
-  # GET /comments.json
-  def index
-    @comments = Comment.all
-  end
+  before_action :authorize_comment_manage!, only: %i[ update destroy ]
 
   # GET /comments/1
   # GET /comments/1.json
@@ -51,4 +46,8 @@ class CommentsController < ApplicationController
     def comment_params
       params.require(:comment).permit(:post_id, :text)
     end
+
+  def authorize_comment_manage!
+    authorize! :manage, @comment
+  end
 end

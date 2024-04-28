@@ -75,3 +75,4 @@ gem "fast_jsonapi", "~> 1.5"
 gem "rack-cors", "~> 2.0"
 
 gem "acts_as_votable"
+gem "cancancan"
