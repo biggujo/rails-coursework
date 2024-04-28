@@ -21,7 +21,7 @@ interface Props {
 
 export const AuthStatusProvider = ({ children }: Props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [user, setUser] = useState(null);
 
   const authStatus = {

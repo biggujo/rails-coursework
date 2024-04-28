@@ -16,10 +16,21 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :profile]
   resources :pings, only: [:index]
+  resources :posts
+  resources :comments
+
+  post '/like', to: 'likes#like', as: 'like'
+  post '/dislike', to: 'likes#dislike', as: 'dislike'
+  post '/unlike', to: 'likes#unlike', as: 'unlike'
+  post '/like_status', to: 'likes#like_status', as: 'like_status'
+
+  get '/posts/:id/post_comments', to: 'posts#post_comments', as: 'post_comments'
 
   post "/profile/update", to: "users#update"
   get "/profile", to: "users#profile"
   get "/users/refresh", to: "users#refresh"
+
+  get "/users/:id/posts", to: "users#user_posts"
   # get "/users", to: "users#index"
 
   # Defines the root path route ("/")

@@ -7,7 +7,7 @@ import PrivateRoute from '../PrivateRoute';
 import useRefreshUserQuery from '../../hooks/query/useRefreshUser.ts';
 
 export default function App() {
-  useRefreshUserQuery();
+  //useRefreshUserQuery();
   const navigate = useNavigate();
 
   return <>

@@ -12,6 +12,12 @@ class UsersController < ApplicationController
            status: :ok
   end
 
+  def user_posts
+    user = User.find(params[:id])
+    all_posts = user.posts + user.co_authored_posts
+    render json: all_posts
+  end
+
   def update
     begin
       json_body = JSON.parse(request.body.read)
