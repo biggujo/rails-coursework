@@ -3,13 +3,13 @@ import API from '../../utils/api.ts';
 import useToken from '../useToken.ts';
 import { useEffect } from 'react';
 import { useAuth } from '../../providers';
-import toast from 'react-hot-toast';
 import CustomAlert from '../../components/CustomAlert';
+import toast from 'react-hot-toast';
 
 // Is used to retrieve the latest data from the backend about user
 export default function useRefreshUser() {
   const [token, setToken] = useToken();
-  const { setUser } = useAuth();
+  const { setUser, setIsLoggedIn, setIsRefreshing } = useAuth();
 
   const query = useQuery({
     queryKey: ['refresh'],
@@ -20,6 +20,9 @@ export default function useRefreshUser() {
   useEffect(() => {
     if (query.isSuccess) {
       setUser(query.data);
+      setIsRefreshing(false);
+      setIsLoggedIn(true);
+      return;
     }
 
     if (query.isError) {
@@ -32,7 +35,7 @@ export default function useRefreshUser() {
       setUser(null);
       setToken('');
     }
-  }, [query, setToken, setUser]);
+  }, [query, setIsLoggedIn, setIsRefreshing, setToken, setUser]);
 
   return query;
 }

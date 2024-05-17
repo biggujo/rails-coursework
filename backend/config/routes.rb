@@ -19,7 +19,8 @@ Rails.application.routes.draw do
   resources :users, only: %i[index profile]
   resources :pings, only: [:index]
 
-  get "/users/profile", to: "users#profile"
+  post "/profile/update", to: "users#update"
+  get "/profile", to: "users#profile"
   get "/users/refresh", to: "users#refresh"
   # get "/users", to: "users#index"
 

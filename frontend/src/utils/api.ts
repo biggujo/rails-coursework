@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { User, UserSignInFormAPI } from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
+import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
@@ -37,12 +38,17 @@ const signOut = async () => {
 };
 
 const getProfile = async () => {
-  const response: AxiosResponse = await axios.get('/users/profile');
+  const response: AxiosResponse = await axios.get('/profile');
   return response;
 };
 
 const refreshUser = async () => {
   const response: AxiosResponse = await axios.get('/users/refresh');
+  return response.data as User;
+};
+
+const updateProfile = async (data: ProfileUpdateFormAPI) => {
+  const response: AxiosResponse = await axios.post('/profile/update', data);
   return response.data as User;
 };
 
@@ -57,6 +63,7 @@ const API = {
   },
   profile: {
     getProfile,
+    updateProfile,
     refreshUser,
   },
 };

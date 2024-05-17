@@ -38,7 +38,7 @@ export default function App() {
           element={
             <PrivateRoute redirectTo={'/sign-in'} component={<ProfilePage />} />
           }
-        />
+        ></Route>
         <Route path={'*'} element={<NotFound />} />
       </Routes>
       <CssBaseline />
