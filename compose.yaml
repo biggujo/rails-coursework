@@ -36,3 +36,14 @@ services:
     volumes:
       - "./frontend:/app"
       - "/app/node_modules"
+  commitlinter:
+    build:
+      context: ./
+      dockerfile: ./commitlinter/Dockerfile
+    container_name: "coursework-commitlinter"
+    restart: always
+    volumes:
+      - "./.git:/app/.git"
+      - "./commitlint.config.js:/app/commitlint.config.js"
+    stdin_open: true
+    tty: true
