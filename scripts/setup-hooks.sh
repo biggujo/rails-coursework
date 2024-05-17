@@ -16,7 +16,7 @@ fi
 echo "Lefthook is installed"
 
 # Say to Git that our hooks are in .githooks folder
-# This setting is set because hooks are in .git by default, which cannot be added to repository
+# This setting is set because hooks are in .git by default, which cannot be added to repository in case hooks are needed
 git config core.hooksPath .githooks
 
 echo "Hooks are linked to .githooks"
