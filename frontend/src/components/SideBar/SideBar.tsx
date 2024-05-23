@@ -1,26 +1,19 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material';
+import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
-export default function SideBar() {
+
+type Props = {};
+
+export default function SideBar({}: Props) {
   return (
-    <Box
-      sx={{
-        flex: 1.5,
-      }}
+    <Box sx={{
+      flex: 1.5,
+    }}
     >
-      <Box
-        sx={{
-          position: 'fixed',
-        }}
-      >
+      <Box sx={{
+        position: 'fixed',
+      }}>
         <List>
           <ListItem disablePadding>
             <ListItemButton>

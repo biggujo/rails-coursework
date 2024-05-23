@@ -1,13 +1,14 @@
 import { Box, Stack } from '@mui/material';
 import PostCard from '../PostCard';
 
-export default function Feed() {
+type Props = {};
+
+export default function Feed({}: Props) {
   return (
-    <Box
-      sx={{
-        flex: 4,
-        py: 2,
-      }}
+    <Box sx={{
+      flex: 4,
+      py: 2,
+    }}
     >
       <Stack spacing={2}>
         <PostCard />
