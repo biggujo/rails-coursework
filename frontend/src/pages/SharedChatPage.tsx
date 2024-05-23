@@ -1,66 +1,29 @@
-import API from '../utils/api.ts';
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import ActionCable, { Cable, Channel, Subscriptions } from 'actioncable';
-import { Button, Container, TextField, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMessageHistory } from '../redux/chatMessages/selectors.ts';
 import { AppDispatch } from '../redux/store.ts';
 import { addMessage } from '../redux/chatMessages/slice.ts';
+import useChannelSubscription from '../hooks/useChannelSubscription.ts';
+import ChatMessage from '../interfaces/ChatMessage.interface.ts';
+import TextFormMessage from '../components/TextFormMessage';
+
+const handleMessageReceive =
+  (dispatch: AppDispatch) => (message: ChatMessage) =>
+    dispatch(addMessage(message));
 
 export default function SharedChatPage() {
-  const consumer = useRef<Cable>(ActionCable.createConsumer(API.webSocket.URL));
-  const [channel, setChannel] = useState<Channel>(null!);
-  const [messageValue, setMessageValue] = useState('');
-  const messageHistory = useSelector(selectMessageHistory);
   const dispatch: AppDispatch = useDispatch();
+  const messageHistory = useSelector(selectMessageHistory);
+  const channel = useChannelSubscription(handleMessageReceive(dispatch));
 
-  useEffect(() => {
-    setChannel(
-      consumer.current.subscriptions.create(
-        {
-          channel: 'SharedChannel',
-        },
-        {
-          received: message => {
-            dispatch(addMessage(message));
-          },
-        }
-      )
-    );
-  }, []);
-
-  const handleMessageValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setMessageValue(value);
-  };
-
-  const handleSendMessageClick = (event: SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleSubmit: (messageValue: string) => void = messageValue => {
     channel.send({ body: messageValue });
-    setMessageValue('');
   };
 
   return (
     <Container>
-      <form onSubmit={handleSendMessageClick}>
-        <TextField
-          label={'Message'}
-          onChange={handleMessageValueChange}
-          required
-          value={messageValue}
-        />
-        <Button variant={'contained'} type={'submit'}>
-          Send message
-        </Button>
-      </form>
       <Typography variant={'h2'}>Message list:</Typography>
+      <TextFormMessage onSubmit={handleSubmit} />
       <ul>
         {messageHistory.map(({ body, author_id }) => (
           <>
