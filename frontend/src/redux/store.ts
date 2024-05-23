@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { chatMessagesReducer } from './chatMessages/slice.ts';
+import { chatHistoryReducer } from './chatMessages/slice.ts';
 
 const store = configureStore({
   reducer: {
-    chatMessages: chatMessagesReducer,
+    chatMessages: chatHistoryReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

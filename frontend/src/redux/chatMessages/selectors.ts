@@ -1,6 +1,6 @@
 import { RootState } from '../store.ts';
 
-export const selectChatMessages = (state: RootState) =>
+export const selectMessageHistory = (state: RootState) =>
   state.chatMessages.items;
 
 export const selectChatConnection = (state: RootState) =>

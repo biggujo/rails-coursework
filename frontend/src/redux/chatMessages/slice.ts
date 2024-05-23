@@ -10,21 +10,20 @@ const initialState: {
 };
 
 const slice = createSlice({
-  name: 'chatMessages',
+  name: 'chatHistory',
   initialState,
   reducers: {
-    connectChat: (state, action) => {
-      return {
-        ...state,
-        connection: action.payload,
-      };
-    },
+    connectChat: (state, action) => ({
+      ...state,
+      connection: action.payload,
+    }),
     addMessage: (state, action) => ({
       ...state,
+      items: [...state.items, action.payload],
     }),
   },
 });
 
 export const { connectChat, addMessage } = slice.actions;
 
-export const chatMessagesReducer = slice.reducer;
+export const chatHistoryReducer = slice.reducer;
