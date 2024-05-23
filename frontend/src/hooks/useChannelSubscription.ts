@@ -34,7 +34,7 @@ const useChannelSubscription: FunctionInterface = (
     return () => {
       channel.current.unsubscribe();
     };
-  }, []);
+  }, [handleMessageReceive, roomName]);
 
   return channel.current;
 };

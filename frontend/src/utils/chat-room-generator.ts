@@ -1,8 +1,16 @@
 interface FunctionInterface {
-  (ownId: string, otherId: string): string;
+  (ownId: number, otherId: number): string;
 }
 
-const generateRoomName: FunctionInterface = (ownId, otherId) =>
-  `${ownId}_${otherId}`;
+// This function creates proper room IDs for chats
+const generateRoomName: FunctionInterface = (ownId, otherId) => {
+  console.log(ownId, otherId);
+
+  if (ownId > otherId) {
+    return `${otherId}_${ownId}`;
+  }
+
+  return `${ownId}_${otherId}`;
+};
 
 export default generateRoomName;

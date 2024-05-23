@@ -8,13 +8,15 @@ import ChatMessage from '../../interfaces/ChatMessage.interface.ts';
 import TextFormMessage from '../TextFormMessage';
 import { useAuth } from '../../providers';
 import { User } from '../../interfaces';
+import generateRoomName from '../../utils/chat-room-generator.ts';
+import { useEffect } from 'react';
 
 const handleMessageReceive =
   (dispatch: AppDispatch) => (message: ChatMessage) =>
     dispatch(addMessage(message));
 
 interface Props {
-  otherPersonId: Pick<User, 'id'>;
+  otherPersonId: User['id'];
 }
 
 export default function ChatPanel({ otherPersonId }: Props) {
@@ -22,9 +24,9 @@ export default function ChatPanel({ otherPersonId }: Props) {
   const { user } = useAuth();
 
   const messageHistory = useSelector(selectMessageHistory);
-  const channel = useChannelSubscription(
+  const [channel, subscribe] = useChannelSubscription(
     handleMessageReceive(dispatch),
-    `${otherPersonId}_${user.id}`
+    generateRoomName(Number(user.id), Number(otherPersonId))
   );
 
   const handleSubmit: (messageValue: string) => void = messageValue => {
