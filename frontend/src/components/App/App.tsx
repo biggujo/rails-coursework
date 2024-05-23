@@ -10,7 +10,7 @@ import {
 } from '../../pages';
 import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../PrivateRoute';
-import SharedChatPage from '../../pages/SharedChatPage.tsx';
+import SharedChatPage from '../ChatPanel/ChatPanel.tsx';
 import UsersPage from '../../pages/UsersPage.tsx';
 import useRefreshUser from '../../hooks/query/useRefreshUser.ts';
 import ChatPage from '../../pages/ChatPage.tsx';
