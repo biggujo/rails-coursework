@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
 class AddNicknameToUsers < ActiveRecord::Migration[7.1]
   def change
-    add_column :users, :nickname, :string, null: false
+    add_column :users, :nickname, :string, null: false, default: ""
+
+    add_index :users, :nickname, unique: true
   end
 end

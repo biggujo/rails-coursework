@@ -9,9 +9,9 @@ interface Props {
 }
 
 export default function PrivateRoute({
-                                       redirectTo,
-                                       component: Component,
-                                     }: Props) {
+  redirectTo,
+  component: Component,
+}: Props) {
   const { isLoggedIn, isRefreshing } = useAuth();
 
   if (isRefreshing) {

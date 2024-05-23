@@ -1,4 +1,6 @@
-require_relative 'helpers/hash_unwrapper_helper'
+# frozen_string_literal: true
+
+require_relative "helpers/hash_unwrapper_helper"
 
 class UserSerializer
   include FastJsonapi::ObjectSerializer

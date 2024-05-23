@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { useAuth } from '../../providers';
-import { Navigate, useHistory } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 interface Props {
   redirectTo: string;
@@ -8,9 +8,9 @@ interface Props {
 }
 
 export default function RestrictedRoute({
-                                          redirectTo,
-                                          component: Component,
-                                        }: Props) {
+  redirectTo,
+  component: Component,
+}: Props) {
   const { isLoggedIn } = useAuth();
 
   return isLoggedIn ? <Navigate to={redirectTo} /> : Component;

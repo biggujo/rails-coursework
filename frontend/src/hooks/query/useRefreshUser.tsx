@@ -3,13 +3,12 @@ import API from '../../utils/api.ts';
 import useToken from '../useToken.ts';
 import { useEffect } from 'react';
 import { useAuth } from '../../providers';
+import CustomAlert from '../../components/CustomAlert';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
 // Is used to retrieve the latest data from the backend about user
 export default function useRefreshUser() {
   const [token, setToken] = useToken();
-  const navigate = useNavigate();
   const { setUser, setIsLoggedIn, setIsRefreshing } = useAuth();
 
   const query = useQuery({
@@ -27,15 +26,16 @@ export default function useRefreshUser() {
     }
 
     if (query.isError) {
-      toast.error('Your session has expired. Sign in again');
-
-      setIsRefreshing(false);
-
+      toast.custom(
+        <CustomAlert
+          severity={'warning'}
+          message={'Session has expired. Sign in again'}
+        />
+      );
+      setUser(null);
       setToken('');
-      navigate('/sign-in');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.isFetching]);
+  }, [query, setIsLoggedIn, setIsRefreshing, setToken, setUser]);
 
   return query;
 }

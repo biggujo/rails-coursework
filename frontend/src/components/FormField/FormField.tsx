@@ -7,15 +7,10 @@ interface Props {
   label: string;
   formik: FormikProps<ProfileUpdateFormAPI>;
 
-  [props: string]: any;
+  [props: string]: never;
 }
 
-export default function FormField({
-                                    name,
-                                    label,
-                                    formik,
-                                    ...props
-                                  }: Props) {
+export default function FormField({ name, label, formik, ...props }: Props) {
   return (
     <TextField
       id={name}

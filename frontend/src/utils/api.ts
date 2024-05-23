@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { User, UserSignInFormAPI } from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
@@ -6,14 +6,14 @@ import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
 // For testing purposes
-const getPing = async () => {
-  try {
-    const response: AxiosResponse = await axios.get('/pings');
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-};
+// const getPing = async () => {
+//   try {
+//     const response: AxiosResponse = await axios.get('/pings');
+//     return response;
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
 const signUp = async (data: UserSignUpFormAPI) => {
   const response: AxiosResponse = await axios.post('/sign_up', {
@@ -53,9 +53,9 @@ const updateProfile = async (data: ProfileUpdateFormAPI) => {
 };
 
 const API = {
-  debug: {
-    getPing,
-  },
+  // debug: {
+  //   getPing,
+  // },
   auth: {
     signIn,
     signUp,
