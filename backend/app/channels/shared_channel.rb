@@ -1,8 +1,6 @@
 class SharedChannel < ApplicationCable::Channel
-  @channel_name = 'SharedChannel'
-
   def subscribed
-    stream_from @channel_name
+    stream_from params[:room]
   end
 
   def receive(data)
@@ -11,10 +9,10 @@ class SharedChannel < ApplicationCable::Channel
       body: data['body']
     }
 
-    ActionCable.server.broadcast(@channel_name, built_message)
+    ActionCable.server.broadcast(params[:room], built_message)
   end
 
   def unsubscribed
-    stop_stream_from @channel_name
+    stop_stream_from params[:room]
   end
 end

@@ -14,7 +14,10 @@ const handleMessageReceive =
 export default function SharedChatPage() {
   const dispatch: AppDispatch = useDispatch();
   const messageHistory = useSelector(selectMessageHistory);
-  const channel = useChannelSubscription(handleMessageReceive(dispatch));
+  const channel = useChannelSubscription(
+    handleMessageReceive(dispatch),
+    'SharedChannel'
+  );
 
   const handleSubmit: (messageValue: string) => void = messageValue => {
     channel.send({ body: messageValue });
