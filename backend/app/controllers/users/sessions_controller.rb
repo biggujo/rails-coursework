@@ -5,10 +5,10 @@ module Users
     # skip_before_filter :verify_authenticity_token
     respond_to :json
 
-    def respond_with(resource, _opts={})
+    def respond_with(resource, _opts = {})
       render json: {
         message: "Successful log in",
-        data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
+        data: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
       }, status: :ok
     end
 
