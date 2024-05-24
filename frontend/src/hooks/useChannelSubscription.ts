@@ -23,6 +23,10 @@ const useChannelSubscription: FunctionInterface = (
 
   // Initialise channel connection
   useEffect(() => {
+    if (channel.current) {
+      return;
+    }
+
     channel.current = consumer.current.subscriptions.create(
       {
         channel: 'SharedChannel',
@@ -34,11 +38,8 @@ const useChannelSubscription: FunctionInterface = (
     );
 
     onChannelInitialisation(channel.current);
-
-    return () => {
-      channel.current.unsubscribe();
-    };
-  }, [handleMessageReceive, onChannelInitialisation, roomName]);
+    // eslint-disable-next-line
+  }, []);
 };
 
 export default useChannelSubscription;
