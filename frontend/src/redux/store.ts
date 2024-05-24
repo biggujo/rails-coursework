@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { chatHistoryReducer } from './chatMessages/slice.ts';
+import { authReducer } from './auth/slice.ts';
 
 const store = configureStore({
   reducer: {
     chatMessages: chatHistoryReducer,
+    auth: authReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

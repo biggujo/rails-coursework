@@ -38,7 +38,7 @@ const signOut = async () => {
 
 const getProfile = async () => {
   const response: AxiosResponse = await axios.get('/users/profile');
-  return response;
+  return response.data;
 };
 
 const refreshUser = async () => {

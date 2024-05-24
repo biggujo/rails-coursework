@@ -1,43 +1,39 @@
-import { useAuth } from '../providers';
-import { Box, Button, Container, Typography } from '@mui/material';
-import useGetProfileQuery from '../hooks/query/useGetProfileQuery.ts';
-import { useNavigate } from 'react-router-dom';
+import { Box, Container, Typography } from '@mui/material';
 import useCheckSessionExpiration from '../hooks/useCheckSessionExpiration.tsx';
 import { AxiosError } from 'axios';
+import useGetProfileQuery from '../hooks/query/useGetProfileQuery.ts';
 
 export default function ProfilePage() {
-  const navigate = useNavigate();
-  const profileQuery = useGetProfileQuery();
-  const { isLoggedIn } = useAuth();
-  useCheckSessionExpiration(profileQuery.error);
+  const { data, isLoading, error } = useGetProfileQuery();
+  useCheckSessionExpiration(error);
 
-  if (!isLoggedIn) {
-    return <Container>
+  return (
+    <Container>
       <Box>
         <Typography variant={'h2'}>Profile</Typography>
-        <Typography>
-          You need to sign in first
-        </Typography>
-        <Button onClick={() => navigate('/sign-in')}
-                variant={'contained'}>
-          Sign in
-        </Button>
+        {error && (
+          <Typography>{(error as AxiosError).response!.statusText}</Typography>
+        )}
+        {data && !isLoading && (
+          <ul>
+            <li>
+              <Typography>
+                ID: <b>{data.id}</b>
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                Email: <b>{data.email}</b>
+              </Typography>
+            </li>
+            <li>
+              <Typography>
+                Nickname: <b>{data.nickname}</b>
+              </Typography>
+            </li>
+          </ul>
+        )}
       </Box>
-    </Container>;
-  }
-
-  return (<Container>
-    <Box>
-      <Typography variant={'h2'}>Profile</Typography>
-      {profileQuery.isError && <Typography>{(profileQuery.error as AxiosError).response!.statusText}</Typography>}
-      {profileQuery.isSuccess && <ul>
-        <li>
-          <Typography>Email: <b>{profileQuery.data.data.email}</b></Typography>
-        </li>
-        <li>
-          <Typography>Nickname: <b>{profileQuery.data.data.nickname}</b></Typography>
-        </li>
-      </ul>}
-    </Box>
-  </Container>);
+    </Container>
+  );
 }
