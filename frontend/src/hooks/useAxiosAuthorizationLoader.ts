@@ -3,9 +3,9 @@ import { selectAuthToken } from '../redux/auth/selectors.ts';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-type FunctionI = () => void;
+type FunctionInterface = () => void;
 
-const useAuthorizationLoader: FunctionI = () => {
+const useAuthorizationLoader: FunctionInterface = () => {
   const token = useSelector(selectAuthToken);
 
   useEffect(() => {
