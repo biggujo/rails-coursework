@@ -5,6 +5,14 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import { authReducer } from './auth/slice.ts';
 import { Persistor } from 'redux-persist/es/types';
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from 'redux-persist/es/constants';
 
 const persistConfig = {
   key: 'auth',
@@ -21,7 +29,15 @@ export const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['chatMessages/connectChat'],
+        ignoredActions: [
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+          'chatMessages/connectChat',
+        ],
         ignoredPaths: ['chatMessages.connection'],
       },
     }),
