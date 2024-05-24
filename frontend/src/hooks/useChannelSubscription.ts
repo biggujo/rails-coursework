@@ -5,6 +5,8 @@ import ChatMessage from '../interfaces/ChatMessage.interface.ts';
 
 const CABLE_URL = API.webSocket.URL;
 
+const CHANNEL = 'PrivateChannel';
+
 interface FunctionInterface {
   (
     handleMessageReceive: (message: ChatMessage) => void,
@@ -29,7 +31,7 @@ const useChannelSubscription: FunctionInterface = (
 
     channel.current = consumer.current.subscriptions.create(
       {
-        channel: 'SharedChannel',
+        channel: CHANNEL,
         room: roomName,
       },
       {

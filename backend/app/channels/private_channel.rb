@@ -1,4 +1,4 @@
-class SharedChannel < ApplicationCable::Channel
+class PrivateChannel < ApplicationCable::Channel
   def subscribed
     stream_from params[:room]
   end
