@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :users, only: [:index, :profile]
-  resources :private_chats, only: [:index, :show, :create]
+  resources :private_chats, only: [:index, :show, :create] do
+    resources :messages, only: [:index, :create]
+  end
   resources :pings, only: [:index]
 
   get "/users/profile", to: "users#profile"

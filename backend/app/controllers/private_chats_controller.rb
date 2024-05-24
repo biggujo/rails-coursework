@@ -3,8 +3,10 @@ class PrivateChatsController < ApplicationController
   before_action :validate_create_params, only: [:create]
 
   def index
-    render json: PrivateChatSerializer.new(
-      PrivateChat.where("user_1_id = ? OR user_2_id = ?", current_user.id, current_user.id)).to_h
+    private_chats = PrivateChat.where("user_1_id = ? OR user_2_id = ?", current_user.id, current_user.id)
+    prepared_private_chats = private_chats.map { |chat| prepare_chat_render(chat) }
+
+    render json: prepared_private_chats
   end
 
   def show
@@ -38,11 +40,15 @@ class PrivateChatsController < ApplicationController
   private
 
   def prepare_chat_render(private_chat)
-    {
-      chat: PrivateChatSerializer.new(private_chat).to_h,
-      user_1: UserSerializer.new(private_chat.user_1).to_h,
-      user_2: UserSerializer.new(private_chat.user_2).to_h
+    private_chat_pretty = {
+      id: private_chat.id,
+      user_1: private_chat.user_1,
+      user_2: private_chat.user_2,
+      created_at: private_chat.created_at,
+      updated_at: private_chat.updated_at,
     }
+
+    { chat: private_chat_pretty }
   end
 
   def validate_create_params

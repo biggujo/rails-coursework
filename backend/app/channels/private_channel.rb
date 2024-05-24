@@ -15,4 +15,11 @@ class PrivateChannel < ApplicationCable::Channel
   def unsubscribed
     stop_stream_from params[:room]
   end
+
+  private
+
+  # Split "id1_id2" to id1 and id2
+  def parse_room_id(room)
+    user_1_id, user_2_id = room.split("_")
+  end
 end
