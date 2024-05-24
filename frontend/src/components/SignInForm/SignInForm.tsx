@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { FormikProvider } from 'formik';
 import { Link, Stack, TextField } from '@mui/material';
 import ButtonSubmit from '../ButtonSubmit';
-import useSignInForm from '../../hooks/useSignInForm.tsx';
+import useSignInForm from '../../hooks/forms/useSignInForm.tsx';
 
 export default function SignInForm() {
   const formik = useSignInForm();
@@ -23,26 +23,23 @@ export default function SignInForm() {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-          <TextField id="password"
-                     type="password"
-                     name="password"
-                     placeholder="1234"
-                     label={'Password'}
-                     required
-                     value={formik.values.password}
-                     onChange={formik.handleChange}
-                     onBlur={formik.handleBlur}
-                     error={formik.touched.password && Boolean(formik.errors.password)}
-                     helperText={formik.touched.password && formik.errors.password}
+          <TextField
+            id="password"
+            type="password"
+            name="password"
+            placeholder="1234"
+            label={'Password'}
+            required
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
           />
-          <Link component={RouterLink}
-                to={'/sign-up'}
-                variant="body2">
-            {'Don\'t have an account? Sign Up'}
+          <Link component={RouterLink} to={'/sign-up'} variant="body2">
+            {"Don't have an account? Sign Up"}
           </Link>
-          <ButtonSubmit isSubmitting={formik.isSubmitting}>
-            Submit
-          </ButtonSubmit>
+          <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
         </Stack>
       </form>
     </FormikProvider>

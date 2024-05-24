@@ -8,18 +8,19 @@ import {
   SignInPage,
   SignUpPage,
 } from '../../pages';
-import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../PrivateRoute';
-import SharedChatPage from '../ChatPanel/ChatPanel.tsx';
 import UsersPage from '../../pages/UsersPage.tsx';
 import useRefreshUser from '../../hooks/query/useRefreshUser.ts';
 import ChatPage from '../../pages/ChatPage.tsx';
+import RestrictedRoute from '../RestrictedRoute/RestrictedRoute.tsx';
+import useAuthorizationTokenLoader from '../../hooks/useAxiosAuthorizationLoader.ts';
 
 export default function App() {
-  const refreshUserQuery = useRefreshUser();
+  const { isRefreshing } = useRefreshUser();
   const navigate = useNavigate();
+  useAuthorizationTokenLoader();
 
-  if (refreshUserQuery.isLoading) {
+  if (isRefreshing) {
     return null;
   }
 
@@ -56,15 +57,6 @@ export default function App() {
           path={'/chat/:id'}
           element={
             <PrivateRoute redirectTo={'/sign-in'} component={<ChatPage />} />
-          }
-        />
-        <Route
-          path={'/chat'}
-          element={
-            <PrivateRoute
-              redirectTo={'/sign-in'}
-              component={<SharedChatPage />}
-            />
           }
         />
         <Route path={'*'} element={<NotFound />} />

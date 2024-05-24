@@ -6,10 +6,9 @@ import { addMessage } from '../../redux/chatMessages/slice.ts';
 import useChannelSubscription from '../../hooks/useChannelSubscription.ts';
 import ChatMessage from '../../interfaces/ChatMessage.interface.ts';
 import TextFormMessage from '../TextFormMessage';
-import { useAuth } from '../../providers';
 import { User } from '../../interfaces';
 import generateRoomName from '../../utils/chat-room-generator.ts';
-import { useEffect } from 'react';
+import { selectAuthUser } from '../../redux/auth/selectors.ts';
 
 const handleMessageReceive =
   (dispatch: AppDispatch) => (message: ChatMessage) =>
@@ -21,10 +20,10 @@ interface Props {
 
 export default function ChatPanel({ otherPersonId }: Props) {
   const dispatch: AppDispatch = useDispatch();
-  const { user } = useAuth();
+  const user = useSelector(selectAuthUser);
 
   const messageHistory = useSelector(selectMessageHistory);
-  const [channel, subscribe] = useChannelSubscription(
+  const channel = useChannelSubscription(
     handleMessageReceive(dispatch),
     generateRoomName(Number(user.id), Number(otherPersonId))
   );

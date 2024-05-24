@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Link, Stack, TextField } from '@mui/material';
 import { FormikProvider } from 'formik';
 import ButtonSubmit from '../ButtonSubmit';
-import useSignUpForm from '../../hooks/useSignUpForm.tsx';
+import useSignUpForm from '../../hooks/forms/useSignUpForm.tsx';
 
 export default function SignUpForm() {
   const formik = useSignUpForm();
@@ -23,38 +23,36 @@ export default function SignUpForm() {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-          <TextField id="password"
-                     type="password"
-                     name="password"
-                     placeholder="1234"
-                     label={'Password'}
-                     required
-                     value={formik.values.password}
-                     onChange={formik.handleChange}
-                     onBlur={formik.handleBlur}
-                     error={formik.touched.password && Boolean(formik.errors.password)}
-                     helperText={formik.touched.password && formik.errors.password}
+          <TextField
+            id="password"
+            type="password"
+            name="password"
+            placeholder="1234"
+            label={'Password'}
+            required
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
           />
-          <TextField id="nickname"
-                     type="nickname"
-                     name="nickname"
-                     placeholder="1234"
-                     label={'Nickname'}
-                     required
-                     value={formik.values.nickname}
-                     onChange={formik.handleChange}
-                     onBlur={formik.handleBlur}
-                     error={formik.touched.nickname && Boolean(formik.errors.nickname)}
-                     helperText={formik.touched.nickname && formik.errors.nickname}
+          <TextField
+            id="nickname"
+            type="nickname"
+            name="nickname"
+            placeholder="1234"
+            label={'Nickname'}
+            required
+            value={formik.values.nickname}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.nickname && Boolean(formik.errors.nickname)}
+            helperText={formik.touched.nickname && formik.errors.nickname}
           />
-          <Link component={RouterLink}
-                to={'/sign-in'}
-                variant="body2">
+          <Link component={RouterLink} to={'/sign-in'} variant="body2">
             {'Already have an account? Sign In'}
           </Link>
-          <ButtonSubmit isSubmitting={formik.isSubmitting}>
-            Submit
-          </ButtonSubmit>
+          <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
         </Stack>
       </form>
     </FormikProvider>

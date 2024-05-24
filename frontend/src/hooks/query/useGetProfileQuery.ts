@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuth } from '../../redux/auth/selectors.ts';
-import AuthOperations from '../../redux/auth/operations.ts';
+import { selectProfile } from '../../redux/profile/selectors.ts';
+import ProfileOperations from '../../redux/profile/operations.ts';
 import { useEffect } from 'react';
 import { AppDispatch } from '../../redux/store.ts';
 
 function useGetProfileQuery() {
   const dispatch: AppDispatch = useDispatch();
-  const { data, isLoading, error } = useSelector(selectAuth);
+  const { data, isLoading, error } = useSelector(selectProfile);
 
   useEffect(() => {
-    dispatch(AuthOperations.fetchProfileData());
+    dispatch(ProfileOperations.fetchProfileData());
   }, [dispatch]);
 
   return { data, isLoading, error };

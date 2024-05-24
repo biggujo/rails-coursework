@@ -1,25 +1,21 @@
-import { useQuery } from '@tanstack/react-query';
-import API from '../../utils/api.ts';
-import useToken from '../useToken.ts';
 import { useEffect } from 'react';
-import { useAuth } from '../../providers';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuth } from '../../redux/auth/selectors.ts';
+import { AppDispatch } from '../../redux/store.ts';
+import AuthOperations from '../../redux/auth/operations.ts';
 
 // Is used to retrieve the latest data from the backend about user
 export default function useRefreshUser() {
-  const [token] = useToken();
-  const { setUser } = useAuth();
-
-  const query = useQuery({
-    queryKey: ['refresh'],
-    queryFn: API.profile.refreshUser,
-    enabled: token !== null,
-  });
+  const dispatch: AppDispatch = useDispatch();
+  const { isRefreshing, token, isLoggedIn } = useSelector(selectAuth);
 
   useEffect(() => {
-    if (query.isSuccess) {
-      setUser(query.data);
+    if (!token) {
+      return;
     }
-  }, [query, setUser]);
 
-  return query;
+    dispatch(AuthOperations.refreshUser());
+  }, [dispatch]);
+
+  return { isRefreshing, isLoggedIn };
 }

@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def profile
-    render json: current_user,
+    render json: UserSerializer.new(current_user).to_h,
            status: :ok
   end
 

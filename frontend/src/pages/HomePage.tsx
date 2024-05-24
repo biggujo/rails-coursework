@@ -1,13 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Typography } from '@mui/material';
-import { useAuth } from '../providers';
-import useSignOutMutation from '../hooks/mutation/useSignOutMutation.tsx';
-import useToken from '../hooks/useToken.ts';
+import {
+  selectAuthIsLoggedIn,
+  selectAuthToken,
+  selectAuthUser,
+} from '../redux/auth/selectors.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../redux/store.ts';
+import AuthOperations from '../redux/auth/operations.ts';
 
 export default function HomePage() {
-  const { isLoggedIn, user } = useAuth();
-  const [token] = useToken();
-  const signOutMutation = useSignOutMutation();
+  const dispatch: AppDispatch = useDispatch();
+  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
+  const token = useSelector(selectAuthToken);
+  const user = useSelector(selectAuthUser);
   const navigate = useNavigate();
 
   return (
@@ -54,7 +60,9 @@ export default function HomePage() {
           Sign up
         </Button>
         <Button
-          onClick={() => signOutMutation.mutate()}
+          onClick={() => {
+            dispatch(AuthOperations.signOut());
+          }}
           variant={'contained'}
           disabled={!isLoggedIn}
         >

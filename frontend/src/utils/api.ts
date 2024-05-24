@@ -4,16 +4,6 @@ import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
-// For testing purposes
-const getPing = async () => {
-  try {
-    const response: AxiosResponse = await axios.get('/pings');
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
 const signUp = async (data: UserSignUpFormAPI) => {
   const response: AxiosResponse = await axios.post('/sign_up', {
     user: data,
@@ -54,17 +44,14 @@ const getAllUsers = async () => {
 };
 
 const API = {
-  debug: {
-    getPing,
-  },
   auth: {
     signIn,
     signUp,
     signOut,
+    refreshUser,
   },
   profile: {
     getProfile,
-    refreshUser,
   },
   user: {
     getAll: getAllUsers,
