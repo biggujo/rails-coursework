@@ -8,13 +8,15 @@ const CABLE_URL = API.webSocket.URL;
 interface FunctionInterface {
   (
     handleMessageReceive: (message: ChatMessage) => void,
-    roomName: string
-  ): Channel;
+    roomName: string,
+    onChannelInitialisation: (channel: Channel) => void
+  ): void;
 }
 
 const useChannelSubscription: FunctionInterface = (
   handleMessageReceive,
-  roomName
+  roomName,
+  onChannelInitialisation
 ) => {
   const consumer = useRef<Cable>(ActionCable.createConsumer(CABLE_URL));
   const channel = useRef<Channel>(null!);
@@ -31,12 +33,12 @@ const useChannelSubscription: FunctionInterface = (
       }
     );
 
+    onChannelInitialisation(channel.current);
+
     return () => {
       channel.current.unsubscribe();
     };
-  }, [handleMessageReceive, roomName]);
-
-  return channel.current;
+  }, [handleMessageReceive, onChannelInitialisation, roomName]);
 };
 
 export default useChannelSubscription;

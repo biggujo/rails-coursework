@@ -6,9 +6,11 @@ import { addMessage } from '../../redux/chatMessages/slice.ts';
 import useChannelSubscription from '../../hooks/useChannelSubscription.ts';
 import ChatMessage from '../../interfaces/ChatMessage.interface.ts';
 import TextFormMessage from '../TextFormMessage';
-import { User } from '../../interfaces';
+import { Nullable, User } from '../../interfaces';
 import generateRoomName from '../../utils/chat-room-generator.ts';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
+import { Channel } from 'actioncable';
+import { useCallback } from 'react';
 
 const handleMessageReceive =
   (dispatch: AppDispatch) => (message: ChatMessage) =>
@@ -23,14 +25,24 @@ export default function ChatPanel({ otherPersonId }: Props) {
   const user = useSelector(selectAuthUser);
 
   const messageHistory = useSelector(selectMessageHistory);
-  const channel = useChannelSubscription(
+  let channel: Nullable<Channel> = null;
+
+  useChannelSubscription(
     handleMessageReceive(dispatch),
-    generateRoomName(Number(user.id), Number(otherPersonId))
+    generateRoomName(user.id, otherPersonId),
+    ch => (channel = ch)
   );
 
-  const handleSubmit: (messageValue: string) => void = messageValue => {
-    channel.send({ body: messageValue });
-  };
+  const handleSubmit: (messageValue: string) => void = useCallback(
+    messageValue => {
+      if (!channel) {
+        return;
+      }
+
+      channel.send({ body: messageValue });
+    },
+    [channel]
+  );
 
   return (
     <Container>
