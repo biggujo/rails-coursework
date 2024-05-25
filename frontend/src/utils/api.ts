@@ -49,8 +49,11 @@ const getAllUsers = async () => {
 };
 
 export interface FetchPreviousMessagesResponse {
-  metadata: object;
+  metadata: {
+    last: number;
+  };
   items: Array<ChatMessage>;
+  private_chat_id: number;
 }
 
 const messages = {
@@ -65,12 +68,12 @@ const messages = {
   }) => {
     const params = new URLSearchParams({});
 
-    for (const param of [String(page), String(offset)]) {
-      const paramName = Object.keys({ param })[0];
+    if (page) {
+      params.set('page', String(page));
+    }
 
-      if (page) {
-        params.set(paramName, param);
-      }
+    if (offset) {
+      params.set('offset', String(offset));
     }
 
     const response: AxiosResponse = await axios.get(

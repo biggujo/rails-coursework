@@ -15,9 +15,10 @@ class MessagesController < ApplicationController
 
     private_chat_messages = PrivateChat.find(private_chat_id).messages
 
-    metadata, items = pagy(private_chat_messages, items: 20, outset: params[:offset])
+    metadata, items = pagy(private_chat_messages, items: 10, outset: params[:offset])
 
     render json: {
+      private_chat_id: private_chat_id.to_i,
       metadata: metadata,
       items: items
     }

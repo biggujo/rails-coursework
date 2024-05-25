@@ -5,14 +5,32 @@ import { FetchPreviousMessagesResponse } from '../../utils/api.ts';
 import ChatOperations from '../chatList/operations.ts';
 
 const initialState: {
-  items: Array<ChatMessage>;
-  isLoading: boolean;
-  error: Nullable<string>;
+  data: {
+    items: Array<ChatMessage>;
+    isLoading: boolean;
+    error: Nullable<string>;
+  };
+  metadata: {
+    isInitialised: boolean;
+    offset: number;
+    page: number;
+    maxPage: number;
+  };
+  currentChatId: number;
   connection: object;
 } = {
-  items: [],
-  isLoading: true,
-  error: null,
+  data: {
+    items: [],
+    isLoading: true,
+    error: null,
+  },
+  metadata: {
+    isInitialised: false,
+    offset: 0,
+    page: 0,
+    maxPage: 0,
+  },
+  currentChatId: null!,
   connection: {},
 };
 
@@ -26,32 +44,62 @@ const slice = createSlice({
     }),
     addMessage: (state, action) => ({
       ...state,
-      items: [...state.items, action.payload],
+      data: {
+        ...state.data,
+        items: [...state.data.items, action.payload],
+      },
+      metadata: {
+        ...state.metadata,
+        offset: state.metadata.offset + 1,
+      },
     }),
     resetChat: () => ({ ...initialState }),
-    acceptEmptyChat: () => ({
+    acceptEmptyChat: state => ({
       ...initialState,
-      isLoading: false,
+      data: {
+        ...initialState.data,
+        isLoading: false,
+      },
+      currentChatId: state.currentChatId,
     }),
   },
   extraReducers: builder => {
     builder
       .addCase(ChatMessagesOperations.fetchPrevious.pending, state => ({
         ...state,
-        isLoading: true,
+        data: {
+          ...state.data,
+          isLoading: true,
+        },
+        metadata: {
+          ...state.metadata,
+          isInitialised: true,
+        },
       }))
       .addCase(
         ChatMessagesOperations.fetchPrevious.fulfilled,
         (
           state,
           action: PayloadAction<FetchPreviousMessagesResponse | string>
-        ) => {
-          return {
-            ...state,
-            items: (action.payload as FetchPreviousMessagesResponse).items,
+        ) => ({
+          ...state,
+          data: {
+            ...state.data,
+            items: [
+              ...state.data.items,
+              ...(action.payload as FetchPreviousMessagesResponse).items,
+            ],
             isLoading: false,
-          };
-        }
+          },
+          metadata: {
+            ...state.metadata,
+            page: state.metadata.page + 1,
+            maxPage: (action.payload as FetchPreviousMessagesResponse).metadata
+              .last,
+          },
+          currentChatId: (action.payload as FetchPreviousMessagesResponse)
+            .private_chat_id,
+        })
       )
       .addMatcher(
         isAnyOf(
@@ -60,8 +108,11 @@ const slice = createSlice({
         ),
         (state, action) => ({
           ...state,
-          isLoading: false,
-          error: action.payload as string,
+          data: {
+            ...state.data,
+            isLoading: false,
+            error: action.payload as string,
+          },
         })
       );
   },
