@@ -65,46 +65,63 @@ const slice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(ChatMessagesOperations.fetchPrevious.pending, state => ({
-        ...state,
-        data: {
-          ...state.data,
-          isLoading: true,
-        },
-        metadata: {
-          ...state.metadata,
-          isInitialised: true,
-        },
-      }))
-      .addCase(
-        ChatMessagesOperations.fetchPrevious.fulfilled,
-        (
-          state,
-          action: PayloadAction<FetchPreviousMessagesResponse | string>
-        ) => ({
+      .addMatcher(
+        isAnyOf(
+          ChatMessagesOperations.fetchPrevious.pending,
+          ChatMessagesOperations.fetchPreviousWithoutLoading.pending
+        ),
+        (state, action) => ({
           ...state,
           data: {
             ...state.data,
-            items: [
-              ...state.data.items,
-              ...(action.payload as FetchPreviousMessagesResponse).items,
-            ],
-            isLoading: false,
+            isLoading:
+              action.type ===
+              ChatMessagesOperations.fetchPrevious.pending.toString(),
           },
           metadata: {
             ...state.metadata,
-            page: state.metadata.page + 1,
-            maxPage: (action.payload as FetchPreviousMessagesResponse).metadata
-              .last,
+            isInitialised: true,
           },
-          currentChatId: (action.payload as FetchPreviousMessagesResponse)
-            .private_chat_id,
         })
       )
       .addMatcher(
         isAnyOf(
+          ChatMessagesOperations.fetchPrevious.fulfilled,
+          ChatMessagesOperations.fetchPreviousWithoutLoading.fulfilled
+        ),
+        (
+          state,
+          action: PayloadAction<FetchPreviousMessagesResponse | string>
+        ) => {
+          console.log(action.type);
+
+          return {
+            ...state,
+            data: {
+              ...state.data,
+              items: [
+                ...(action.payload as FetchPreviousMessagesResponse).items,
+                ...state.data.items,
+              ],
+              isLoading: false,
+            },
+            metadata: {
+              ...state.metadata,
+              offset: state.metadata.offset > 0 ? state.metadata.offset - 1 : 0,
+              page: state.metadata.page ? state.metadata.page + 1 : 2,
+              maxPage: (action.payload as FetchPreviousMessagesResponse)
+                .metadata.last,
+            },
+            currentChatId: (action.payload as FetchPreviousMessagesResponse)
+              .private_chat_id,
+          };
+        }
+      )
+      .addMatcher(
+        isAnyOf(
           ChatOperations.fetchAll.rejected,
-          ChatMessagesOperations.fetchPrevious.rejected
+          ChatMessagesOperations.fetchPrevious.rejected,
+          ChatMessagesOperations.fetchPreviousWithoutLoading.rejected
         ),
         (state, action) => ({
           ...state,

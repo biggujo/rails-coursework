@@ -10,7 +10,6 @@ import {
 import { AppDispatch } from '../../redux/store.ts';
 import ChatMessagesOperations from '../../redux/chatMessages/operations.ts';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useLayoutEffect, useRef } from 'react';
 
 interface Props {
   items: Array<ChatMessage>;
@@ -25,7 +24,7 @@ export default function MessageList({ items, parentElId }: Props) {
   const chatId = useSelector(selectChatCurrentId);
   const user = useSelector(selectAuthUser);
 
-  const hasMorePages = page < maxPage;
+  const hasMorePages = page <= maxPage;
 
   const handleFetchNextPage = () => {
     if (!isInitialised) {
@@ -33,18 +32,19 @@ export default function MessageList({ items, parentElId }: Props) {
     }
 
     return dispatch(
-      ChatMessagesOperations.fetchPrevious({ page, offset, chatId })
+      ChatMessagesOperations.fetchPreviousWithoutLoading({
+        page,
+        offset,
+        chatId,
+      })
     );
   };
 
-  {
-    /* TODO: bring back hasMorePages*/
-  }
   return (
     <InfiniteScroll
       dataLength={items.length}
       next={handleFetchNextPage}
-      hasMore={false}
+      hasMore={hasMorePages}
       loader={<h4>Loading...</h4>}
       endMessage={
         <p style={{ textAlign: 'center' }}>
@@ -53,7 +53,7 @@ export default function MessageList({ items, parentElId }: Props) {
       }
       inverse={true}
       style={{ display: 'flex', flexDirection: 'column-reverse' }}
-      scrollableTarget="messages-container"
+      scrollableTarget={parentElId}
     >
       <Grid container direction={'column'} spacing={2}>
         {items.map(({ id, message, author_id, created_at }) => {
