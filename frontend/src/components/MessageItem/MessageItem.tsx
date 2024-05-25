@@ -18,7 +18,7 @@ export default function MessageItem({ body, date, variant }: Props) {
       <Grid item>
         <Avatar>{'T'}</Avatar>
       </Grid>
-      <Grid item className={variant}>
+      <Grid item className={variant} maxWidth={480}>
         <Typography>{body}</Typography>
         <Box
           sx={{

@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Button, Grid, TextField } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 interface Props {
   buttonText: string;
@@ -25,16 +26,25 @@ export default function TextForm({ buttonText, placeholder, onSubmit }: Props) {
 
   return (
     <form onSubmit={handleSendMessageClick}>
-      <TextField
-        label={'Message'}
-        onChange={handleMessageValueChange}
-        placeholder={placeholder}
-        required
-        value={value}
-      />
-      <Button variant={'contained'} type={'submit'}>
-        {buttonText}
-      </Button>
+      <Grid container alignItems={'flex-end'} spacing={2}>
+        <Grid item flexGrow={1}>
+          <TextField
+            value={value}
+            onChange={handleMessageValueChange}
+            label={'Message'}
+            autoComplete={'off'}
+            variant={'standard'}
+            placeholder={placeholder}
+            fullWidth
+            required
+          />
+        </Grid>
+        <Grid item>
+          <Button variant={'contained'} type={'submit'} endIcon={<SendIcon />}>
+            {buttonText}
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }

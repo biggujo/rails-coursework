@@ -22,22 +22,43 @@ export default function ChatPanel({ otherPersonId }: Props) {
   }
 
   return (
-    <Box
-      style={{
-        outline: '0.25px solid tomato',
-      }}
-    >
+    <Box>
       <Typography variant={'h2'}>Message list:</Typography>
-      <TextFormMessage onSubmit={handleSubmit} />
-      {isLoading && <Typography>Chat is loading</Typography>}
-      {!isLoading && (
-        <>
-          {items && items.length === 0 && (
-            <Typography>No previous messages available</Typography>
+      <Box
+        sx={{
+          border: 1,
+          borderColor: '#808080',
+          borderRadius: '7px',
+        }}
+      >
+        <Box
+          sx={{
+            height: '600px',
+            py: 2,
+            px: 4,
+          }}
+        >
+          {isLoading && <Typography>Chat is loading...</Typography>}
+          {!isLoading && (
+            <>
+              {items && items.length === 0 && (
+                <Typography>No previous messages available</Typography>
+              )}
+              {items && items.length > 0 && <MessageList items={items} />}
+            </>
           )}
-          {items && items.length > 0 && <MessageList items={items} />}
-        </>
-      )}
+        </Box>
+        <Box
+          sx={{
+            py: 2,
+            px: 4,
+            borderTop: 1,
+            borderColor: '#808080',
+          }}
+        >
+          <TextFormMessage onSubmit={handleSubmit} />
+        </Box>
+      </Box>
     </Box>
   );
 }
