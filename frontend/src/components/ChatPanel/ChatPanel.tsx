@@ -3,9 +3,10 @@ import TextFormMessage from '../TextFormMessage';
 import MessageList from '../MessageList';
 import { User } from '../../interfaces';
 import useChatPanel from '../../hooks/useChatPanel.ts';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import Loader from '../Loader';
-import throttle from 'lodash.throttle';
+import FullHeightCenter from '../FullHeightCenter';
+import useReachBottom from '../../hooks/useReachBottom.ts';
 
 interface Props {
   otherPersonId: User['id'];
@@ -17,31 +18,14 @@ export default function ChatPanel({ otherPersonId }: Props) {
   const { items, isLoading, error, handleSubmit } = useChatPanel(otherPersonId);
   const isAtBottom = useRef(true);
 
-  useEffect(() => {
-    let lastScrollTop = 0;
-    const el = document.getElementById(MESSAGES_CONTAINER_ID);
-
-    el.addEventListener(
-      'scroll',
-      throttle(() => {
-        // Return on upscroll
-        if (el.scrollTop < lastScrollTop) {
-          isAtBottom.current = false;
-          return;
-        }
-
-        lastScrollTop = el.scrollTop <= 0 ? 0 : el.scrollTop;
-
-        if (el.scrollTop + el.offsetHeight < el.scrollHeight) {
-          isAtBottom.current = true;
-        }
-      }, 200)
-    );
-  }, []);
-
-  useEffect(() => {
-    console.log(isAtBottom.current);
-  }, [isAtBottom.current]);
+  // Track if user wants to be scrolled to bottom
+  // If user at the bottom, prefer to scroll to the last messages
+  // Else don't prefer to scroll
+  useReachBottom({
+    onBottomReached: () => (isAtBottom.current = true),
+    onUnBottom: () => (isAtBottom.current = false),
+    elementId: MESSAGES_CONTAINER_ID,
+  });
 
   // Always scroll to the bottom on new messages
   useLayoutEffect(() => {
@@ -102,7 +86,11 @@ export default function ChatPanel({ otherPersonId }: Props) {
           {!isLoading && (
             <>
               {items && items.length === 0 && (
-                <Typography>No previous messages available</Typography>
+                <FullHeightCenter>
+                  <Typography fontSize={'large'}>
+                    Say "Hi" to start chatting
+                  </Typography>
+                </FullHeightCenter>
               )}
               {items && items.length > 0 && (
                 <MessageList items={items} parentElId={MESSAGES_CONTAINER_ID} />
@@ -118,7 +106,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
             borderColor: '#808080',
           }}
         >
-          <TextFormMessage onSubmit={handleSubmit} />
+          <TextFormMessage onSubmit={handleSubmit} disabled={isLoading} />
         </Box>
       </Box>
     </Box>

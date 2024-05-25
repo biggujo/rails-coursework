@@ -15,7 +15,8 @@ const findPrivateChatId = ({
 
   const index = chats.findIndex(
     ({ user_1: { id: user1Id }, user_2: { id: user2Id } }) =>
-      user1Id === givenUser1Id && user2Id === givenUser2Id
+      (user1Id === givenUser1Id && user2Id === givenUser2Id) ||
+      (user1Id === givenUser2Id && user2Id === givenUser1Id)
   );
 
   if (index === -1) {

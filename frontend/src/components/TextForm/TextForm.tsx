@@ -6,9 +6,15 @@ interface Props {
   buttonText: string;
   placeholder?: string;
   onSubmit: (value: string) => void;
+  disabled?: boolean;
 }
 
-export default function TextForm({ buttonText, placeholder, onSubmit }: Props) {
+export default function TextForm({
+  buttonText,
+  placeholder,
+  disabled,
+  onSubmit,
+}: Props) {
   const [value, setValue] = useState('');
 
   const handleMessageValueChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +46,12 @@ export default function TextForm({ buttonText, placeholder, onSubmit }: Props) {
           />
         </Grid>
         <Grid item>
-          <Button variant={'contained'} type={'submit'} endIcon={<SendIcon />}>
+          <Button
+            variant={'contained'}
+            type={'submit'}
+            endIcon={<SendIcon />}
+            disabled={disabled}
+          >
             {buttonText}
           </Button>
         </Grid>

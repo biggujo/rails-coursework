@@ -52,7 +52,7 @@ export default function MessageList({ items, parentElId }: Props) {
       }
       endMessage={
         <Typography align={'center'} fontWeight={'bold'}>
-          This is the start of the chart
+          This is the start of the chat
         </Typography>
       }
       scrollThreshold={'400px'}

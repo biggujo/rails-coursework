@@ -1,5 +1,6 @@
-import { Grid, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 import { FadeLoader } from 'react-spinners';
+import FullHeightCenter from '../FullHeightCenter';
 
 interface Props {}
 
@@ -7,15 +8,8 @@ export default function Loader({}: Props) {
   const theme = useTheme();
 
   return (
-    <Grid
-      container
-      height={'100%'}
-      justifyContent={'center'}
-      alignItems={'center'}
-    >
-      <Grid item>
-        <FadeLoader color={theme.palette.primary.main} />
-      </Grid>
-    </Grid>
+    <FullHeightCenter>
+      <FadeLoader color={theme.palette.primary.main} />
+    </FullHeightCenter>
   );
 }
