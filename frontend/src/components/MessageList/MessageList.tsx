@@ -1,5 +1,5 @@
 import { ChatMessage } from '../../interfaces';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import MessageItem from '../MessageItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
@@ -45,12 +45,17 @@ export default function MessageList({ items, parentElId }: Props) {
       dataLength={items.length}
       next={handleFetchNextPage}
       hasMore={hasMorePages}
-      loader={<h4>Loading...</h4>}
-      endMessage={
-        <p style={{ textAlign: 'center' }}>
-          <b>Yay! You have seen it all</b>
-        </p>
+      loader={
+        <Typography align={'center'} fontWeight={'bold'}>
+          Loading...
+        </Typography>
       }
+      endMessage={
+        <Typography align={'center'} fontWeight={'bold'}>
+          This is the start of the chart
+        </Typography>
+      }
+      scrollThreshold={'400px'}
       inverse={true}
       style={{ display: 'flex', flexDirection: 'column-reverse' }}
       scrollableTarget={parentElId}
