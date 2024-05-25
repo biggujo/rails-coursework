@@ -32,21 +32,21 @@ class FriendsController < ApplicationController
 
   def mutual_friends
     user = User.find(params[:user_id])
-    render json: user.friends, status: :ok
+    render json: UserSerializer.new(user.mutual_friends).to_h, status: :ok
   rescue ActiveRecord::RecordNotFound
     render json: {error: "User not found"}, status: :not_found
   end
 
   def followers
     user = User.find(params[:user_id])
-    render json: user.followers, status: :ok
+    render json: UserSerializer.new(user.followers).to_h, status: :ok
   rescue ActiveRecord::RecordNotFound
     render json: {error: "User not found"}, status: :not_found
   end
 
   def following
     user = User.find(params[:user_id])
-    render json: user.following, status: :ok
+    render json: UserSerializer.new(user.following).to_h, status: :ok
   rescue ActiveRecord::RecordNotFound
     render json: {error: "User not found"}, status: :not_found
   end
