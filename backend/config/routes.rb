@@ -16,15 +16,24 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :profile]
   resources :pings, only: [:index]
-  resources :posts
-  resources :comments
+  resources :posts do
+    resources :comments, except: [:index] do
+      get '/', to: 'comments#post_comments', on: :collection
+    end
+  end
+  resources :groups do
+    member do
+      post '/members', to: 'groups#add_member'
+      delete '/members/:user_id', to: 'groups#delete_member'
+      get '/members', to: 'groups#members'
+      get '/posts', to: 'groups#group_posts'
+    end
+  end
 
   post '/like', to: 'likes#like', as: 'like'
   post '/dislike', to: 'likes#dislike', as: 'dislike'
   post '/unlike', to: 'likes#unlike', as: 'unlike'
   post '/like_status', to: 'likes#like_status', as: 'like_status'
-
-  get '/posts/:id/post_comments', to: 'posts#post_comments', as: 'post_comments'
 
   post "/profile/update", to: "users#update"
   get "/profile", to: "users#profile"
