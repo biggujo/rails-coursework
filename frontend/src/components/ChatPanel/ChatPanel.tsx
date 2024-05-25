@@ -4,6 +4,7 @@ import MessageList from '../MessageList';
 import { User } from '../../interfaces';
 import useChatPanel from '../../hooks/useChatPanel.ts';
 import { useLayoutEffect } from 'react';
+import Loader from '../Loader';
 
 interface Props {
   otherPersonId: User['id'];
@@ -52,12 +53,12 @@ export default function ChatPanel({ otherPersonId }: Props) {
             height: '600px',
             py: 2,
             px: 4,
-            ['overflow-x']: 'hidden',
-            ['overflow-y']: 'scroll',
+            overflowX: 'hidden',
+            overflowY: 'scroll',
           }}
           id={'messages-container'}
         >
-          {isLoading && <Typography>Chat is loading...</Typography>}
+          {isLoading && <Loader />}
           {!isLoading && (
             <>
               {items && items.length === 0 && (
