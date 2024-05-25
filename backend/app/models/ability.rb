@@ -5,7 +5,7 @@ class Ability
 
   def initialize(user)
     can :manage, Post do |post|
-      post.user == user || post.co_authors.include?(user)
+      post.user == user
     end
     can :manage, Comment, user: user
   end
