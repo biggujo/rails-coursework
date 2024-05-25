@@ -11,6 +11,7 @@ import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { Channel } from 'actioncable';
 import { useCallback, useEffect, useRef } from 'react';
 import useFetchPreviousMessagesQuery from '../../hooks/query/useFetchPreviousMessagesQuery.ts';
+import MessageList from '../MessageList';
 
 const handleMessageReceive =
   (dispatch: AppDispatch) => (message: ChatMessage) =>
@@ -65,16 +66,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
           {items && items.length === 0 && (
             <Typography>No previous messages available</Typography>
           )}
-          {items && items.length > 0 && (
-            <ul>
-              {items.map(({ message, author_id }) => (
-                <>
-                  <Typography>Author: {author_id}</Typography>
-                  <Typography>{message}</Typography>
-                </>
-              ))}
-            </ul>
-          )}
+          {items && items.length > 0 && <MessageList items={items} />}
         </>
       )}
     </Container>
