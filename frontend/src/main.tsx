@@ -10,6 +10,7 @@ import App from './components/App/App.tsx';
 import { Provider } from 'react-redux';
 import { persistor, store } from './redux/store.ts';
 import { PersistGate } from 'redux-persist/integration/react';
+import ThemeProvider from './providers/ThemeProvider.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,7 +26,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <PersistGate persistor={persistor}>
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <App />
+            <ThemeProvider>
+              <App />
+            </ThemeProvider>
           </QueryClientProvider>
         </Provider>
       </PersistGate>
