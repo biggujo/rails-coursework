@@ -9,10 +9,12 @@ import { AxiosError } from 'axios';
 import CustomAlert from '../components/CustomAlert';
 
 const validationSchema = Yup.object({
-  email: Yup.string()
+  email: Yup
+    .string()
     .email('Enter a valid email')
     .required('Email is required'),
-  password: Yup.string()
+  password: Yup
+    .string()
     .min(6, 'Password have to be more than 6 symbols')
     .required('Password is required'),
 });
@@ -28,9 +30,7 @@ function useSignInForm() {
     }
 
     navigate('/');
-    toast.custom(
-      <CustomAlert message={'Successful sign in!'} severity={'success'} />
-    );
+    toast.custom(<CustomAlert message={'Successful sign in!'} severity={'success'} />);
     // eslint-disable-next-line
   }, [signInMutation.status]);
 
@@ -47,11 +47,11 @@ function useSignInForm() {
         await signInMutation.mutateAsync(values);
       } catch (e: unknown) {
         if (e instanceof AxiosError) {
-          toast.custom(
-            <CustomAlert message={e.response!.data} severity={'error'} />
-          );
+          toast.custom(<CustomAlert message={e.response!.data} severity={'error'} />);
           return;
         }
+
+        console.log(e);
       }
     },
   });
