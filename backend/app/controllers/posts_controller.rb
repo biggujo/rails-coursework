@@ -20,7 +20,8 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
-    @post.user_id = current_user.id
+    @post.user = current_user
+    @post.groups << Group.find(params[:group_id]) if params[:group_id]
 
     if @post.save
       render json: @post, status: :created, location: @post
@@ -45,10 +46,6 @@ class PostsController < ApplicationController
     @post.destroy!
   end
 
-  def post_comments
-    render json: @post.comments
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -57,7 +54,7 @@ class PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:content)
+    params.require(:post).permit(:content, :group_id)
   end
 
   def authorize_post_manage!
