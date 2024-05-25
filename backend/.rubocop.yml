@@ -160,3 +160,5 @@ Style/MethodDefParentheses:
 Bundler/GemVersion:
   Enabled: true
 
+Layout/EndOfLine:
+  Enabled: false
