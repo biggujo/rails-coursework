@@ -18,9 +18,9 @@ import useAuthorizationTokenLoader from '../../hooks/useAxiosAuthorizationLoader
 export default function App() {
   const { isRefreshing } = useRefreshUser();
   const navigate = useNavigate();
-  useAuthorizationTokenLoader();
+  const isTokenLoading = useAuthorizationTokenLoader();
 
-  if (isRefreshing) {
+  if (!isTokenLoading || isRefreshing) {
     return null;
   }
 

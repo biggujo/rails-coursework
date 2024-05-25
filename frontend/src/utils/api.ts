@@ -1,5 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
-import { User, UserSignInFormAPI } from '../interfaces';
+import {
+  ChatEntity,
+  ChatMessage,
+  User,
+  UserSignInFormAPI,
+} from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
@@ -43,6 +48,47 @@ const getAllUsers = async () => {
   };
 };
 
+export interface FetchPreviousMessagesResponse {
+  metadata: object;
+  items: Array<ChatMessage>;
+}
+
+const messages = {
+  fetchPrevious: async ({
+    chatId,
+    page,
+    offset,
+  }: {
+    chatId: number;
+    page?: number;
+    offset?: number;
+  }) => {
+    const params = new URLSearchParams({});
+
+    for (const param of [String(page), String(offset)]) {
+      const paramName = Object.keys({ param })[0];
+
+      if (page) {
+        params.set(paramName, param);
+      }
+    }
+
+    const response: AxiosResponse = await axios.get(
+      `/private_chats/${chatId}/messages?${params}`
+    );
+
+    return response.data as FetchPreviousMessagesResponse;
+  },
+};
+
+const chats = {
+  fetchAll: async () => {
+    const response: AxiosResponse = await axios.get(`/private_chats`);
+
+    return response.data as Array<ChatEntity>;
+  },
+};
+
 const API = {
   auth: {
     signIn,
@@ -56,6 +102,8 @@ const API = {
   user: {
     getAll: getAllUsers,
   },
+  messages: messages,
+  chats,
   webSocket: {
     URL: 'ws://localhost:5401/cable',
   },

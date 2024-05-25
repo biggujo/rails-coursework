@@ -1,6 +1,6 @@
 interface ChatMessage {
   author_id: string;
-  body: string;
+  message: string;
 }
 
 export default ChatMessage;

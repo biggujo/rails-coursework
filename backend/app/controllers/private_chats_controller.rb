@@ -42,13 +42,13 @@ class PrivateChatsController < ApplicationController
   def prepare_chat_render(private_chat)
     private_chat_pretty = {
       id: private_chat.id,
-      user_1: private_chat.user_1,
-      user_2: private_chat.user_2,
+      user_1: UserSerializer.new(private_chat.user_1).to_h,
+      user_2: UserSerializer.new(private_chat.user_2).to_h,
       created_at: private_chat.created_at,
       updated_at: private_chat.updated_at,
     }
 
-    { chat: private_chat_pretty }
+    private_chat_pretty
   end
 
   def validate_create_params

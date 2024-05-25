@@ -13,6 +13,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist/es/constants';
+import { chatListReducer } from './chatList/slice.ts';
 
 const persistConfig = {
   key: 'auth',
@@ -22,6 +23,7 @@ const persistConfig = {
 export const store = configureStore({
   reducer: {
     chatMessages: chatHistoryReducer,
+    chatList: chatListReducer,
     // @ts-ignore
     auth: persistReducer(persistConfig, authReducer),
     profile: profileReducer,
