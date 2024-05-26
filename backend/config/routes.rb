@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   end
   resources :pings, only: [:index]
 
-  get "/users/profile", to: "users#profile"
+  post "/profile/update", to: "users#update"
+  get "/profile", to: "users#profile"
   get "/users/refresh", to: "users#refresh"
 
   get "/chats", to: "private_chats#my_chats"
