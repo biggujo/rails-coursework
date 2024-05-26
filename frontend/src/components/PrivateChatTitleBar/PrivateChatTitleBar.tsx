@@ -6,10 +6,13 @@ import { useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import UserEntity from '../../interfaces/UserEntity.interface.ts';
 import ChatTitleBar from '../ChatTitleBar/ChatTitleBar.tsx';
+import DateFormatter from '../../utils/date-formatter.ts';
 
 interface Props {
   chatId: Nullable<number>;
 }
+
+const MIN_OFFLINE_MINUTES = 5;
 
 export default function PrivateChatTitleBar({ chatId }: Props) {
   // No need to track error
@@ -35,5 +38,9 @@ export default function PrivateChatTitleBar({ chatId }: Props) {
     return <ChatTitleBar title={'Loading...'} />;
   }
 
-  return <ChatTitleBar title={otherPerson.nickname} />;
+  const isOnline =
+    DateFormatter.getDistanceInMinutes(otherPerson.last_seen_at) <
+    MIN_OFFLINE_MINUTES;
+
+  return <ChatTitleBar title={otherPerson.nickname} isOnline={isOnline} />;
 }

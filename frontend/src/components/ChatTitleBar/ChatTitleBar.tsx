@@ -1,15 +1,26 @@
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
+import OnlineStatusChip from '../OnlineStatusChip';
+import LoadingChip from '../LoadingChip/LoadingChip';
 
 interface Props {
   title: string;
+  isOnline?: boolean;
 }
 
-export default function ChatTitleBar({ title }: Props) {
+export default function ChatTitleBar({ title, isOnline }: Props) {
   return (
-    <div>
-      <Typography variant={'h4'} component={'h3'}>
-        Name: {title}
-      </Typography>
-    </div>
+    <Grid container justifyContent={'space-between'} alignItems={'center'}>
+      <Grid item>
+        <Typography variant={'h6'} component={'h3'}>
+          Name: {title}
+        </Typography>
+      </Grid>
+      <Grid item>
+        {typeof isOnline === 'undefined' && <LoadingChip />}
+        {typeof isOnline !== 'undefined' && (
+          <OnlineStatusChip isOnline={isOnline} />
+        )}
+      </Grid>
+    </Grid>
   );
 }
