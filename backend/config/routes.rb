@@ -15,11 +15,19 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :users, only: [:index, :profile]
+  resources :private_chats, only: [:index, :show, :create] do
+    resources :messages, only: [:index, :create]
+  end
   resources :pings, only: [:index]
 
   post "/profile/update", to: "users#update"
   get "/profile", to: "users#profile"
   get "/users/refresh", to: "users#refresh"
+
+  get "/chats", to: "private_chats#my_chats"
+  get "/chats/:id", to: "private_chats#show"
+
+  mount ActionCable.server => '/cable'
   # get "/users", to: "users#index"
 
   # Defines the root path route ("/")

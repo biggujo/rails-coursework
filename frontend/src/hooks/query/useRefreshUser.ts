@@ -1,41 +1,21 @@
-import { useQuery } from '@tanstack/react-query';
-import API from '../../utils/api.ts';
-import useToken from '../useToken.ts';
 import { useEffect } from 'react';
-import { useAuth } from '../../providers';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuth } from '../../redux/auth/selectors.ts';
+import { AppDispatch } from '../../redux/store.ts';
+import AuthOperations from '../../redux/auth/operations.ts';
 
 // Is used to retrieve the latest data from the backend about user
 export default function useRefreshUser() {
-  const [token, setToken] = useToken();
-  const navigate = useNavigate();
-  const { setUser, setIsLoggedIn, setIsRefreshing } = useAuth();
-
-  const query = useQuery({
-    queryKey: ['refresh'],
-    queryFn: API.profile.refreshUser,
-    enabled: token !== null && token.length > 0,
-  });
+  const dispatch: AppDispatch = useDispatch();
+  const { isRefreshing, token, isLoggedIn } = useSelector(selectAuth);
 
   useEffect(() => {
-    if (query.isSuccess) {
-      setUser(query.data);
-      setIsRefreshing(false);
-      setIsLoggedIn(true);
+    if (!token) {
       return;
     }
 
-    if (query.isError) {
-      toast.error('Your session has expired. Sign in again');
+    dispatch(AuthOperations.refreshUser());
+  }, [dispatch]);
 
-      setIsRefreshing(false);
-
-      setToken('');
-      navigate('/sign-in');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.isFetching]);
-
-  return query;
+  return { isRefreshing, isLoggedIn };
 }

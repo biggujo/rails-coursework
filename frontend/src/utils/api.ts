@@ -1,19 +1,13 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { User, UserSignInFormAPI } from '../interfaces';
+import axios, { AxiosResponse } from 'axios';
+import {
+  ChatEntity,
+  ChatMessage,
+  User,
+  UserSignInFormAPI,
+} from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
-import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
-
-// For testing purposes
-const getPing = async () => {
-  try {
-    const response: AxiosResponse = await axios.get('/pings');
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 const signUp = async (data: UserSignUpFormAPI) => {
   const response: AxiosResponse = await axios.post('/sign_up', {
@@ -38,8 +32,8 @@ const signOut = async () => {
 };
 
 const getProfile = async () => {
-  const response: AxiosResponse = await axios.get('/profile');
-  return response;
+  const response: AxiosResponse = await axios.get('/users/profile');
+  return response.data;
 };
 
 const refreshUser = async () => {
@@ -47,24 +41,74 @@ const refreshUser = async () => {
   return response.data as User;
 };
 
-const updateProfile = async (data: ProfileUpdateFormAPI) => {
-  const response: AxiosResponse = await axios.post('/profile/update', data);
-  return response.data as User;
+const getAllUsers = async () => {
+  const response: AxiosResponse = await axios.get('/users');
+  return response.data as {
+    data: Array<User>;
+  };
+};
+
+export interface FetchPreviousMessagesResponse {
+  metadata: {
+    last: number;
+  };
+  items: Array<ChatMessage>;
+  private_chat_id: number;
+}
+
+const messages = {
+  fetchPrevious: async ({
+    chatId,
+    page,
+    offset,
+  }: {
+    chatId: number;
+    page?: number;
+    offset?: number;
+  }) => {
+    const params = new URLSearchParams({});
+
+    if (page) {
+      params.set('page', String(page));
+    }
+
+    if (offset) {
+      params.set('offset', String(offset));
+    }
+
+    const response: AxiosResponse = await axios.get(
+      `/private_chats/${chatId}/messages?${params}`
+    );
+
+    return response.data as FetchPreviousMessagesResponse;
+  },
+};
+
+const chats = {
+  fetchAll: async () => {
+    const response: AxiosResponse = await axios.get(`/private_chats`);
+
+    return response.data as Array<ChatEntity>;
+  },
 };
 
 const API = {
-  debug: {
-    getPing,
-  },
   auth: {
     signIn,
     signUp,
     signOut,
+    refreshUser,
   },
   profile: {
     getProfile,
-    updateProfile,
-    refreshUser,
+  },
+  user: {
+    getAll: getAllUsers,
+  },
+  messages: messages,
+  chats,
+  webSocket: {
+    URL: 'ws://localhost:5401/cable',
   },
 };
 

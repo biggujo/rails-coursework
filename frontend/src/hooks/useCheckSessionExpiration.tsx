@@ -2,14 +2,18 @@ import { useEffect } from 'react';
 import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 import CustomAlert from '../components/CustomAlert';
-import { useAuth } from '../providers';
-import useToken from './useToken.ts';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthIsLoggedIn } from '../redux/auth/selectors.ts';
+import { AppDispatch } from '../redux/store.ts';
+import { resetAuthData } from '../redux/auth/slice.ts';
 
 function useCheckSessionExpiration(error: object | null) {
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const [, setToken] = useToken();
+  const dispatch: AppDispatch = useDispatch();
+  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
+  const navigate = useNavigate();
 
-  // Clear auth data on session expiration
+  // Clear profile data on session expiration
   // Go to sign in
   useEffect(() => {
     if (error === null) {
@@ -17,13 +21,16 @@ function useCheckSessionExpiration(error: object | null) {
     }
 
     if (isLoggedIn && (error as AxiosError).response!.status === 401) {
-      setIsLoggedIn(false);
-      setToken('');
-      toast.custom(<CustomAlert
-        severity={'warning'}
-        message={'Session has expired. Sign in again'} />);
+      dispatch(resetAuthData());
+      toast.custom(
+        <CustomAlert
+          severity={'warning'}
+          message={'Session has expired. Sign in again'}
+        />
+      );
+      navigate('/sign-in');
     }
-  }, [isLoggedIn, error, setIsLoggedIn, setToken]);
+  }, [isLoggedIn, error]);
 }
 
 export default useCheckSessionExpiration;
