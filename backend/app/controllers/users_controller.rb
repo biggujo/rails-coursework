@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
   def user_posts
     user = User.find(params[:id])
-    all_posts = user.posts + user.co_authored_posts
+    all_posts = user.posts
     render json: all_posts
   end
 
