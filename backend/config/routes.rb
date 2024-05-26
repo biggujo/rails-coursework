@@ -23,6 +23,11 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :private_chats, only: [:index, :show, :create] do
+    resources :messages, only: [:index, :create]
+  end
+
   resources :pings, only: [:index]
 
   post "/profile/update", to: "users#update"
