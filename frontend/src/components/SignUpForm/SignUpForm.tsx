@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Link, Stack, TextField } from '@mui/material';
 import { FormikProvider } from 'formik';
 import ButtonSubmit from '../ButtonSubmit';
-import useSignUpForm from '../../hooks/useSignUpForm.tsx';
+import useSignUpForm from '../../hooks/forms/useSignUpForm.tsx';
 
 export default function SignUpForm() {
   const formik = useSignUpForm();

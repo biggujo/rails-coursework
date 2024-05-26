@@ -1,15 +1,7 @@
-import { Navigate } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
-import { useAuth } from '../providers';
 import SignInForm from '../components/SignInForm';
 
 export default function SignInPage() {
-  const { isLoggedIn } = useAuth();
-
-  if (isLoggedIn) {
-    return <Navigate to={'/'} />;
-  }
-
   return (
     <>
       <Container component="main" maxWidth="xs">

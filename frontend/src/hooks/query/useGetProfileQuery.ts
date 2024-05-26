@@ -1,14 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
-import API from '../../utils/api.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectProfile } from '../../redux/profile/selectors.ts';
+import ProfileOperations from '../../redux/profile/operations.ts';
+import { useEffect } from 'react';
+import { AppDispatch } from '../../redux/store.ts';
 
-function useGetProfileQuery(...props) {
-  return useQuery({
-    queryKey: ['users/profile'],
-    queryFn: API.profile.getProfile,
-    // @ts-expect-error suppress missing property from type
-    cacheTime: 0,
-    ...(props && props),
-  });
+function useGetProfileQuery() {
+  const dispatch: AppDispatch = useDispatch();
+  const { data, isLoading, error } = useSelector(selectProfile);
+
+  useEffect(() => {
+    dispatch(ProfileOperations.fetchProfileData());
+  }, [dispatch]);
+
+  return { data, isLoading, error };
 }
 
 export default useGetProfileQuery;

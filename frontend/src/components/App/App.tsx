@@ -8,13 +8,21 @@ import {
   SignInPage,
   SignUpPage,
 } from '../../pages';
-import RestrictedRoute from '../RestrictedRoute';
 import PrivateRoute from '../PrivateRoute';
-import useRefreshUserQuery from '../../hooks/query/useRefreshUser.tsx';
+import UsersPage from '../../pages/UsersPage.tsx';
+import useRefreshUser from '../../hooks/query/useRefreshUser.ts';
+import ChatPage from '../../pages/ChatPage.tsx';
+import RestrictedRoute from '../RestrictedRoute/RestrictedRoute.tsx';
+import useAuthorizationTokenLoader from '../../hooks/useAxiosAuthorizationLoader.ts';
 
 export default function App() {
-  useRefreshUserQuery();
+  const { isRefreshing } = useRefreshUser();
   const navigate = useNavigate();
+  const isTokenLoading = useAuthorizationTokenLoader();
+
+  if (!isTokenLoading || isRefreshing) {
+    return null;
+  }
 
   return (
     <>
@@ -38,7 +46,19 @@ export default function App() {
           element={
             <PrivateRoute redirectTo={'/sign-in'} component={<ProfilePage />} />
           }
-        ></Route>
+        />
+        <Route
+          path={'/users'}
+          element={
+            <PrivateRoute redirectTo={'/sign-in'} component={<UsersPage />} />
+          }
+        />
+        <Route
+          path={'/chat/:id'}
+          element={
+            <PrivateRoute redirectTo={'/sign-in'} component={<ChatPage />} />
+          }
+        />
         <Route path={'*'} element={<NotFound />} />
       </Routes>
       <CssBaseline />

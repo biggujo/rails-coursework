@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
@@ -10,39 +8,40 @@ class UsersController < ApplicationController
   end
 
   def profile
-    render json: current_user,
+    render json: UserSerializer.new(current_user).to_h,
            status: :ok
   end
 
   def update
-    json_body = JSON.parse(request.body.read)
+    begin
+      json_body = JSON.parse(request.body.read)
 
-    user = find_user
+      user = User.find(current_user.id)
 
-    new_email = json_body["email"]
-    new_nickname = json_body["nickname"]
+      new_email = json_body['email']
+      new_nickname = json_body['nickname']
 
-    user.email = new_email if new_email
+      if new_email
+        user.email = new_email
+      end
 
-    user.nickname = new_nickname if new_nickname
+      if new_nickname
+        user.nickname = new_nickname
+      end
 
-    user.save!
+      user.save!
 
-    render json: UserSerializer.new(user).to_h
-  rescue StandardError
-    render json: {
-      error: "No data is provided"
-    }, status: :bad_request
+      render json: UserSerializer.new(user).to_h
+
+    rescue Exception => message
+      render json: {
+        error: "No data is provided"
+      }, status: :bad_request
+    end
   end
 
   def refresh
-    render json: UserRefreshSerializer.new(User.find(current_user.id)).to_h,
+    render json: UserRefreshSerializer.new(current_user).to_h,
            status: :ok
-  end
-
-  private
-
-  def find_user
-    User.find(current_user.id)
   end
 end
