@@ -1,9 +1,4 @@
-interface UserEntity {
-  id: number;
-  email: string;
-  nickname: string;
-  created_at: string;
-}
+import UserEntity from './UserEntity.interface.ts';
 
 interface ChatEntityInterface {
   id: number;

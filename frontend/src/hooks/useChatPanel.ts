@@ -17,7 +17,7 @@ const useChatPanel = (otherPersonId: number) => {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(selectAuthUser);
   const roomName = useRef(generateRoomName(user.id, otherPersonId));
-  const { items, isLoading, error } = useFetchPreviousMessagesQuery({
+  const { items, isLoading, error, chatId } = useFetchPreviousMessagesQuery({
     userId: user.id,
     otherPersonId,
   });
@@ -48,7 +48,7 @@ const useChatPanel = (otherPersonId: number) => {
     };
   }, [dispatch]);
 
-  return { items, isLoading, error, handleSubmit };
+  return { items, isLoading, error, handleSubmit, chatId };
 };
 
 export default useChatPanel;

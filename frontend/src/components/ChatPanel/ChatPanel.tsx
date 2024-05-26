@@ -8,6 +8,7 @@ import Loader from '../Loader';
 import FullHeightCenter from '../FullHeightCenter';
 import useReachBottom from '../../hooks/useReachBottom.ts';
 import ChatScrollButton from '../ChatScrollButton';
+import PrivateChatTitleBar from '../PrivateChatTitleBar/PrivateChatTitleBar.tsx';
 
 interface Props {
   otherPersonId: User['id'];
@@ -16,7 +17,8 @@ interface Props {
 const MESSAGES_CONTAINER_ID = 'message-container';
 
 export default function ChatPanel({ otherPersonId }: Props) {
-  const { items, isLoading, error, handleSubmit } = useChatPanel(otherPersonId);
+  const { items, isLoading, error, chatId, handleSubmit } =
+    useChatPanel(otherPersonId);
   const isAtBottom = useRef(true);
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const messageContainerRef = useRef<HTMLElement>(null);
@@ -40,15 +42,14 @@ export default function ChatPanel({ otherPersonId }: Props) {
   // Always scroll to the bottom on new messages
   useLayoutEffect(() => {
     if (messageContainerRef.current) {
-      // @ts-ignore
       messageContainerRef.current.addEventListener(
         'DOMNodeInserted',
-        (event: HTMLDivElement) => {
+        (event: Event) => {
           if (!isAtBottom.current) {
             return;
           }
 
-          const { currentTarget } = event;
+          const currentTarget = event.currentTarget as HTMLDivElement;
           currentTarget.scroll({ top: currentTarget.scrollHeight });
         }
       );
@@ -67,7 +68,6 @@ export default function ChatPanel({ otherPersonId }: Props) {
 
   return (
     <Box>
-      <Typography variant={'h2'}>Message list:</Typography>
       <Box
         sx={{
           position: 'relative',
@@ -76,6 +76,16 @@ export default function ChatPanel({ otherPersonId }: Props) {
           borderRadius: '7px',
         }}
       >
+        <Box
+          sx={{
+            py: 2,
+            px: 4,
+            borderBottom: 1,
+            borderColor: '#808080',
+          }}
+        >
+          <PrivateChatTitleBar chatId={chatId} />
+        </Box>
         <Box
           sx={{
             display: 'flex',
