@@ -32,12 +32,6 @@ const useFetchPreviousMessagesQuery = ({
       return;
     }
 
-    console.log({
-      chats: data,
-      givenUser1Id: userId,
-      givenUser2Id: otherPersonId,
-    });
-
     const chatId = findPrivateChatId({
       chats: data,
       givenUser1Id: userId,

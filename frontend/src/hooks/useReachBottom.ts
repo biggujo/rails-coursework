@@ -17,8 +17,6 @@ const useReachBottom = ({
 
     const el = document.getElementById(elementId)!;
 
-    console.log(el);
-
     el.addEventListener(
       'scroll',
       throttle(() => {
@@ -35,7 +33,7 @@ const useReachBottom = ({
         if (el.scrollTop + el.offsetHeight < el.scrollHeight) {
           onBottomReached();
         }
-      }, 200)
+      }, 50)
     );
   }, []);
 };

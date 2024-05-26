@@ -3,10 +3,11 @@ import TextFormMessage from '../TextFormMessage';
 import MessageList from '../MessageList';
 import { User } from '../../interfaces';
 import useChatPanel from '../../hooks/useChatPanel.ts';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useReducer, useRef } from 'react';
 import Loader from '../Loader';
 import FullHeightCenter from '../FullHeightCenter';
 import useReachBottom from '../../hooks/useReachBottom.ts';
+import ChatScrollButton from '../ChatScrollButton';
 
 interface Props {
   otherPersonId: User['id'];
@@ -17,31 +18,35 @@ const MESSAGES_CONTAINER_ID = 'message-container';
 export default function ChatPanel({ otherPersonId }: Props) {
   const { items, isLoading, error, handleSubmit } = useChatPanel(otherPersonId);
   const isAtBottom = useRef(true);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const messageContainerRef = useRef<HTMLElement>(null);
+  const bottomRef = useRef<HTMLElement>(null);
 
   // Track if user wants to be scrolled to bottom
   // If user at the bottom, prefer to scroll to the last messages
   // Else don't prefer to scroll
   useReachBottom({
-    onBottomReached: () => (isAtBottom.current = true),
-    onUnBottom: () => (isAtBottom.current = false),
+    onBottomReached: () => {
+      isAtBottom.current = true;
+      forceUpdate();
+    },
+    onUnBottom: () => {
+      isAtBottom.current = false;
+      forceUpdate();
+    },
     elementId: MESSAGES_CONTAINER_ID,
   });
 
   // Always scroll to the bottom on new messages
   useLayoutEffect(() => {
-    const messageContainerRef = document.getElementById('messages-container');
-
-    if (messageContainerRef) {
+    if (messageContainerRef.current) {
       // @ts-ignore
-      messageContainerRef.addEventListener(
+      messageContainerRef.current.addEventListener(
         'DOMNodeInserted',
         (event: HTMLDivElement) => {
           if (!isAtBottom.current) {
-            console.log('Not enabled');
             return;
           }
-
-          console.log('Enabled');
 
           const { currentTarget } = event;
           currentTarget.scroll({ top: currentTarget.scrollHeight });
@@ -65,6 +70,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
       <Typography variant={'h2'}>Message list:</Typography>
       <Box
         sx={{
+          position: 'relative',
           border: 1,
           borderColor: '#808080',
           borderRadius: '7px',
@@ -81,6 +87,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
             overflowY: 'scroll',
           }}
           id={MESSAGES_CONTAINER_ID}
+          ref={messageContainerRef}
         >
           {isLoading && <Loader />}
           {!isLoading && (
@@ -93,7 +100,32 @@ export default function ChatPanel({ otherPersonId }: Props) {
                 </FullHeightCenter>
               )}
               {items && items.length > 0 && (
-                <MessageList items={items} parentElId={MESSAGES_CONTAINER_ID} />
+                <Box>
+                  <MessageList
+                    items={items}
+                    parentElId={MESSAGES_CONTAINER_ID}
+                  />
+                  <Box ref={bottomRef}></Box>
+
+                  {!isAtBottom.current && (
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        bottom: '80px',
+                        left: -1,
+                        width: 'calc(100% + 2px)',
+                      }}
+                    >
+                      <ChatScrollButton
+                        text={'Go to the bottom'}
+                        onClick={() => {
+                          messageContainerRef.current!.scrollTop =
+                            messageContainerRef.current!.scrollHeight;
+                        }}
+                      />
+                    </Box>
+                  )}
+                </Box>
               )}
             </>
           )}

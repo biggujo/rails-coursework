@@ -93,8 +93,6 @@ const slice = createSlice({
           state,
           action: PayloadAction<FetchPreviousMessagesResponse | string>
         ) => {
-          console.log(action.type);
-
           return {
             ...state,
             data: {
