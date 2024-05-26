@@ -2,11 +2,12 @@ Rails.application.routes.draw do
   devise_for :users, path: '', path_names: {
     sign_in: 'sign_in',
     sign_out: 'sign_out',
-    registration: 'sign_up'
+    registration: 'sign_up',
   },
              controllers: {
                sessions: 'users/sessions',
-               registrations: 'users/registrations'
+               registrations: 'users/registrations',
+               passwords: 'users/passwords'
              }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -36,6 +37,8 @@ Rails.application.routes.draw do
 
   get "/chats", to: "private_chats#my_chats"
   get "/chats/:id", to: "private_chats#show"
+
+  post "/password/reset", to: "password_recovery#reset"
 
   mount ActionCable.server => '/cable'
   # get "/users", to: "users#index"
