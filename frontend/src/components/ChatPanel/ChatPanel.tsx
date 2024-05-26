@@ -9,6 +9,9 @@ import FullHeightCenter from '../FullHeightCenter';
 import useReachBottom from '../../hooks/useReachBottom.ts';
 import ChatScrollButton from '../ChatScrollButton';
 import PrivateChatTitleBar from '../PrivateChatTitleBar/PrivateChatTitleBar.tsx';
+import { useSelector } from 'react-redux';
+import { selectAuthUser } from '../../redux/auth/selectors.ts';
+import { Navigate } from 'react-router-dom';
 
 interface Props {
   otherPersonId: User['id'];
@@ -23,6 +26,12 @@ export default function ChatPanel({ otherPersonId }: Props) {
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const messageContainerRef = useRef<HTMLElement>(null);
   const bottomRef = useRef<HTMLElement>(null);
+  const user = useSelector(selectAuthUser);
+
+  // Prohibit messaging to yourself
+  if (user.id === otherPersonId) {
+    return <Navigate to={'/'} />;
+  }
 
   // Track if user wants to be scrolled to bottom
   // If user at the bottom, prefer to scroll to the last messages
