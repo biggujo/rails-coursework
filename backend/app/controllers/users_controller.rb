@@ -1,3 +1,5 @@
+require 'pagy/extras/array'
+
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
@@ -14,8 +16,23 @@ class UsersController < ApplicationController
 
   def user_posts
     user = User.find(params[:id])
-    all_posts = user.posts + user.co_authored_posts
-    render json: all_posts
+    posts = PostSerializer.new(user.posts).serializable_hash
+    reposts = RepostSerializer.new(user.reposts).serializable_hash
+
+    posts[:data].each { |post| post[:type] = 'post' }
+    reposts[:data].each { |repost| repost[:type] = 'repost' }
+
+    all_posts = posts[:data] + reposts[:data]
+
+    sorted_all_posts = all_posts.sort_by { |post| post[:attributes][:created_at] }.reverse
+
+    metadata, paginated_posts = pagy_array(sorted_all_posts, items: 10, outset: params[:offset].to_i)
+
+    response.headers['Total'] = metadata.count.to_s
+    response.headers['Per-Page'] = metadata.items.to_s
+    response.headers['Page'] = metadata.page.to_s
+
+    render json: paginated_posts
   end
 
   def update

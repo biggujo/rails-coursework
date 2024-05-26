@@ -7,13 +7,13 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.all
-    render json: @posts
+    render json: PostSerializer.new(@posts).to_h
   end
 
   # GET /posts/1
   # GET /posts/1.json
   def show
-    render json: @post
+    render json: PostSerializer.new(@post).to_h
   end
 
   # POST /posts
@@ -24,7 +24,7 @@ class PostsController < ApplicationController
     @post.groups << Group.find(params[:group_id]) if params[:group_id]
 
     if @post.save
-      render json: @post, status: :created, location: @post
+      render json: PostSerializer.new(@post).to_h, status: :created, location: @post
     else
       render json: @post.errors, status: :unprocessable_entity
     end
@@ -34,7 +34,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1.json
   def update
     if @post.update(post_params)
-      render json: @post, status: :ok, location: @post
+      render json: PostSerializer.new(@post).to_h, status: :ok, location: @post
     else
       render json: @post.errors, status: :unprocessable_entity
     end

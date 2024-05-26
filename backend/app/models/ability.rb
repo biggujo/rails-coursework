@@ -8,5 +8,7 @@ class Ability
       post.user == user
     end
     can :manage, Comment, user: user
+    can :manage, Repost, user: user
+    can :manage, Group, user: user
   end
 end

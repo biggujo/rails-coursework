@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
     @comment.user_id = current_user.id
 
     if @comment.save
-      render :show, status: :created
+      render json: CommentSerializer.new(@comment).to_h, status: :created
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1.json
   def update
     if @comment.update(comment_params)
-      render :show, status: :ok
+      render json: CommentSerializer.new(@comment).to_h, status: :ok
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -39,7 +39,7 @@ class CommentsController < ApplicationController
   end
 
   def post_comments
-    render json: @post.comments
+    render json: CommentSerializer.new(@post.comments).to_h
   end
 
   private
