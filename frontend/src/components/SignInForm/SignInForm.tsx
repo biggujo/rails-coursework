@@ -39,6 +39,13 @@ export default function SignInForm() {
           <Link component={RouterLink} to={'/sign-up'} variant="body2">
             {"Don't have an account? Sign Up"}
           </Link>
+          <Link
+            component={RouterLink}
+            to={'/password/reset/request'}
+            variant="body2"
+          >
+            {'Forgot password'}
+          </Link>
           <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
         </Stack>
       </form>

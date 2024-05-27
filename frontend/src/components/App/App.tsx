@@ -14,6 +14,8 @@ import useRefreshUser from '../../hooks/query/useRefreshUser.ts';
 import ChatPage from '../../pages/ChatPage.tsx';
 import RestrictedRoute from '../RestrictedRoute/RestrictedRoute.tsx';
 import useAuthorizationTokenLoader from '../../hooks/useAxiosAuthorizationLoader.ts';
+import PasswordResetRequestPage from '../../pages/PasswordResetRequestPage.tsx';
+import PasswordResetRecoveryPage from '../../pages/PasswordResetRecoveryPage.tsx';
 
 export default function App() {
   const { isRefreshing } = useRefreshUser();
@@ -41,6 +43,27 @@ export default function App() {
             <RestrictedRoute redirectTo={'/'} component={<SignUpPage />} />
           }
         />
+        <Route path={'/password'}>
+          <Route index element={<NotFound />} />
+          <Route
+            path={'edit'}
+            element={
+              <RestrictedRoute
+                redirectTo={'/'}
+                component={<PasswordResetRecoveryPage />}
+              />
+            }
+          />
+          <Route
+            path={'reset/request'}
+            element={
+              <RestrictedRoute
+                redirectTo={'/'}
+                component={<PasswordResetRequestPage />}
+              />
+            }
+          />
+        </Route>
         <Route
           path={'/profile'}
           element={
