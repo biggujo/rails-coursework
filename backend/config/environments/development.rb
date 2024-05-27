@@ -3,7 +3,10 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.action_mailer.default_url_options = { host: '0.0.0.0', port: 5401 }
+  config.action_cable.url = "ws://localhost:5401/cable"
+  config.action_cable.disable_request_forgery_protection = true
+
+  config.action_mailer.default_url_options = { host: '0.0.0.0', port: 5402 }
 
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
@@ -69,4 +72,7 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
 end

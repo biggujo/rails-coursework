@@ -10,9 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_22_132254) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_26_135818) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "friends", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["friend_id"], name: "index_friends_on_friend_id"
+    t.index ["user_id", "friend_id"], name: "index_friends_on_user_id_and_friend_id", unique: true
+    t.index ["user_id"], name: "index_friends_on_user_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "private_chat_id", null: false
+    t.bigint "author_id", null: false
+    t.string "message", limit: 500, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_messages_on_author_id"
+    t.index ["private_chat_id"], name: "index_messages_on_private_chat_id"
+  end
+
+  create_table "private_chats", force: :cascade do |t|
+    t.bigint "user_1_id", null: false
+    t.bigint "user_2_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_1_id", "user_2_id"], name: "index_private_chats_on_user_1_id_and_user_2_id"
+    t.index ["user_1_id"], name: "index_private_chats_on_user_1_id"
+    t.index ["user_2_id"], name: "index_private_chats_on_user_2_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -24,9 +54,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_22_132254) do
     t.datetime "updated_at", null: false
     t.string "jti", null: false
     t.string "nickname", null: false
+    t.datetime "last_seen_at", default: "2024-05-26 14:02:10", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "messages", "private_chats"
+  add_foreign_key "messages", "users", column: "author_id"
+  add_foreign_key "private_chats", "users", column: "user_1_id"
+  add_foreign_key "private_chats", "users", column: "user_2_id"
 end

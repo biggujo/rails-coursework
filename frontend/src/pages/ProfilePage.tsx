@@ -40,7 +40,7 @@ const getSubtitle = (text: string) => {
 
 export default function ProfilePage() {
   const [pageValue, setPageValue] = useState<'main' | 'settings'>('main');
-  const profileQuery = useGetProfileQuery();
+  const { data, isLoading, error } = useGetProfileQuery();
   useCheckSessionExpiration(profileQuery.error);
 
   const handleChange = (_, newValue: string) => {
@@ -58,9 +58,9 @@ export default function ProfilePage() {
           </TabList>
         </Box>
         <TabPanel value="main">
-          {profileQuery.isLoading && <Typography>Loading...</Typography>}
-          {profileQuery.isError && <Typography>{(profileQuery.error as AxiosError).response!.statusText}</Typography>}
-          {profileQuery.isSuccess && <>
+          {isLoading && <Typography>Loading...</Typography>}
+          {error && <Typography>{(profileQuery.error as AxiosError).response!.statusText}</Typography>}
+          {!isLoading && data && <>
             {getSubtitle('Main data')}
             <ProfileMainData userData={profileQuery.data.data} />
             {getSubtitle('Utility data')}
