@@ -12,9 +12,22 @@ export default function SignUpForm() {
       <form onSubmit={formik.handleSubmit}>
         <Stack gap={4} alignItems={'stretch'}>
           <TextField
+            id="nickname"
+            type="nickname"
+            name="nickname"
+            placeholder={'johnny_cage'}
+            label={'Nickname'}
+            required
+            value={formik.values.nickname}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.nickname && Boolean(formik.errors.nickname)}
+            helperText={formik.touched.nickname && formik.errors.nickname}
+          />
+          <TextField
             id="email"
             name="email"
-            placeholder="jane@acme.com"
+            placeholder="cage@acme.com"
             value={formik.values.email}
             label={'Email address'}
             required
@@ -36,21 +49,15 @@ export default function SignUpForm() {
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-          <TextField
-            id="nickname"
-            type="nickname"
-            name="nickname"
-            placeholder="1234"
-            label={'Nickname'}
-            required
-            value={formik.values.nickname}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.nickname && Boolean(formik.errors.nickname)}
-            helperText={formik.touched.nickname && formik.errors.nickname}
-          />
           <Link component={RouterLink} to={'/sign-in'} variant="body2">
             {'Already have an account? Sign In'}
+          </Link>
+          <Link
+            component={RouterLink}
+            to={'/password/reset/request'}
+            variant="body2"
+          >
+            {'Forgot password'}
           </Link>
           <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
         </Stack>
