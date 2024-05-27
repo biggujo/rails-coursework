@@ -18,6 +18,10 @@ class PostSerializer
     UserSerializer.new(post.user).to_h
   end
 
+  attribute :group do |post|
+    GroupSerializer.new(post.group).to_h if post.group
+  end
+
   attribute :liked do |post, params|
     params[:current_user].voted_up_on?(post)
   end

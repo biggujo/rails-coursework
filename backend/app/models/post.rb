@@ -1,6 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
-  has_and_belongs_to_many :groups
+  belongs_to :group, optional: true
   has_many :comments
   has_many :reposts
 

@@ -21,7 +21,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     @post.user = current_user
-    @post.groups << Group.find(params[:group_id]) if params[:group_id]
+    @post.group = Group.find(params[:group_id]) if params[:group_id]
 
     if @post.save
       render json: PostSerializer.new(@post, params: { current_user: current_user }).to_h, status: :created, location: @post
