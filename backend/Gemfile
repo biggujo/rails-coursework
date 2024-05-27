@@ -76,3 +76,4 @@ gem "cancancan", "~> 3.6.0"
 gem "rack-cors", "~> 2.0"
 
 gem 'pagy', '~> 8.4'
+gem 'letter_opener', '~> 1.10.0'
