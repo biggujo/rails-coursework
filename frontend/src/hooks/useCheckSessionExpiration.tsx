@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthIsLoggedIn } from '../redux/auth/selectors.ts';
 import { AppDispatch } from '../redux/store.ts';
 import { resetAuthData } from '../redux/auth/slice.ts';
+import myToast from '../utils/myToast.tsx';
 
 function useCheckSessionExpiration(error: object | null) {
   const dispatch: AppDispatch = useDispatch();
@@ -22,12 +23,10 @@ function useCheckSessionExpiration(error: object | null) {
 
     if (isLoggedIn && (error as AxiosError).response!.status === 401) {
       dispatch(resetAuthData());
-      toast.custom(
-        <CustomAlert
-          severity={'warning'}
-          message={'Session has expired. Sign in again'}
-        />
-      );
+      myToast({
+        message: 'Session has expired. Sign in again',
+        severity: 'warning',
+      });
       navigate('/sign-in');
     }
   }, [isLoggedIn, error]);

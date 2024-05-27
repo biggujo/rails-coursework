@@ -92,6 +92,20 @@ const chats = {
   },
 };
 
+const passwordRecovery = {
+  request: async (email: string) => {
+    const data = {
+      user: {
+        email,
+      },
+    };
+
+    const response: AxiosResponse = await axios.post('/password/reset', data);
+
+    return response.data as { message: string };
+  },
+};
+
 const API = {
   auth: {
     signIn,
@@ -107,6 +121,7 @@ const API = {
   },
   messages: messages,
   chats,
+  passwordRecovery,
   webSocket: {
     URL: 'ws://localhost:5401/cable',
   },

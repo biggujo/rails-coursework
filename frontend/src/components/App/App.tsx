@@ -14,7 +14,7 @@ import useRefreshUser from '../../hooks/query/useRefreshUser.ts';
 import ChatPage from '../../pages/ChatPage.tsx';
 import RestrictedRoute from '../RestrictedRoute/RestrictedRoute.tsx';
 import useAuthorizationTokenLoader from '../../hooks/useAxiosAuthorizationLoader.ts';
-import PasswordResetRequest from '../../pages/PasswordResetRequest.tsx';
+import PasswordResetRequestPage from '../../pages/PasswordResetRequestPage.tsx';
 
 export default function App() {
   const { isRefreshing } = useRefreshUser();
@@ -49,7 +49,7 @@ export default function App() {
             element={
               <RestrictedRoute
                 redirectTo={'/'}
-                component={<PasswordResetRequest />}
+                component={<PasswordResetRequestPage />}
               />
             }
           />

@@ -8,6 +8,7 @@ import CustomAlert from '../../components/CustomAlert';
 import { AppDispatch } from '../../redux/store.ts';
 import { useDispatch } from 'react-redux';
 import AuthOperations from '../../redux/auth/operations.ts';
+import myToast from '../../utils/myToast.tsx';
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -35,14 +36,16 @@ function useSignInForm() {
         await dispatch(AuthOperations.signIn(values)).unwrap();
 
         navigate('/');
-        toast.custom(
-          <CustomAlert message={'Successful sign in!'} severity={'success'} />
-        );
+        myToast({
+          message: 'Successful sign in!',
+          severity: 'success',
+        });
       } catch (e: unknown) {
         if (e instanceof AxiosError) {
-          toast.custom(
-            <CustomAlert message={e.response!.data} severity={'error'} />
-          );
+          myToast({
+            message: e.response!.data,
+            severity: 'error',
+          });
           return;
         }
       }
