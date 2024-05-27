@@ -12,7 +12,13 @@ import MyAvatar from '../components/MyAvatar/MyAvatar.tsx';
 export const ProfileMainData = ({
   userData,
 }: {
-  userData: Pick<UserEntityExtended, 'email' | 'nickname' | 'profile_photo'>;
+  userData: Pick<
+    UserEntityExtended,
+    'email' | 'nickname' | 'profile_photo',
+    'full_name',
+    'city',
+    'country'
+  >;
 }) => {
   return (
     <Box>
@@ -26,6 +32,21 @@ export const ProfileMainData = ({
         <li>
           <Typography>
             Nickname: <b>{userData.nickname}</b>
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            Full name: <b>{userData.full_name}</b>
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            City: <b>{userData.city}</b>
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            Country: <b>{userData.country}</b>
           </Typography>
         </li>
       </ul>

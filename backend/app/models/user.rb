@@ -14,6 +14,9 @@ class User < ApplicationRecord
 
   validate :acceptable_image
   validates :nickname, presence: true, uniqueness: true
+  validates :city, presence: true
+  validates :country, presence: true
+  validates :full_name, presence: true
 
   has_one_attached :profile_photo
 

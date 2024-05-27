@@ -1,9 +1,7 @@
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
-import CustomAlert from '../../components/CustomAlert';
 import UserSignUpFormAPI from '../../interfaces/UserSignUpFormAPI.ts';
 import { AppDispatch } from '../../redux/store.ts';
 import { useDispatch } from 'react-redux';
@@ -20,6 +18,9 @@ const validationSchema = Yup.object({
   nickname: Yup.string()
     .min(3, 'Nickname have to be more than 3 symbols')
     .required('Nickname is required'),
+  country: Yup.string().min(3).required('Country is required'),
+  city: Yup.string().required('City is required'),
+  full_name: Yup.string().required('Full name is required'),
 });
 
 function useSignUpForm() {
@@ -30,6 +31,9 @@ function useSignUpForm() {
     email: '',
     password: '',
     nickname: '',
+    country: '',
+    city: '',
+    full_name: '',
   };
 
   return useFormik({
