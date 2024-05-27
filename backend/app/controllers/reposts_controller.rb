@@ -2,22 +2,22 @@
 
 class RepostsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: %i[destroy update create show]
+  before_action :set_user, only: %i[destroy update create show index]
   before_action :set_post, only: %i[create]
   before_action :set_repost, only: %i[destroy update show]
   before_action :authorize_repost_manage!, only: %i[destroy update]
   before_action :authorize_repost_create!, only: %i[create]
-  before_action :check_user_possess_repost!
+  before_action :check_user_possess_repost!, except: %i[create index show]
 
   # GET /users/1/reposts
   def index
     @reposts = @user.reposts
-    render json: RepostSerializer.new(@reposts).to_h
+    render json: RepostSerializer.new(@reposts, params: { current_user: current_user }).to_h
   end
 
   # GET /users/1/reposts/1
   def show
-    render json: RepostSerializer.new(@repost).to_h
+    render json: RepostSerializer.new(@repost, params: { current_user: current_user }).to_h
   end
 
   # POST /users/1/reposts
@@ -31,7 +31,7 @@ class RepostsController < ApplicationController
     @repost.user = @user
 
     if @repost.save
-      render json: RepostSerializer.new(@repost).to_h, status: :created
+      render json: RepostSerializer.new(@repost, params: { current_user: current_user }).to_h, status: :created
     else
       render json: { error: @repost.errors.full_messages.to_sentence }, status: :unprocessable_entity
     end
@@ -40,7 +40,7 @@ class RepostsController < ApplicationController
   # PATCH/PUT /users/1/reposts/1
   def update
     if @repost.update(repost_params)
-      render json: RepostSerializer.new(@repost).to_h, status: :ok
+      render json: RepostSerializer.new(@repost, params: { current_user: current_user }).to_h, status: :ok
     else
       render json: { error: @repost.errors.full_messages.to_sentence }, status: :unprocessable_entity
     end

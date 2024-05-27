@@ -6,8 +6,8 @@ class RepostSerializer
 
   attributes :id, :content, :created_at, :updated_at
 
-  attribute :post do |repost|
-    PostSerializer.new(repost.post).to_h
+  attribute :post do |repost, params|
+    PostSerializer.new(repost.post, params: { current_user: params[:current_user] }).to_h
   end
 
   attribute :user do |repost|

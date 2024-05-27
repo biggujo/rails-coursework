@@ -72,7 +72,17 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/posts
   def group_posts
-    render json: @group.posts
+    posts = PostSerializer.new(@group.posts, params: { current_user: current_user }).to_h
+
+    sorted_posts = posts.sort_by { |post| post[:created_at] }.reverse
+
+    metadata, paginated_posts = pagy_array(sorted_posts, items: 10, outset: params[:offset].to_i)
+
+    response.headers['Total'] = metadata.count.to_s
+    response.headers['Per-Page'] = metadata.items.to_s
+    response.headers['Page'] = metadata.page.to_s
+
+    render json: paginated_posts
   end
 
   private

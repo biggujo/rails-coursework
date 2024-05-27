@@ -16,8 +16,8 @@ class UsersController < ApplicationController
 
   def user_posts
     user = User.find(params[:id])
-    posts = PostSerializer.new(user.posts).serializable_hash
-    reposts = RepostSerializer.new(user.reposts).serializable_hash
+    posts = PostSerializer.new(user.posts, params: { current_user: current_user }).serializable_hash
+    reposts = RepostSerializer.new(user.reposts, params: { current_user: current_user }).serializable_hash
 
     posts[:data].each { |post| post[:type] = 'post' }
     reposts[:data].each { |repost| repost[:type] = 'repost' }

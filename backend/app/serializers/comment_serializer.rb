@@ -17,4 +17,12 @@ class CommentSerializer
   attribute :user do |comment|
     UserSerializer.new(comment.user).to_h
   end
+
+  attribute :liked do |comment, params|
+    params[:current_user].voted_up_on?(comment)
+  end
+
+  attribute :disliked do |comment, params|
+    params[:current_user].voted_down_on?(comment)
+  end
 end

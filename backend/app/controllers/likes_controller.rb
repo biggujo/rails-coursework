@@ -19,11 +19,6 @@ class LikesController < ApplicationController
     render_json_with_likes_count
   end
 
-  def like_status
-    render json: { liked: current_user.voted_up_on?(@likeable),
-                   disliked: current_user.voted_down_on?(@likeable) }
-  end
-
   private
   def find_likeable
     @likeable_type = params[:likeable_type].classify
