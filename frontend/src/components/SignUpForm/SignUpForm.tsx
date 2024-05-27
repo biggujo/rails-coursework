@@ -52,13 +52,6 @@ export default function SignUpForm() {
           <Link component={RouterLink} to={'/sign-in'} variant="body2">
             {'Already have an account? Sign In'}
           </Link>
-          <Link
-            component={RouterLink}
-            to={'/password/reset/request'}
-            variant="body2"
-          >
-            {'Forgot password'}
-          </Link>
           <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
         </Stack>
       </form>

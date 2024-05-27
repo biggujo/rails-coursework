@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import {
   ChatEntity,
   ChatMessage,
+  PasswordRecoveryFormData,
   User,
   UserSignInFormAPI,
 } from '../interfaces';
@@ -101,6 +102,17 @@ const passwordRecovery = {
     };
 
     const response: AxiosResponse = await axios.post('/password/reset', data);
+
+    return response.data as { message: string };
+  },
+  reset: async (
+    data: PasswordRecoveryFormData & { reset_password_token: string }
+  ) => {
+    const properData = {
+      user: data,
+    };
+
+    const response: AxiosResponse = await axios.patch('/password', properData);
 
     return response.data as { message: string };
   },

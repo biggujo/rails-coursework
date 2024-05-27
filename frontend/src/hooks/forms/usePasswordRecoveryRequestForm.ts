@@ -20,7 +20,7 @@ const usePasswordRecoveryRequestForm = () => {
   return useFormik({
     initialValues,
     validationSchema,
-    onSubmit: async ({ email }, { resetForm }) => {
+    onSubmit: async ({ email }) => {
       try {
         const response = await passwordRecoveryReqMutation.mutateAsync(email);
         myToast({
