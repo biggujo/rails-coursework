@@ -5,7 +5,7 @@ class UserExtendedSerializer
   include FastJsonapi::ObjectSerializer
   include HashUnwrapperHelper
 
-  attributes :id, :email, :last_seen_at, :nickname, :created_at, :updated_at
+  attributes :id, :email, :city, :country, :full_name, :nickname, :last_seen_at, :created_at, :updated_at
 
   attributes :profile_photo do |user|
     user.profile_photo.url
