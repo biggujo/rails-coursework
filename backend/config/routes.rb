@@ -35,7 +35,6 @@ Rails.application.routes.draw do
   post '/like', to: 'likes#like', as: 'like'
   post '/dislike', to: 'likes#dislike', as: 'dislike'
   post '/unlike', to: 'likes#unlike', as: 'unlike'
-  post '/like_status', to: 'likes#like_status', as: 'like_status'
 
   post "/profile/update", to: "users#update"
   get "/profile", to: "users#profile"
