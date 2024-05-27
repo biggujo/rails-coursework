@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import API from '../utils/api.ts';
-import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser } from '../redux/auth/selectors.ts';
 import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
@@ -24,12 +23,14 @@ export default function useUpdateProfileForm() {
     id: user.id,
     email: user.email,
     nickname: user.nickname,
+    profile_photo: null,
   };
 
   return useFormik({
     validationSchema,
     initialValues,
     onSubmit: async values => {
+      console.log(values);
       try {
         await API.user.updateById(values);
         await dispatch(ProfileOperations.fetchProfileData(values.id)).unwrap();

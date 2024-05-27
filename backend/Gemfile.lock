@@ -111,6 +111,7 @@ GEM
     devise-jwt (0.11.0)
       devise (~> 4.0)
       warden-jwt_auth (~> 0.8)
+    dotenv (3.1.2)
     drb (2.2.1)
     dry-auto_inject (1.0.1)
       dry-core (~> 1.0)
@@ -295,6 +296,7 @@ DEPENDENCIES
   debug
   devise (~> 4.9)
   devise-jwt (~> 0.11.0)
+  dotenv
   fast_jsonapi (~> 1.5)
   importmap-rails
   jbuilder

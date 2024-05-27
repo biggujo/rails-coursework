@@ -1,38 +1,39 @@
 import { Box, Container, Tab, Typography } from '@mui/material';
 import useGetProfileQuery from '../hooks/query/useGetProfileQuery.ts';
-import useCheckSessionExpiration from '../hooks/useCheckSessionExpiration.tsx';
 import { AxiosError } from 'axios';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useState } from 'react';
 import ProfileUpdateForm from '../components/ProfileUpdateForm';
 import { UserEntityExtended } from '../interfaces';
 import DateConverters from '../utils/date-converters.ts';
-import { useSelector } from 'react-redux';
-import { selectAuthUser } from '../redux/auth/selectors.ts';
 import { useParams } from 'react-router-dom';
+import MyAvatar from '../components/MyAvatar/MyAvatar.tsx';
 
-const ProfileMainData = ({
+export const ProfileMainData = ({
   userData,
 }: {
-  userData: Pick<UserEntityExtended, 'email' | 'nickname'>;
+  userData: Pick<UserEntityExtended, 'email' | 'nickname' | 'profile_photo'>;
 }) => {
   return (
-    <ul>
-      <li>
-        <Typography>
-          Email: <b>{userData.email}</b>
-        </Typography>
-      </li>
-      <li>
-        <Typography>
-          Nickname: <b>{userData.nickname}</b>
-        </Typography>
-      </li>
-    </ul>
+    <Box>
+      <MyAvatar alt={userData.nickname} src={userData.profile_photo} />
+      <ul>
+        <li>
+          <Typography>
+            Email: <b>{userData.email}</b>
+          </Typography>
+        </li>
+        <li>
+          <Typography>
+            Nickname: <b>{userData.nickname}</b>
+          </Typography>
+        </li>
+      </ul>
+    </Box>
   );
 };
 
-const ProfileUtilityData = ({
+export const ProfileUtilityData = ({
   userData,
 }: {
   userData: Pick<UserEntityExtended, 'created_at' | 'updated_at'>;
@@ -68,7 +69,7 @@ export default function ProfilePage() {
   const { id } = useParams();
   const { data, isLoading, error } = useGetProfileQuery(Number(id));
 
-  const handleChange = (_, newValue: 'main' | 'settings') => {
+  const handleChange = (_: unknown, newValue: 'main' | 'settings') => {
     setPageValue(newValue);
   };
 

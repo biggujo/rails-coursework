@@ -39,7 +39,25 @@ const getById = async (id: number) => {
 };
 
 const updateById = async (data: ProfileUpdateFormAPI) => {
-  const response: AxiosResponse = await axios.post('/profile/update', data);
+  // FormData is needed to correctly send files
+  const formData = new FormData();
+
+  for (const key in data) {
+    // @ts-expect-error because TS doesn't know about Blob serialization
+    formData.append(key, data[key as keyof ProfileUpdateFormAPI]);
+  }
+
+  const response: AxiosResponse = await axios.patch(
+    `/users/${data.id}`,
+    {
+      user: data,
+    },
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
   return response.data as UserEntityExtended;
 };
 

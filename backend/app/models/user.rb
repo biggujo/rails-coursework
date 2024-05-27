@@ -12,6 +12,7 @@ class User < ApplicationRecord
                           join_table: :friends,
                           association_foreign_key: :friend_id
 
+  validate :acceptable_image
   validates :nickname, presence: true, uniqueness: true
 
   has_one_attached :profile_photo
@@ -34,5 +35,16 @@ class User < ApplicationRecord
 
   def remove_friend(friend)
     friends.delete(friend)
+  end
+
+  def acceptable_image
+    return unless profile_photo.attached?
+
+    errors.add(:profile_photo, "must weight less than 2 MB") unless profile_photo.blob.byte_size <= 2.megabyte
+
+    acceptable_types = ["image/jpeg", "image/png", "image/webp"]
+    return if acceptable_types.include?(profile_photo.content_type)
+
+    errors.add(:profile_photo, "must be either a JPEG, PNG or WEBP")
   end
 end
