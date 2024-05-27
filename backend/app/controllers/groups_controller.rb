@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
   # GET /groups
   def index
     @groups = Group.all
-    render json: @groups
+    render json: GroupSerializer.new(@groups).to_h, status: :ok
   end
 
   # GET /groups/1

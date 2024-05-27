@@ -6,6 +6,7 @@ class CommentsController < ApplicationController
   # GET /comments/1
   # GET /comments/1.json
   def show
+    render json: CommentSerializer.new(@comment, params: { current_user: current_user }).to_h, status: :created
   end
 
   # POST /comments

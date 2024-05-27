@@ -7,7 +7,7 @@ class RepostsController < ApplicationController
   before_action :set_repost, only: %i[destroy update show]
   before_action :authorize_repost_manage!, only: %i[destroy update]
   before_action :authorize_repost_create!, only: %i[create]
-  before_action :check_user_possess_repost!, except: %i[create index show]
+  before_action :check_user_possess_repost!, except: %i[create index]
 
   # GET /users/1/reposts
   def index
