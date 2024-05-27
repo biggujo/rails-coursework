@@ -3,7 +3,7 @@ import {
   ChatEntity,
   ChatMessage,
   PasswordRecoveryFormData,
-  User,
+  UserEntityExtended,
   UserSignInFormAPI,
 } from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
@@ -33,25 +33,25 @@ const signOut = async () => {
   return response;
 };
 
-const getProfile = async () => {
-  const response: AxiosResponse = await axios.get('/profile');
+const getById = async (id: number) => {
+  const response: AxiosResponse = await axios.get(`/users/${id}`);
   return response.data;
 };
 
-const updateProfile = async (data: ProfileUpdateFormAPI) => {
+const updateById = async (data: ProfileUpdateFormAPI) => {
   const response: AxiosResponse = await axios.post('/profile/update', data);
-  return response.data as User;
+  return response.data as UserEntityExtended;
 };
 
 const refreshUser = async () => {
-  const response: AxiosResponse = await axios.get('/users/refresh');
-  return response.data as User;
+  const response: AxiosResponse = await axios.get('/refresh');
+  return response.data as UserEntityExtended;
 };
 
 const getAllUsers = async () => {
   const response: AxiosResponse = await axios.get('/users');
   return response.data as {
-    data: Array<User>;
+    data: Array<UserEntityExtended>;
   };
 };
 
@@ -130,13 +130,11 @@ const API = {
     signUp,
     signOut,
     refreshUser,
-    updateProfile,
-  },
-  profile: {
-    getProfile,
   },
   user: {
     getAll: getAllUsers,
+    getById,
+    updateById,
   },
   messages: messages,
   chats,

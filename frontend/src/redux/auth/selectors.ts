@@ -8,3 +8,6 @@ export const selectAuthIsLoggedIn = (state: RootState) =>
   state.auth.status.isLoggedIn;
 
 export const selectAuthToken = (state: RootState) => state.auth.status.token;
+
+export const selectAuthIsRefreshing = (state: RootState) =>
+  state.auth.status.isRefreshing;

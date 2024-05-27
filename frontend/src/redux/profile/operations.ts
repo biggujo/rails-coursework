@@ -3,9 +3,9 @@ import API from '../../utils/api.ts';
 
 const fetchProfileData = createAsyncThunk(
   'profile/fetchData',
-  async (_, { rejectWithValue }) => {
+  async (id: number, { rejectWithValue }) => {
     try {
-      return await API.profile.getProfile();
+      return await API.user.getById(id);
     } catch (e) {
       return rejectWithValue(e);
     }

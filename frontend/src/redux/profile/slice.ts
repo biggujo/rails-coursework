@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Nullable, User } from '../../interfaces';
+import { Nullable, UserEntityExtended } from '../../interfaces';
 import ProfileOperations from './operations.ts';
 
 const initialState: {
-  data: User;
+  data: UserEntityExtended;
   isLoading: boolean;
   error: Nullable<object>;
 } = {
@@ -25,7 +25,7 @@ const slice = createSlice({
       }))
       .addCase(
         ProfileOperations.fetchProfileData.fulfilled,
-        (state, action: PayloadAction<User>) => ({
+        (state, action: PayloadAction<UserEntityExtended>) => ({
           ...state,
           data: action.payload,
           isLoading: false,

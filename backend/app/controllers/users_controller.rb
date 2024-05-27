@@ -7,41 +7,33 @@ class UsersController < ApplicationController
     }
   end
 
-  def profile
-    render json: UserSerializer.new(current_user).to_h,
+  def show
+    # No need to check for an error
+    user = User.find(params[:id])
+
+    render json: UserExtendedSerializer.new(user).to_h,
            status: :ok
   end
 
   def update
-    begin
-      json_body = JSON.parse(request.body.read)
+    # No need to check for an error
+    user = User.find(params[:id])
 
-      user = User.find(current_user.id)
-
-      new_email = json_body['email']
-      new_nickname = json_body['nickname']
-
-      if new_email
-        user.email = new_email
-      end
-
-      if new_nickname
-        user.nickname = new_nickname
-      end
-
-      user.save!
-
+    if user.update(user_params)
       render json: UserSerializer.new(user).to_h
-
-    rescue Exception => message
-      render json: {
-        error: "No data is provided"
-      }, status: :bad_request
+    else
+      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def refresh
     render json: UserRefreshSerializer.new(current_user).to_h,
            status: :ok
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:email, :nickname)
   end
 end

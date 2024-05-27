@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", :as => :rails_health_check
 
-  resources :users, only: %i[index profile] do
+  resources :users, only: %i[index show update] do
     resources :friends, only: %i[create destroy] do
       collection do
         get :mutual_friends
@@ -31,12 +31,7 @@ Rails.application.routes.draw do
 
   resources :pings, only: [:index]
 
-  post "/profile/update", to: "users#update"
-  get "/profile", to: "users#profile"
-  get "/users/refresh", to: "users#refresh"
-
-  get "/chats", to: "private_chats#my_chats"
-  get "/chats/:id", to: "private_chats#show"
+  get "refresh", to: "users#refresh"
 
   post "/password/reset", to: "password_recovery#reset"
 

@@ -25,7 +25,7 @@ export default function HomePage() {
         </Typography>
         <Typography>Token: {token}</Typography>
         <Button
-          onClick={() => navigate('/profile')}
+          onClick={() => navigate(`/profile/${user.id}`)}
           variant={'contained'}
           color={'secondary'}
         >

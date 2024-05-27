@@ -16,11 +16,14 @@ import RestrictedRoute from '../RestrictedRoute/RestrictedRoute.tsx';
 import useAuthorizationTokenLoader from '../../hooks/useAxiosAuthorizationLoader.ts';
 import PasswordResetRequestPage from '../../pages/PasswordResetRequestPage.tsx';
 import PasswordResetRecoveryPage from '../../pages/PasswordResetRecoveryPage.tsx';
+import { useSelector } from 'react-redux';
+import { selectAuthIsRefreshing } from '../../redux/auth/selectors.ts';
 
 export default function App() {
-  const { isRefreshing } = useRefreshUser();
-  const navigate = useNavigate();
   const isTokenLoading = useAuthorizationTokenLoader();
+  const isRefreshing = useSelector(selectAuthIsRefreshing);
+  const navigate = useNavigate();
+  useRefreshUser(isTokenLoading);
 
   if (!isTokenLoading || isRefreshing) {
     return null;
@@ -65,7 +68,7 @@ export default function App() {
           />
         </Route>
         <Route
-          path={'/profile'}
+          path={'/profile/:id'}
           element={
             <PrivateRoute redirectTo={'/sign-in'} component={<ProfilePage />} />
           }

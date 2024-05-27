@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 import { AxiosError } from 'axios';
-import toast from 'react-hot-toast';
-import CustomAlert from '../components/CustomAlert';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthIsLoggedIn } from '../redux/auth/selectors.ts';
@@ -29,7 +27,7 @@ function useCheckSessionExpiration(error: object | null) {
       });
       navigate('/sign-in');
     }
-  }, [isLoggedIn, error]);
+  }, [isLoggedIn, error, dispatch, navigate]);
 }
 
 export default useCheckSessionExpiration;
