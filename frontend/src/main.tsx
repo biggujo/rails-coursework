@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthStatusProvider } from './providers';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './components/App/App.tsx';
+import { Provider } from 'react-redux';
+import { persistor, store } from './redux/store.ts';
+import { PersistGate } from 'redux-persist/integration/react';
+import ThemeProvider from './providers/ThemeProvider.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,11 +23,15 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <AuthStatusProvider>
-          <App />
-        </AuthStatusProvider>
-      </QueryClientProvider>
+      <PersistGate persistor={persistor}>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider>
+              <App />
+            </ThemeProvider>
+          </QueryClientProvider>
+        </Provider>
+      </PersistGate>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
