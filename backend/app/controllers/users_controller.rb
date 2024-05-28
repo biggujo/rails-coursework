@@ -1,3 +1,5 @@
+require 'pagy/extras/array'
+
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
@@ -10,6 +12,18 @@ class UsersController < ApplicationController
   def profile
     render json: UserSerializer.new(current_user).to_h,
            status: :ok
+  end
+
+  def user_posts
+    user = User.find(params[:id])
+
+    posts = PostQuery.new(user.posts).call(params)
+
+    serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
+
+    paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
+
+    render json: paginated_posts
   end
 
   def update

@@ -1,5 +1,10 @@
 class User < ApplicationRecord
+  has_many :posts
+  has_many :comments
+
   include Devise::JWT::RevocationStrategies::JTIMatcher
+
+  acts_as_voter
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
