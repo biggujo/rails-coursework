@@ -6,8 +6,13 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
-    render json: PostSerializer.new(@posts, params: { current_user: current_user }).to_h
+    posts = PostQuery.new(Post.all).call(params)
+
+    serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
+
+    paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
+
+    render json: paginated_posts
   end
 
   # GET /posts/1

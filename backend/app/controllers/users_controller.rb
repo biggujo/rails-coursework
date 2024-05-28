@@ -16,15 +16,12 @@ class UsersController < ApplicationController
 
   def user_posts
     user = User.find(params[:id])
-    posts = PostSerializer.new(user.posts, params: { current_user: current_user }).to_h
 
-    sorted_all_posts = posts.sort_by { |post| post[:created_at] }.reverse
+    posts = PostQuery.new(user.posts).call(params)
 
-    metadata, paginated_posts = pagy_array(sorted_all_posts, items: 10, outset: params[:offset].to_i)
+    serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
 
-    response.headers['Total'] = metadata.count.to_s
-    response.headers['Per-Page'] = metadata.items.to_s
-    response.headers['Page'] = metadata.page.to_s
+    paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
 
     render json: paginated_posts
   end
