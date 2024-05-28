@@ -75,5 +75,7 @@ gem "fast_jsonapi", "~> 1.5"
 gem "cancancan", "~> 3.6.0"
 gem "rack-cors", "~> 2.0"
 
-gem 'pagy', '~> 8.4'
+gem "acts_as_votable"
+
+gem "pagy", "~> 8.4.0"
 gem 'letter_opener', '~> 1.10.0'

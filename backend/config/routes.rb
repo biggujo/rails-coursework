@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, path: '', path_names: {
     sign_in: 'sign_in',
     sign_out: 'sign_out',
-    registration: 'sign_up',
+    registration: 'sign_up'
   },
              controllers: {
                sessions: 'users/sessions',
@@ -30,8 +30,31 @@ Rails.application.routes.draw do
   end
 
   resources :pings, only: [:index]
+  resources :posts do
+    resources :comments, except: [:index] do
+      get '/', to: 'comments#post_comments', on: :collection
+    end
+  end
+  resources :groups do
+    member do
+      post '/members', to: 'groups#add_member'
+      delete '/members/:user_id', to: 'groups#delete_member'
+      get '/members', to: 'groups#members'
+      get '/posts', to: 'groups#group_posts'
+    end
+  end
 
-  get "refresh", to: "users#refresh"
+  post '/like', to: 'likes#like', as: 'like'
+  post '/dislike', to: 'likes#dislike', as: 'dislike'
+
+  post "/profile/update", to: "users#update"
+  get "/profile", to: "users#profile"
+  get "/users/refresh", to: "users#refresh"
+
+  get "/users/:id/posts", to: "users#user_posts"
+
+  get "/chats", to: "private_chats#my_chats"
+  get "/chats/:id", to: "private_chats#show"
 
   post "/password/reset", to: "password_recovery#reset"
 
