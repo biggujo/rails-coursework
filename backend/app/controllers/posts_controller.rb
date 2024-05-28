@@ -22,6 +22,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user = current_user
     @post.group = Group.find(params[:group_id]) if params[:group_id]
+    @post.repost = Post.find(params[:reposted_post_id]) if params[:reposted_post_id]
 
     if @post.save
       render json: PostSerializer.new(@post, params: { current_user: current_user }).to_h, status: :created, location: @post
@@ -54,7 +55,7 @@ class PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:content, :group_id)
+    params.require(:post).permit(:content, :group_id, :reposted_post_id)
   end
 
   def authorize_post_manage!

@@ -16,15 +16,9 @@ class UsersController < ApplicationController
 
   def user_posts
     user = User.find(params[:id])
-    posts = PostSerializer.new(user.posts, params: { current_user: current_user }).serializable_hash
-    reposts = RepostSerializer.new(user.reposts, params: { current_user: current_user }).serializable_hash
+    posts = PostSerializer.new(user.posts, params: { current_user: current_user }).to_h
 
-    posts[:data].each { |post| post[:type] = 'post' }
-    reposts[:data].each { |repost| repost[:type] = 'repost' }
-
-    all_posts = posts[:data] + reposts[:data]
-
-    sorted_all_posts = all_posts.sort_by { |post| post[:attributes][:created_at] }.reverse
+    sorted_all_posts = posts.sort_by { |post| post[:created_at] }.reverse
 
     metadata, paginated_posts = pagy_array(sorted_all_posts, items: 10, outset: params[:offset].to_i)
 

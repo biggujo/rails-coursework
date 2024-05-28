@@ -2,7 +2,7 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :group, optional: true
   has_many :comments
-  has_many :reposts
+  belongs_to :repost, optional: true, class_name: 'Post', foreign_key: :reposted_post_id
 
   acts_as_votable
 

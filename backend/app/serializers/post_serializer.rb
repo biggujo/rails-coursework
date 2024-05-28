@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative 'helpers/hash_unwrapper_helper'
 
 class PostSerializer
   include FastJsonapi::ObjectSerializer
@@ -20,6 +21,10 @@ class PostSerializer
 
   attribute :group do |post|
     GroupSerializer.new(post.group).to_h if post.group
+  end
+
+  attribute :repost do |post, params|
+    PostSerializer.new(post.repost, params: { current_user: params[:current_user] }).to_h if post.repost
   end
 
   attribute :liked do |post, params|
