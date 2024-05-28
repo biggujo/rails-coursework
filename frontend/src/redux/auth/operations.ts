@@ -24,6 +24,8 @@ const signingOperation = (
     'auth/signIn',
     async (data: UserSignInFormAPI, { rejectWithValue }) => {
       try {
+        console.log(data);
+
         const response: AxiosResponse = await apiOperation(data);
 
         const token = response.headers.authorization;

@@ -3,10 +3,11 @@ import {
   ChatEntity,
   ChatMessage,
   PasswordRecoveryFormData,
-  User,
+  UserEntityExtended,
   UserSignInFormAPI,
 } from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
+import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
@@ -32,20 +33,43 @@ const signOut = async () => {
   return response;
 };
 
-const getProfile = async () => {
-  const response: AxiosResponse = await axios.get('/users/profile');
+const getById = async (id: number) => {
+  const response: AxiosResponse = await axios.get(`/users/${id}`);
   return response.data;
 };
 
+const updateById = async (data: ProfileUpdateFormAPI) => {
+  // FormData is needed to correctly send files
+  const formData = new FormData();
+
+  for (const key in data) {
+    // @ts-expect-error because TS doesn't know about Blob serialization
+    formData.append(key, data[key as keyof ProfileUpdateFormAPI]);
+  }
+
+  const response: AxiosResponse = await axios.patch(
+    `/users/${data.id}`,
+    {
+      user: data,
+    },
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
+  return response.data as UserEntityExtended;
+};
+
 const refreshUser = async () => {
-  const response: AxiosResponse = await axios.get('/users/refresh');
-  return response.data as User;
+  const response: AxiosResponse = await axios.get('/refresh');
+  return response.data as UserEntityExtended;
 };
 
 const getAllUsers = async () => {
   const response: AxiosResponse = await axios.get('/users');
   return response.data as {
-    data: Array<User>;
+    data: Array<UserEntityExtended>;
   };
 };
 
@@ -125,11 +149,10 @@ const API = {
     signOut,
     refreshUser,
   },
-  profile: {
-    getProfile,
-  },
   user: {
     getAll: getAllUsers,
+    getById,
+    updateById,
   },
   messages: messages,
   chats,

@@ -1,21 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuth } from '../../redux/auth/selectors.ts';
+import { selectAuthIsLoggedIn } from '../../redux/auth/selectors.ts';
 import { AppDispatch } from '../../redux/store.ts';
 import AuthOperations from '../../redux/auth/operations.ts';
 
 // Is used to retrieve the latest data from the backend about user
-export default function useRefreshUser() {
+export default function useRefreshUser(isTokenLoading: boolean) {
   const dispatch: AppDispatch = useDispatch();
-  const { isRefreshing, token, isLoggedIn } = useSelector(selectAuth);
+  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
 
   useEffect(() => {
-    if (!token) {
+    if (isTokenLoading || !isLoggedIn) {
       return;
     }
 
     dispatch(AuthOperations.refreshUser());
-  }, [dispatch]);
-
-  return { isRefreshing, isLoggedIn };
+  }, [dispatch, isLoggedIn, isTokenLoading]);
 }

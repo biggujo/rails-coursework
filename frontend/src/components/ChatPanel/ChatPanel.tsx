@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import TextFormMessage from '../TextFormMessage';
 import MessageList from '../MessageList';
-import { User } from '../../interfaces';
+import { UserEntityExtended } from '../../interfaces';
 import useChatPanel from '../../hooks/useChatPanel.ts';
 import { useLayoutEffect, useReducer, useRef } from 'react';
 import Loader from '../Loader';
@@ -14,7 +14,7 @@ import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { Navigate } from 'react-router-dom';
 
 interface Props {
-  otherPersonId: User['id'];
+  otherPersonId: UserEntityExtended['id'];
 }
 
 const MESSAGES_CONTAINER_ID = 'message-container';

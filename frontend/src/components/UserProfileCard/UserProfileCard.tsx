@@ -1,9 +1,9 @@
-import { User } from '../../interfaces';
+import { UserEntityExtended } from '../../interfaces';
 import { Button, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
-  data: User;
+  data: UserEntityExtended;
 }
 
 export default function UserProfileCard({ data: { id, nickname } }: Props) {
@@ -13,6 +13,7 @@ export default function UserProfileCard({ data: { id, nickname } }: Props) {
     <Stack direction={'row'}>
       <Typography>User: {nickname}</Typography>
       <Button onClick={() => navigate(`/chat/${id}`)}>Chat</Button>
+      <Button onClick={() => navigate(`/profile/${id}`)}>Profile</Button>
     </Stack>
   );
 }

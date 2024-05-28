@@ -1,10 +1,10 @@
-import { Nullable, User } from '../../interfaces';
-import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { Nullable, UserEntityExtended } from '../../interfaces';
+import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import AuthOperations from './operations.ts';
 
 const initialState: {
   info: {
-    data: User;
+    data: UserEntityExtended;
     isLoading: boolean;
     error: Nullable<string>;
   };
@@ -32,6 +32,13 @@ const slice = createSlice({
   reducers: {
     resetAuthData: () => ({
       ...initialState,
+    }),
+    setAuthData: (state, action: PayloadAction<UserEntityExtended>) => ({
+      ...state,
+      info: {
+        ...state.info,
+        data: action.payload,
+      },
     }),
   },
   extraReducers: builder => {
@@ -104,6 +111,6 @@ const slice = createSlice({
   },
 });
 
-export const { resetAuthData } = slice.actions;
+export const { setAuthData, resetAuthData } = slice.actions;
 
 export const authReducer = slice.reducer;

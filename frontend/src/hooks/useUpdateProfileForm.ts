@@ -1,46 +1,45 @@
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { useAuth } from '../providers';
 import API from '../utils/api.ts';
-import { AxiosError, AxiosResponse } from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthUser } from '../redux/auth/selectors.ts';
 import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
-import { User } from '../interfaces';
-import useGetProfileQuery from './query/useGetProfileQuery.ts';
-import toast from 'react-hot-toast';
-
-const validationSchema = Yup.object({
-  email: Yup
-    .string()
-    .email('Enter a valid email')
-    .required('Email is required'),
-  nickname: Yup
-    .string()
-    .required('Nickname is required'),
-});
+import { AppDispatch } from '../redux/store.ts';
+import ProfileOperations from '../redux/profile/operations.ts';
+import myToast from '../utils/myToast.tsx';
+import { fullProfileValidationSchema } from '../validations';
 
 export default function useUpdateProfileForm() {
-  const { user, setUser } = useAuth();
-  const getProfileQuery = useGetProfileQuery({ enabled: false });
+  const dispatch: AppDispatch = useDispatch();
+  const user = useSelector(selectAuthUser);
 
-  const initialValues = {
+  const initialValues: ProfileUpdateFormAPI = {
+    id: user.id,
     email: user.email,
     nickname: user.nickname,
+    country: user.country,
+    city: user.city,
+    full_name: user.full_name,
+    profile_photo: null,
   };
 
   return useFormik({
-    validationSchema,
+    validationSchema: fullProfileValidationSchema(false),
     initialValues,
-    onSubmit: async (values) => {
+    onSubmit: async values => {
+      console.log(values);
       try {
-        const user: User = await API.profile.updateProfile(values);
+        await API.user.updateById(values);
+        await dispatch(ProfileOperations.fetchProfileData(values.id)).unwrap();
 
-        setUser(user);
-
-        await getProfileQuery.refetch();
-
-        toast.success('Successful profile update');
+        myToast({
+          message: 'Successful profile update',
+          severity: 'success',
+        });
       } catch {
-        toast.error('Update has failed. Try again later');
+        myToast({
+          message: 'Update has failed. Try again later',
+          severity: 'error',
+        });
       }
     },
   });
