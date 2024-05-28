@@ -4,6 +4,7 @@ class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group, only: %i[ show update destroy add_member delete_member members group_posts ]
   before_action :authorize_group_manage!, only: %i[ update destroy ]
+  before_action :set_default_format
 
   # GET /groups
   def index
@@ -74,11 +75,21 @@ class GroupsController < ApplicationController
   def group_posts
     posts = PostQuery.new(@group.posts).call(params)
 
-    serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
+    respond_to do |format|
+      format.json do
+        serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
+        paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
 
-    paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
+        render json: paginated_posts
+      end
 
-    render json: paginated_posts
+      format.csv do
+        csv_data = PostsCsvExportService.new(posts).to_csv
+        send_data csv_data, filename: "group_posts_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
+      end
+
+      format.any { render json: paginated_posts }
+    end
   end
 
   private
@@ -92,5 +103,9 @@ class GroupsController < ApplicationController
 
   def authorize_group_manage!
     authorize! :manage, @group
+  end
+
+  def set_default_format
+    request.format = :json unless params[:format]
   end
 end
