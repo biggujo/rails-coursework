@@ -34,18 +34,42 @@ export default function ProfileUpdateForm() {
           <Typography variant={'h6'} pb={2}>
             Updated information
           </Typography>
-          <FormField
-            name={'email'}
-            label={'New email *'}
-            formik={formik}
-            disabled={formik.isSubmitting}
-          />
-          <FormField
-            name={'nickname'}
-            label={'New nickname *'}
-            formik={formik}
-            disabled={formik.isSubmitting}
-          />
+          <Stack direction={'row'} gap={8}>
+            <Stack direction={'column'} gap={2}>
+              <FormField
+                name={'email'}
+                label={'New email *'}
+                formik={formik}
+                disabled={formik.isSubmitting}
+              />
+              <FormField
+                name={'nickname'}
+                label={'New nickname *'}
+                formik={formik}
+                disabled={formik.isSubmitting}
+              />
+              <FormField
+                name={'full_name'}
+                label={'New full name *'}
+                formik={formik}
+                disabled={formik.isSubmitting}
+              />
+            </Stack>
+            <Stack direction={'column'} gap={2}>
+              <FormField
+                name={'country'}
+                label={'New country *'}
+                formik={formik}
+                disabled={formik.isSubmitting}
+              />
+              <FormField
+                name={'city'}
+                label={'New city *'}
+                formik={formik}
+                disabled={formik.isSubmitting}
+              />
+            </Stack>
+          </Stack>
           <MyDropzone
             title={'New avatar'}
             onAddFile={([file]) => {

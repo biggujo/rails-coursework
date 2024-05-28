@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_27_153417) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_28_142819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,15 +71,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_153417) do
     t.index ["user_id"], name: "index_groups_on_user_id"
   end
 
-  create_table "groups_posts", id: false, force: :cascade do |t|
-    t.bigint "group_id", null: false
-    t.bigint "post_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["group_id"], name: "index_groups_posts_on_group_id"
-    t.index ["post_id"], name: "index_groups_posts_on_post_id"
-  end
-
   create_table "groups_users", id: false, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "group_id", null: false
@@ -104,6 +95,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_153417) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "group_id"
+    t.bigint "reposted_post_id"
+    t.index ["group_id"], name: "index_posts_on_group_id"
+    t.index ["reposted_post_id"], name: "index_posts_on_reposted_post_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -115,16 +110,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_153417) do
     t.index ["user_1_id", "user_2_id"], name: "index_private_chats_on_user_1_id_and_user_2_id"
     t.index ["user_1_id"], name: "index_private_chats_on_user_1_id"
     t.index ["user_2_id"], name: "index_private_chats_on_user_2_id"
-  end
-
-  create_table "reposts", force: :cascade do |t|
-    t.string "content"
-    t.bigint "post_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_reposts_on_post_id"
-    t.index ["user_id"], name: "index_reposts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -167,15 +152,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_27_153417) do
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "groups", "users"
-  add_foreign_key "groups_posts", "groups"
-  add_foreign_key "groups_posts", "posts"
   add_foreign_key "groups_users", "groups"
   add_foreign_key "groups_users", "users"
   add_foreign_key "messages", "private_chats"
   add_foreign_key "messages", "users", column: "author_id"
+  add_foreign_key "posts", "groups"
+  add_foreign_key "posts", "posts", column: "reposted_post_id"
   add_foreign_key "posts", "users"
   add_foreign_key "private_chats", "users", column: "user_1_id"
   add_foreign_key "private_chats", "users", column: "user_2_id"
-  add_foreign_key "reposts", "posts"
-  add_foreign_key "reposts", "users"
 end

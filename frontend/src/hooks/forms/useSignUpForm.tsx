@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
@@ -7,21 +6,7 @@ import { AppDispatch } from '../../redux/store.ts';
 import { useDispatch } from 'react-redux';
 import AuthOperations from '../../redux/auth/operations.ts';
 import myToast from '../../utils/myToast.tsx';
-
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .email('Enter a valid email')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(6, 'Password have to be more than 6 symbols')
-    .required('Password is required'),
-  nickname: Yup.string()
-    .min(3, 'Nickname have to be more than 3 symbols')
-    .required('Nickname is required'),
-  country: Yup.string().min(3).required('Country is required'),
-  city: Yup.string().required('City is required'),
-  full_name: Yup.string().required('Full name is required'),
-});
+import { fullProfileValidationSchema } from '../../validations';
 
 function useSignUpForm() {
   const dispatch: AppDispatch = useDispatch();
@@ -38,7 +23,7 @@ function useSignUpForm() {
 
   return useFormik({
     initialValues,
-    validationSchema,
+    validationSchema: fullProfileValidationSchema(true),
     onSubmit: async values => {
       try {
         await dispatch(AuthOperations.signUp(values)).unwrap();
