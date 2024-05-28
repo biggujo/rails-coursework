@@ -5,17 +5,22 @@ class LikesController < ApplicationController
   before_action :authenticate_user!
 
   def like
+    if current_user.voted_up_on? @likeable
+      @likeable.unvote_by current_user
+      render_json_with_likes_count
+      return
+    end
     @likeable.liked_by current_user
     render_json_with_likes_count
   end
 
   def dislike
+    if current_user.voted_down_on? @likeable
+      @likeable.unvote_by current_user
+      render_json_with_likes_count
+      return
+    end
     @likeable.disliked_by current_user
-    render_json_with_likes_count
-  end
-
-  def unlike
-    @likeable.unvote_by current_user
     render_json_with_likes_count
   end
 
