@@ -18,6 +18,7 @@ import PasswordResetRequestPage from '../../pages/PasswordResetRequestPage.tsx';
 import PasswordResetRecoveryPage from '../../pages/PasswordResetRecoveryPage.tsx';
 import { useSelector } from 'react-redux';
 import { selectAuthIsRefreshing } from '../../redux/auth/selectors.ts';
+import EditProfilePage from '../../pages/EditProfilePage.tsx';
 
 export default function App() {
   const isTokenLoading = useAuthorizationTokenLoader();
@@ -67,6 +68,15 @@ export default function App() {
             }
           />
         </Route>
+        <Route
+          path={'/profile_edit'}
+          element={
+            <PrivateRoute
+              redirectTo={'/sign-in'}
+              component={<EditProfilePage />}
+            />
+          }
+        />
         <Route
           path={'/profile/:id'}
           element={

@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import DateFormatter from '../../utils/date-formatter.ts';
 
 interface Props {
@@ -15,9 +15,6 @@ export default function MessageItem({ body, date, variant }: Props) {
       flexWrap={'nowrap'}
       alignItems={'end'}
     >
-      <Grid item>
-        <Avatar>{'T'}</Avatar>
-      </Grid>
       <Grid item className={variant} maxWidth={480}>
         <Typography>{body}</Typography>
         <Box
