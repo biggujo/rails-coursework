@@ -3,6 +3,7 @@ import {
   ChatEntity,
   ChatMessage,
   PasswordRecoveryFormData,
+  PostEntity,
   UserProfile,
   UserSignInFormAPI,
 } from '../interfaces';
@@ -203,6 +204,29 @@ const passwordRecovery = {
   },
 };
 
+export interface FetchAllPostsResponse {
+  metadata: {
+    last: number;
+  };
+  items: Array<PostEntity>;
+}
+
+const posts = {
+  fetchAll: async (id: number) => {
+    const response: AxiosResponse = await axios.get(`/users/${id}/posts`);
+
+    const data = response.data;
+
+    const metadata = data[0];
+    const items = data[1];
+
+    return {
+      metadata,
+      items,
+    } as FetchAllPostsResponse;
+  },
+};
+
 const API = {
   auth: {
     signIn,
@@ -217,6 +241,7 @@ const API = {
     purgeProfilePhoto,
     friends,
   },
+  posts,
   messages: messages,
   chats,
   passwordRecovery,

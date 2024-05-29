@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import PostCard from '../PostCard';
+import PostItem from '../PostCard';
 
 export default function Feed() {
   return (
@@ -10,9 +10,9 @@ export default function Feed() {
       }}
     >
       <Stack spacing={2}>
-        <PostCard />
-        <PostCard />
-        <PostCard />
+        <PostItem />
+        <PostItem />
+        <PostItem />
       </Stack>
     </Box>
   );
