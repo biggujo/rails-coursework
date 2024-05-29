@@ -1,10 +1,10 @@
 import DateConverters from '../../utils/date-converters.ts';
 import { Stack, Typography } from '@mui/material';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
-import { UserEntityExtended } from '../../interfaces';
+import { UserProfile } from '../../interfaces';
 
 interface Props {
-  userData: UserEntityExtended;
+  userData: UserProfile;
 }
 
 const MainProfileData = ({ userData }: Props) => {

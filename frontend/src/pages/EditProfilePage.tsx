@@ -12,10 +12,10 @@ export default function EditProfilePage() {
   const {
     data: profileData,
     isLoading,
-    isError,
+    error,
   } = useGetProfileQuery(Number(currentUser.id));
 
-  if (isError) {
+  if (error) {
     return (
       <Typography>An error has happened. Please, try again later.</Typography>
     );

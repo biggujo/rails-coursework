@@ -1,4 +1,4 @@
-interface UserEntityExtended {
+interface UserProfile {
   id: number;
   email: string;
   nickname: string;
@@ -16,4 +16,4 @@ interface UserEntityExtended {
   updated_at: string;
 }
 
-export default UserEntityExtended;
+export default UserProfile;

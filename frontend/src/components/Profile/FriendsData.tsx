@@ -1,13 +1,13 @@
 import { Box, ListItem, Stack, Typography, useTheme } from '@mui/material';
 import FetchUsersModal from '../FetchUsersModal/FetchUsersModal.tsx';
-import { UserEntityExtended } from '../../interfaces';
+import { UserProfile } from '../../interfaces';
 import API from '../../utils/api.ts';
 
 interface Props {
-  userData: UserEntityExtended;
+  userData: UserProfile;
 }
 
-const createFriendsInfo = (userData: UserEntityExtended) => [
+const createFriendsInfo = (userData: UserProfile) => [
   {
     title: `Following`,
     length: userData.friends.following,

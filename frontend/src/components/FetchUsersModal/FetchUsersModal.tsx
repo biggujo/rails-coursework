@@ -1,7 +1,7 @@
 import BasicModal from '../BasicModal';
 import useFetchUserListQuery from '../../hooks/query/useFetchUserListQuery.ts';
 import { Box, Typography } from '@mui/material';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import UserEntity from '../../interfaces/UserEntity.interface.ts';
 import createSubtitle from '../../utils/create-subtitle.tsx';
 import Loader from '../Loader';
@@ -19,6 +19,13 @@ export default function FetchUsersModal({ title, toggler, apiFn }: Props) {
   const { refetch, data, isLoading, isSuccess, isError } =
     useFetchUserListQuery(apiFn);
 
+  useEffect(() => {
+    return () => {
+      handleClose();
+    };
+    // eslint-disable-next-line
+  }, []);
+
   const modalContent = (
     <Box>
       {isError && (
@@ -30,7 +37,9 @@ export default function FetchUsersModal({ title, toggler, apiFn }: Props) {
         {isSuccess && data.length === 0 && (
           <Typography>No users available.</Typography>
         )}
-        {isSuccess && <UserProfileList items={data} />}
+        {isSuccess && (
+          <UserProfileList items={data} shouldShowCurrentUser={true} />
+        )}
       </Box>
     </Box>
   );

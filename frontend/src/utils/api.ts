@@ -3,7 +3,7 @@ import {
   ChatEntity,
   ChatMessage,
   PasswordRecoveryFormData,
-  UserEntityExtended,
+  UserProfile,
   UserSignInFormAPI,
 } from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
@@ -59,12 +59,12 @@ const updateById = async (data: ProfileUpdateFormAPI) => {
       },
     }
   );
-  return response.data as UserEntityExtended;
+  return response.data as UserProfile;
 };
 
 const refreshUser = async () => {
   const response: AxiosResponse = await axios.get('/refresh');
-  return response.data as UserEntityExtended;
+  return response.data as UserProfile;
 };
 
 const getAllUsers = async () => {

@@ -1,10 +1,10 @@
-import { Nullable, UserEntityExtended } from '../../interfaces';
+import { Nullable, UserProfile } from '../../interfaces';
 import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import AuthOperations from './operations.ts';
 
 const initialState: {
   info: {
-    data: UserEntityExtended;
+    data: UserProfile;
     isLoading: boolean;
     error: Nullable<string>;
   };
@@ -33,7 +33,7 @@ const slice = createSlice({
     resetAuthData: () => ({
       ...initialState,
     }),
-    setAuthData: (state, action: PayloadAction<UserEntityExtended>) => ({
+    setAuthData: (state, action: PayloadAction<UserProfile>) => ({
       ...state,
       info: {
         ...state.info,

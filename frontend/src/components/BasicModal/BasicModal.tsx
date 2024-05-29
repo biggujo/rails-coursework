@@ -40,7 +40,8 @@ export default function BasicModal({
     }
 
     onOpen();
-  }, [isOpen, onClose, onOpen]);
+    // eslint-disable-next-line
+  }, [isOpen]);
 
   return (
     <div>

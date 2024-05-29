@@ -1,10 +1,10 @@
-import { UserEntityExtended } from '../../interfaces';
+import { UserProfile } from '../../interfaces';
 import { Stack } from '@mui/material';
 import createSubtitle from '../../utils/create-subtitle.tsx';
 import { MainProfileData, FriendsData, UtilityButtons } from '.';
 
 interface Props {
-  userData: UserEntityExtended;
+  userData: UserProfile;
 }
 
 const UserProfile = ({ userData }: Props) => {

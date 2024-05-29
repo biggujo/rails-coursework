@@ -4,7 +4,7 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { Button, ListItem, Stack, SvgIconTypeMap } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { UserEntityExtended } from '../../interfaces';
+import { UserProfile } from '../../interfaces';
 import { useNavigate } from 'react-router-dom';
 import { PersonAdd, PersonRemove } from '@mui/icons-material';
 import API from '../../utils/api.ts';
@@ -13,7 +13,7 @@ import ProfileOperations from '../../redux/profile/operations.ts';
 import myToast from '../../utils/myToast.tsx';
 
 interface Props {
-  userData: UserEntityExtended;
+  userData: UserProfile;
 }
 
 const followFunction =
