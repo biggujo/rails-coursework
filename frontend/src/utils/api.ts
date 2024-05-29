@@ -70,7 +70,7 @@ const refreshUser = async () => {
 const getAllUsers = async () => {
   const response: AxiosResponse = await axios.get('/users');
   return response.data as {
-    data: Array<UserEntityExtended>;
+    data: Array<UserEntity>;
   };
 };
 
@@ -139,6 +139,37 @@ const friends = {
     );
 
     return response.data as Array<UserEntity>;
+  },
+  addFriend: async ({
+    currentUserId,
+    otherPersonId,
+  }: {
+    currentUserId: number;
+    otherPersonId: number;
+  }) => {
+    const data = {
+      friend_id: otherPersonId,
+    };
+
+    const response: AxiosResponse = await axios.post(
+      `/users/${currentUserId}/friends`,
+      data
+    );
+
+    return response.data as { success: string };
+  },
+  removeFriend: async ({
+    currentUserId,
+    otherPersonId,
+  }: {
+    currentUserId: number;
+    otherPersonId: number;
+  }) => {
+    const response: AxiosResponse = await axios.delete(
+      `/users/${currentUserId}/friends/${otherPersonId}`
+    );
+
+    return response.data as { success: string };
   },
 };
 

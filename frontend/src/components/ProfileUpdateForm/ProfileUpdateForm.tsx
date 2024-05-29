@@ -6,7 +6,7 @@ import { LoadingButton } from '@mui/lab';
 import { useSelector } from 'react-redux';
 import { selectProfileData } from '../../redux/profile/selectors.ts';
 import MyDropzone from '../MyDropzone/MyDropzone.tsx';
-import UserProfile from '../UserProfile/UserProfile.tsx';
+import UserProfile from '../Profile/UserProfile.tsx';
 
 export default function ProfileUpdateForm() {
   const formik = useUpdateProfileForm();

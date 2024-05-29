@@ -5,7 +5,8 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useState } from 'react';
 import ProfileUpdateForm from '../components/ProfileUpdateForm';
 import { useParams } from 'react-router-dom';
-import UserProfile from '../components/UserProfile';
+import Loader from '../components/Loader';
+import { UserProfile } from '../components/Profile';
 
 export default function ProfilePage() {
   const [pageValue, setPageValue] = useState<'main' | 'settings'>('main');
@@ -28,7 +29,11 @@ export default function ProfilePage() {
             </TabList>
           </Box>
           <TabPanel value="main">
-            {isLoading && <Typography>Loading...</Typography>}
+            {isLoading && (
+              <Box height={400}>
+                <Loader />
+              </Box>
+            )}
             {error && (
               <Typography>
                 {(error as AxiosError).response!.statusText}

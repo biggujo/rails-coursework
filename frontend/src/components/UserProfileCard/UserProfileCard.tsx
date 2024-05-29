@@ -1,12 +1,12 @@
-import { UserEntityExtended } from '../../interfaces';
 import { IconButton, Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import CreateIcon from '@mui/icons-material/Create';
 import { ComponentType, MouseEventHandler } from 'react';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
+import UserEntity from '../../interfaces/UserEntity.interface.ts';
 
 interface Props {
-  data: UserEntityExtended;
+  data: UserEntity;
 }
 
 const CardIconButton = ({
