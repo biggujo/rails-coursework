@@ -8,6 +8,7 @@ import {
 } from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
+import UserEntity from '../interfaces/UserEntity.interface.ts';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
@@ -117,6 +118,30 @@ const chats = {
   },
 };
 
+const friends = {
+  fetchFollowing: (id: number) => async () => {
+    const response: AxiosResponse = await axios.get(
+      `/users/${id}/friends/following`
+    );
+
+    return response.data as Array<UserEntity>;
+  },
+  fetchFollowers: (id: number) => async () => {
+    const response: AxiosResponse = await axios.get(
+      `/users/${id}/friends/followers`
+    );
+
+    return response.data as Array<UserEntity>;
+  },
+  fetchFriends: (id: number) => async () => {
+    const response: AxiosResponse = await axios.get(
+      `/users/${id}/friends/mutual_friends`
+    );
+
+    return response.data as Array<UserEntity>;
+  },
+};
+
 const passwordRecovery = {
   request: async (email: string) => {
     const data = {
@@ -153,6 +178,7 @@ const API = {
     getAll: getAllUsers,
     getById,
     updateById,
+    friends,
   },
   messages: messages,
   chats,

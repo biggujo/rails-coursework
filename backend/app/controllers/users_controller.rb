@@ -3,7 +3,6 @@
 require "pagy/extras/array"
 
 class UsersController < ApplicationController
-  include ActiveStorage::SetCurrent
   before_action :authenticate_user!
 
   def index
