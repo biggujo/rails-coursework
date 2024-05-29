@@ -109,7 +109,7 @@ function MyDropzone({ title, onAddFile }: Props) {
                 position: 'absolute',
               }}
             >
-              Drag 'n' drop some files here, or click to select files
+              Drag'n'drop some files here, or click to select files
             </Typography>
           </Box>
           {file?.preview && (
@@ -128,6 +128,7 @@ function MyDropzone({ title, onAddFile }: Props) {
                 onLoad={() => {
                   URL.revokeObjectURL(file.preview);
                 }}
+                size={'large'}
               />
             </Box>
           )}

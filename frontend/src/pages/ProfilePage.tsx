@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
 import { UserProfile } from '../components/Profile';
+import PostCard from '../components/PostCard/index.ts';
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -22,6 +23,7 @@ export default function ProfilePage() {
       {!isLoading && data && (
         <>
           <UserProfile userData={data} />
+          <PostCard />
         </>
       )}
     </Container>
