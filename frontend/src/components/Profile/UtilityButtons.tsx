@@ -53,36 +53,40 @@ const UtilityButtons = ({ userData }: Props) => {
       icon: CreateIcon,
       onClick: () => navigate(`/chat/${userData.id}`),
     });
-    buttonList.push({
-      title: 'Follow',
-      icon: PersonAdd,
-      onClick: followFunction(
-        () =>
-          API.user.friends.addFriend({
-            currentUserId: currentUser.id,
-            otherPersonId: userData.id,
-          }),
-        'Already followed',
-        dispatch,
-        userData.id
-      ),
-      color: 'success',
-    });
-    buttonList.push({
-      title: 'Unfollow',
-      icon: PersonRemove,
-      onClick: followFunction(
-        () =>
-          API.user.friends.removeFriend({
-            currentUserId: currentUser.id,
-            otherPersonId: userData.id,
-          }),
-        'Already unfollowed',
-        dispatch,
-        userData.id
-      ),
-      color: 'error',
-    });
+
+    if (userData.is_following) {
+      buttonList.push({
+        title: 'Unfollow',
+        icon: PersonRemove,
+        onClick: followFunction(
+          () =>
+            API.user.friends.removeFriend({
+              currentUserId: currentUser.id,
+              otherPersonId: userData.id,
+            }),
+          'Already unfollowed',
+          dispatch,
+          userData.id
+        ),
+        color: 'error',
+      });
+    } else {
+      buttonList.push({
+        title: 'Follow',
+        icon: PersonAdd,
+        onClick: followFunction(
+          () =>
+            API.user.friends.addFriend({
+              currentUserId: currentUser.id,
+              otherPersonId: userData.id,
+            }),
+          'Already followed',
+          dispatch,
+          userData.id
+        ),
+        color: 'success',
+      });
+    }
   }
 
   if (userData.id === currentUser.id) {

@@ -15,8 +15,9 @@ class UsersController < ApplicationController
     # No need to check for an error
     user = User.find(params[:id])
 
-    render json: UserExtendedSerializer.new(user).to_h,
-           status: :ok
+    render json: UserExtendedSerializer.new(user).to_h.merge({
+                                                               is_following: current_user.following.exists?(user.id)
+                                                             }), status: :ok
   end
 
   def user_posts

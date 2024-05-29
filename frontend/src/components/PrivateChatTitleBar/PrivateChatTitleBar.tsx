@@ -42,5 +42,12 @@ export default function PrivateChatTitleBar({ chatId }: Props) {
     DateFormatter.getDistanceInMinutes(otherPerson.last_seen_at) <
     MIN_OFFLINE_MINUTES;
 
-  return <ChatTitleBar title={otherPerson.nickname} isOnline={isOnline} />;
+  return (
+    <ChatTitleBar
+      id={otherPerson.id}
+      title={otherPerson.nickname}
+      isOnline={isOnline}
+      avatarSrc={otherPerson.profile_photo}
+    />
+  );
 }

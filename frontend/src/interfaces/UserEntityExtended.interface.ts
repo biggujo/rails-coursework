@@ -11,6 +11,7 @@ interface UserEntityExtended {
     followers: number;
   };
   profile_photo?: string;
+  is_following: boolean;
   created_at: string;
   updated_at: string;
 }
