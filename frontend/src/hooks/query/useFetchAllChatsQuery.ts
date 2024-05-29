@@ -5,7 +5,7 @@ const useFetchAllChatsQuery = () => {
   return useQuery({
     queryKey: ['chats'],
     queryFn: API.chats.fetchAll,
-    // @ts-ignore
+    // @ts-expect-error of bad typing
     cacheTime: 120,
   });
 };

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   devise_for :users, path: "", path_names: {
                                  sign_in: "sign_in",
@@ -49,7 +52,7 @@ Rails.application.routes.draw do
 
   post "/profile/update", to: "users#update"
   get "/profile", to: "users#profile"
-  get "/users/refresh", to: "users#refresh"
+  get "/refresh", to: "users#refresh"
 
   get "/users/:id/posts", to: "users#user_posts"
 
@@ -64,3 +67,4 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 end
+# rubocop:enable Metrics/BlockLength

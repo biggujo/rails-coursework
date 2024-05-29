@@ -38,8 +38,6 @@ const usePasswordResetRecoveryForm = ({
     initialValues: initialValues(confirmToken),
     validationSchema,
     onSubmit: async (data: PasswordRecoveryFormData) => {
-      console.log(data);
-
       try {
         const response = await passwordRecoveryResetMutation.mutateAsync(data);
         myToast({

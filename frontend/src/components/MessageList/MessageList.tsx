@@ -1,5 +1,5 @@
 import { ChatMessage } from '../../interfaces';
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import MessageItem from '../MessageItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';

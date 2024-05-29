@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateGroupsPosts < ActiveRecord::Migration[7.1]
   def change
     create_table :groups_posts, id: false do |t|

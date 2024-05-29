@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post, only: %i[show update destroy]
@@ -24,10 +26,7 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
-    @post.user = current_user
-    @post.group = Group.find(params[:group_id]) if params[:group_id]
-    @post.repost = Post.find(params[:reposted_post_id]) if params[:reposted_post_id]
+    build_post(post_params)
 
     if @post.save
       render json: PostSerializer.new(@post, params: {current_user:}).to_h, status: :created,
@@ -54,6 +53,13 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def build_post(post_params)
+    @post = Post.new(post_params)
+    @post.user = current_user
+    @post.group = Group.find(params[:group_id]) if params[:group_id]
+    @post.repost = Post.find(params[:reposted_post_id]) if params[:reposted_post_id]
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_post

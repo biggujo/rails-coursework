@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PrivateChatsController < ApplicationController
   before_action :authenticate_user!
   before_action :validate_create_params, only: [:create]

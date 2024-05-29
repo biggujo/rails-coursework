@@ -319,7 +319,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  acts_as_votable
+  acts_as_votable (~> 0.14.0)
   bootsnap (~> 1.18.3)
   cancancan (~> 3.6.0)
   capybara (~> 3.40.0)

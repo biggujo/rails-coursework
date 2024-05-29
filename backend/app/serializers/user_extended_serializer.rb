@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "helpers/hash_unwrapper_helper"
 
 # It is an extended serializer for user includes all other fields

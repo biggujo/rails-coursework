@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PrivateChannel < ApplicationCable::Channel
   def subscribed
     # Create if not exists

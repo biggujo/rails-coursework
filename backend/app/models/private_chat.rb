@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PrivateChat < ApplicationRecord
   belongs_to :user_1, class_name: "User"
   belongs_to :user_2, class_name: "User"
@@ -5,7 +7,8 @@ class PrivateChat < ApplicationRecord
 
   validates :user_1, presence: true
   validates :user_2, presence: true
-  validates :user_1_id, uniqueness: {scope: :user_2_id}
+  # Here is a disabled cop as it gives a false alarm
+  validates :user_1_id, uniqueness: {scope: :user_2_id} # rubocop:disable Rails/UniqueValidationWithoutIndex
   validate :cannot_chat_with_yourself
   validate :unique_chats
 

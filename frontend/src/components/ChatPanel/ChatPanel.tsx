@@ -28,11 +28,6 @@ export default function ChatPanel({ otherPersonId }: Props) {
   const bottomRef = useRef<HTMLElement>(null);
   const user = useSelector(selectAuthUser);
 
-  // Prohibit messaging to yourself
-  if (user.id === otherPersonId) {
-    return <Navigate to={'/'} />;
-  }
-
   // Track if user wants to be scrolled to bottom
   // If user at the bottom, prefer to scroll to the last messages
   // Else don't prefer to scroll
@@ -64,6 +59,11 @@ export default function ChatPanel({ otherPersonId }: Props) {
       );
     }
   }, []);
+
+  // Prohibit messaging to yourself
+  if (user.id === otherPersonId) {
+    return <Navigate to={'/'} />;
+  }
 
   if (error) {
     return (

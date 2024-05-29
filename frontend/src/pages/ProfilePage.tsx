@@ -14,10 +14,7 @@ export const ProfileMainData = ({
 }: {
   userData: Pick<
     UserEntityExtended,
-    'email' | 'nickname' | 'profile_photo',
-    'full_name',
-    'city',
-    'country'
+    'email' | 'nickname' | 'profile_photo' | 'full_name' | 'city' | 'country'
   >;
 }) => {
   return (

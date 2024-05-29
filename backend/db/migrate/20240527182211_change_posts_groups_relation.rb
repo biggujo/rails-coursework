@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangePostsGroupsRelation < ActiveRecord::Migration[7.1]
   def change
     drop_table :groups_posts do |t|

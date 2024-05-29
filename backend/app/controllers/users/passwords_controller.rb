@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::PasswordsController < Devise::PasswordsController
+  include ActiveStorage::SetCurrent
   respond_to :json
 
   def respond_with(resource, _opts={})

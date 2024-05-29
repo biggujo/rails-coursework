@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
   include Pagy::Backend
   before_action :configure_devise_params, if: :devise_controller?
@@ -6,7 +8,7 @@ class ApplicationController < ActionController::API
   include Pagy::Backend
 
   def update_last_seen_at
-    current_user.update_column(:last_seen_at, Time.now)
+    current_user.update(last_seen_at: Time.now.getlocal)
   end
 
   def configure_devise_params

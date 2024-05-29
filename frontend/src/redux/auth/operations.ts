@@ -17,15 +17,16 @@ const refreshUser = createAsyncThunk(
 
 const signingOperation = (
   apiOperation: (
-    data: UserSignInFormAPI | UserSignUpFormAPI
+    data: UserSignInFormAPI & UserSignUpFormAPI
   ) => Promise<AxiosResponse>
 ) =>
   createAsyncThunk(
-    'auth/signIn',
-    async (data: UserSignInFormAPI, { rejectWithValue }) => {
+    'auth/signing',
+    async (
+      data: UserSignInFormAPI & UserSignUpFormAPI,
+      { rejectWithValue }
+    ) => {
       try {
-        console.log(data);
-
         const response: AxiosResponse = await apiOperation(data);
 
         const token = response.headers.authorization;
@@ -40,9 +41,9 @@ const signingOperation = (
     }
   );
 
-const signIn = signingOperation(API.auth.signIn as any);
+const signIn = signingOperation(API.auth.signIn);
 
-const signUp = signingOperation(API.auth.signUp as any);
+const signUp = signingOperation(API.auth.signUp);
 
 const signOut = createAsyncThunk(
   'auth/SignOut',

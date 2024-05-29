@@ -35,6 +35,7 @@ const useReachBottom = ({
         }
       }, 50)
     );
+    // eslint-disable-next-line
   }, []);
 };
 
