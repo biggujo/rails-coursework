@@ -212,8 +212,8 @@ export interface FetchAllPostsResponse {
 }
 
 const posts = {
-  fetchAll: async (id: number) => {
-    const response: AxiosResponse = await axios.get(`/users/${id}/posts`);
+  fetchAll: async (userId: number) => {
+    const response: AxiosResponse = await axios.get(`/users/${userId}/posts`);
 
     const data = response.data;
 
@@ -224,6 +224,11 @@ const posts = {
       metadata,
       items,
     } as FetchAllPostsResponse;
+  },
+  deleteById: async (postId: number) => {
+    const response: AxiosResponse = await axios.delete(`/posts/${postId}`);
+
+    return response.data as PostEntity;
   },
 };
 

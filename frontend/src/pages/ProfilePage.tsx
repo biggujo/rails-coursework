@@ -38,7 +38,11 @@ export default function ProfilePage() {
           {!postsQuery.isLoading && postsQuery.data && (
             <>
               {createSubtitle('User posts')}
-              <PostList items={postsQuery.data} />
+              {postsQuery.data.length > 0 ? (
+                <PostList items={postsQuery.data} />
+              ) : (
+                <Typography>No posts available.</Typography>
+              )}
             </>
           )}
         </>

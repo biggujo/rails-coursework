@@ -49,7 +49,11 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
+    post = @post
+
     @post.destroy!
+
+    render json: PostSerializer.new(post, params: {current_user:}).to_h
   end
 
   private

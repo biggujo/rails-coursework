@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { Nullable, PostEntity } from '../../interfaces';
 import PostsOperations from './operations.ts';
 import { FetchAllPostsResponse } from '../../utils/api.ts';
@@ -43,7 +43,34 @@ const slice = createSlice({
         })
       )
       .addCase(
-        PostsOperations.fetchAll.rejected,
+        PostsOperations.deleteById.fulfilled,
+        (state, action: PayloadAction<PostEntity>) => {
+          const postIndex = state.data.items.findIndex(
+            ({ id: postId }) => postId === action.payload.id
+          );
+
+          if (postIndex === -1) {
+            return state;
+          }
+
+          const updatedPosts = [...state.data.items];
+
+          updatedPosts.splice(postIndex, 1);
+
+          return {
+            ...state,
+            data: {
+              ...state,
+              items: updatedPosts,
+            },
+          };
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          PostsOperations.fetchAll.rejected,
+          PostsOperations.deleteById.rejected
+        ),
         (state, action: PayloadAction<string>) => ({
           ...state,
           data: {

@@ -19,14 +19,20 @@ import MyMenu from '../MyMenu';
 import { PostEntity } from '../../interfaces';
 import DateFormatter from '../../utils/date-formatter.ts';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
+import { AppDispatch } from '../../redux/store.ts';
+import PostsOperations from '../../redux/posts/operations.ts';
+import { useDispatch } from 'react-redux';
+import myToast from '../../utils/myToast.tsx';
 
 interface Props {
   data: PostEntity;
 }
 
 export default function PostItem({ data }: Props) {
-  const formattedDate = DateFormatter.formatRelativeToNow(data.created_at);
+  const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
+
+  const formattedDate = DateFormatter.formatRelativeToNow(data.created_at);
 
   return (
     <Card
@@ -44,7 +50,32 @@ export default function PostItem({ data }: Props) {
             size={'bigger'}
           />
         }
-        action={<MyMenu actions={[]} />}
+        action={
+          <MyMenu
+            actions={[
+              {
+                title: 'Delete',
+                action: async () => {
+                  try {
+                    await dispatch(
+                      PostsOperations.deleteById(data.id)
+                    ).unwrap();
+
+                    myToast({
+                      message: 'The post has been deleted',
+                      severity: 'success',
+                    });
+                  } catch (e) {
+                    myToast({
+                      message: e,
+                      severity: 'error',
+                    });
+                  }
+                },
+              },
+            ]}
+          />
+        }
         title={data.title}
         subheader={formattedDate}
         titleTypographyProps={{ variant: 'h6', component: 'h3' }}
