@@ -25,7 +25,7 @@ export default function FetchUsersModal({ title, toggler, apiFn }: Props) {
         <Typography>An error has happened. Please, try again later.</Typography>
       )}
       {createSubtitle(title)}
-      <Box height={'400px'} pl={1}>
+      <Box height={'400px'}>
         {isLoading && <Loader />}
         {isSuccess && data.length === 0 && (
           <Typography>No users available.</Typography>

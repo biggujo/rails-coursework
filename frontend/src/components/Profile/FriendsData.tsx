@@ -32,7 +32,7 @@ const FriendsData = ({ userData }: Props) => {
 
   return (
     <Box>
-      <Stack direction={'row'}>
+      <Stack direction={'row'} gap={0}>
         {friendsInfo.map(({ title, length, apiFn }, index) => (
           <ListItem
             key={index}
