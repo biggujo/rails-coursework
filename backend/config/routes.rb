@@ -51,6 +51,7 @@ Rails.application.routes.draw do
   post "/dislike", to: "likes#dislike", as: "dislike"
 
   post "/profile/update", to: "users#update"
+  delete "/profile_photo", to: "users#purge_profile_photo"
   get "/profile", to: "users#profile"
   get "/refresh", to: "users#refresh"
 

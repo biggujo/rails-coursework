@@ -62,6 +62,11 @@ const updateById = async (data: ProfileUpdateFormAPI) => {
   return response.data as UserProfile;
 };
 
+const purgeProfilePhoto = async () => {
+  await axios.delete(`/profile_photo`);
+  return;
+};
+
 const refreshUser = async () => {
   const response: AxiosResponse = await axios.get('/refresh');
   return response.data as UserProfile;
@@ -209,6 +214,7 @@ const API = {
     getAll: getAllUsers,
     getById,
     updateById,
+    purgeProfilePhoto,
     friends,
   },
   messages: messages,

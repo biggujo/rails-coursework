@@ -43,6 +43,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def purge_profile_photo
+    current_user.profile_photo.purge
+
+    head 204
+  end
+
   def refresh
     render json: UserExtendedSerializer.new(current_user).to_h,
            status: :ok
