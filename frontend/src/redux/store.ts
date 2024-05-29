@@ -24,7 +24,7 @@ export const store = configureStore({
   reducer: {
     chatMessages: chatHistoryReducer,
     chatList: chatListReducer,
-    // @ts-ignore
+    // @ts-expect-error because of non-existing types on persistor
     auth: persistReducer(persistConfig, authReducer),
     profile: profileReducer,
   },

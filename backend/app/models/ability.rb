@@ -4,8 +4,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :manage, Post, user: user
-    can :manage, Comment, user: user
-    can :manage, Group, user: user
+    can(:manage, Post, user:)
+    can(:manage, Comment, user:)
+    can :manage, Group, user:
   end
 end

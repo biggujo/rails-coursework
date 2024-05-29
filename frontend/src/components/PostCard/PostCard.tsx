@@ -15,23 +15,19 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import { FavoriteBorder } from '@mui/icons-material';
 
-type Props = {};
-
-export default function PostCard({}: Props) {
+export default function PostCard() {
   return (
     <Card>
-      <CardHeader avatar={
-        <Avatar sx={{ bgcolor: blue[500] }}>
-          R
-        </Avatar>
-      }
-                  action={
-                    <IconButton>
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Lorem ipsum"
-                  subheader="5 minutes ago" />
+      <CardHeader
+        avatar={<Avatar sx={{ bgcolor: blue[500] }}>R</Avatar>}
+        action={
+          <IconButton>
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title="Lorem ipsum"
+        subheader="5 minutes ago"
+      />
       <CardMedia
         component="img"
         height="400"
@@ -45,10 +41,7 @@ export default function PostCard({}: Props) {
       </CardContent>
       <CardActions>
         <IconButton>
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<FavoriteIcon />}
-          />
+          <Checkbox icon={<FavoriteBorder />} checkedIcon={<FavoriteIcon />} />
         </IconButton>
         <IconButton>
           <ShareIcon />

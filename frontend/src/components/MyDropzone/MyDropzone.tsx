@@ -48,7 +48,7 @@ function MyDropzone({ title, onAddFile }: Props) {
 
       URL.revokeObjectURL(file.preview);
     };
-  }, []);
+  }, [file]);
 
   return (
     <Box>

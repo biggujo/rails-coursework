@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MessageQuery
   def initialize(initial_scope)
     @initial_scope = initial_scope

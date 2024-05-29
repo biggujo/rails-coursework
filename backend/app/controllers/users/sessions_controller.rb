@@ -2,11 +2,12 @@
 
 class Users::SessionsController < Devise::SessionsController
   # skip_before_filter :verify_authenticity_token
+  include ActiveStorage::SetCurrent
   respond_to :json
 
-  def respond_with(resource, _opts = {})
+  def respond_with(resource, _opts={})
     render json: {
-      message: 'Successful log in',
+      message: "Successful log in",
       data: UserExtendedSerializer.new(resource).serializable_hash[:data][:attributes]
     }, status: :ok
   end

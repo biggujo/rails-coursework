@@ -26,7 +26,6 @@ export default function useUpdateProfileForm() {
     validationSchema: fullProfileValidationSchema(false),
     initialValues,
     onSubmit: async values => {
-      console.log(values);
       try {
         await API.user.updateById(values);
         await dispatch(ProfileOperations.fetchProfileData(values.id)).unwrap();

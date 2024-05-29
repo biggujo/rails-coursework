@@ -1,4 +1,6 @@
-require 'pagy/extras/array'
+# frozen_string_literal: true
+
+require "pagy/extras/array"
 
 class UsersController < ApplicationController
   include ActiveStorage::SetCurrent
@@ -23,7 +25,7 @@ class UsersController < ApplicationController
 
     posts = PostQuery.new(user.posts).call(params)
 
-    serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
+    serialized_posts = PostSerializer.new(posts, params: {current_user:}).to_h
 
     paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
 
@@ -37,7 +39,7 @@ class UsersController < ApplicationController
     if user.update(user_params)
       render json: UserSerializer.new(user).to_h
     else
-      render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+      render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
     end
   end
 
