@@ -50,7 +50,9 @@ const FriendsData = ({ userData }: Props) => {
               title={title}
               toggler={
                 <Stack alignItems={'center'} width={'150px'}>
-                  <Typography variant={'h6'}>{length}</Typography>
+                  <Typography variant={'h6'} color={'primary'}>
+                    {length}
+                  </Typography>
                   <Typography variant={'body2'}>{title}</Typography>
                 </Stack>
               }

@@ -19,7 +19,9 @@ const MainProfileData = ({ userData }: Props) => {
       />
       <Stack>
         <Stack direction={'row'} alignItems={'end'} gap={2}>
-          <Typography variant={'h3'}>{userData.nickname}</Typography>
+          <Typography variant={'h3'} color={'primary'}>
+            {userData.nickname}
+          </Typography>
           <Typography variant={'h4'} color={'gray'}>
             a.k.a. {userData.full_name}
           </Typography>
