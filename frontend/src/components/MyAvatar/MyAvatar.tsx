@@ -15,8 +15,8 @@ export default function MyAvatar({ alt, src, onLoad }: Props) {
       alt={alt}
       src={src}
       sx={{
-        width: 96,
-        height: 96,
+        width: 140,
+        height: 140,
         border: `3px solid ${theme.palette.primary.main}`,
       }}
       onLoad={onLoad}

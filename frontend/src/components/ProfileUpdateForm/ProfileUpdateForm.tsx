@@ -6,7 +6,7 @@ import { LoadingButton } from '@mui/lab';
 import { useSelector } from 'react-redux';
 import { selectProfileData } from '../../redux/profile/selectors.ts';
 import MyDropzone from '../MyDropzone/MyDropzone.tsx';
-import { ProfileMainData } from '../../pages/ProfilePage.tsx';
+import UserProfile from '../UserProfile/UserProfile.tsx';
 
 export default function ProfileUpdateForm() {
   const formik = useUpdateProfileForm();
@@ -19,7 +19,7 @@ export default function ProfileUpdateForm() {
           <Typography variant={'h6'} pb={2}>
             Original information
           </Typography>
-          <ProfileMainData userData={profileData} />
+          <UserProfile userData={profileData} />
         </Box>
         <Stack
           component={'form'}
