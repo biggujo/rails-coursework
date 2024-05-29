@@ -12,7 +12,6 @@ This is a social network built with Ruby on Rails, Docker, and PostgreSQL.
 
 ## Prerequisites
 
-- NodeJS (LTS 20.12.2)
 - Docker + Docker Compose
 - a package manager (apt/brew/winget)
 
@@ -26,12 +25,6 @@ This is a social network built with Ruby on Rails, Docker, and PostgreSQL.
 
 ```shell
 ./scripts/setup-hooks.sh
-```
-
-2. Install development dependencies
-
-```shell
-npm install
 ```
 
 ### Application
@@ -50,7 +43,7 @@ docker exec -it coursework-rails rails db:create db:migrate
 
 Access the services:
 > - db: http://localhost:6000
-> - backend: http://localhost:6000
+> - backend: http://localhost:6001
 > - frontend: http://localhost:6002
 
 ## Scripts
@@ -65,9 +58,10 @@ Access the services:
 
 ### Frontend `npm` scripts
 
-| Script            | Description                              |
-|-------------------|------------------------------------------|
-| `npm run dev`     | Run the application                      |
-| `npm run build`   | Get the build for a production           |
-| `npm run lint`    | Run ESLint                               |
-| `npm run preview` | Run a live preview of a production build |
+| Script              | Description                              |
+|---------------------|------------------------------------------|
+| `npm run dev`       | Run the application                      |
+| `npm run build`     | Get the build for a production           |
+| `npm run lint`      | Run ESLint                               |
+| `npm run style:fix` | Fix code style with Prettier             |
+| `npm run preview`   | Run a live preview of a production build |
