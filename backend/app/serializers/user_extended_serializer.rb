@@ -1,4 +1,4 @@
-require_relative 'helpers/hash_unwrapper_helper'
+require_relative "helpers/hash_unwrapper_helper"
 
 # It is an extended serializer for user includes all other fields
 class UserExtendedSerializer

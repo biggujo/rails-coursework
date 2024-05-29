@@ -27,18 +27,18 @@ class User < ApplicationRecord
 
   def mutual_friends
     User.joins("INNER JOIN friends ON users.id = friends.friend_id")
-        .where(friends: { user_id: id })
-        .where(users: { id: followers.ids })
+        .where(friends: {user_id: id})
+        .where(users: {id: followers.ids})
   end
 
   def following
     User.joins("INNER JOIN friends ON users.id = friends.friend_id")
-        .where(friends: { user_id: id })
+        .where(friends: {user_id: id})
   end
 
   def followers
     User.joins("INNER JOIN friends ON users.id = friends.user_id")
-        .where(friends: { friend_id: id })
+        .where(friends: {friend_id: id})
   end
 
   def remove_friend(friend)

@@ -2,8 +2,8 @@
 
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, only: %i[ show update destroy add_member delete_member members group_posts ]
-  before_action :authorize_group_manage!, only: %i[ update destroy ]
+  before_action :set_group, only: %i[show update destroy add_member delete_member members group_posts]
+  before_action :authorize_group_manage!, only: %i[update destroy]
 
   # GET /groups
   def index
@@ -57,11 +57,11 @@ class GroupsController < ApplicationController
   # DELETE /groups/1/members/1
   def delete_member
     @user = User.find(params[:user_id])
-    if !@group.users.include?(@user)
-      render json: {error: "User is not a member of this group"}, status: :unprocessable_entity
-    else
+    if @group.users.include?(@user)
       @group.users.delete @user
       render json: UserSerializer.new(@group.users).to_h
+    else
+      render json: {error: "User is not a member of this group"}, status: :unprocessable_entity
     end
   end
 
@@ -74,7 +74,7 @@ class GroupsController < ApplicationController
   def group_posts
     posts = PostQuery.new(@group.posts).call(params)
 
-    serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
+    serialized_posts = PostSerializer.new(posts, params: {current_user:}).to_h
 
     paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
 
@@ -82,6 +82,7 @@ class GroupsController < ApplicationController
   end
 
   private
+
   def set_group
     @group = Group.find(params[:id])
   end

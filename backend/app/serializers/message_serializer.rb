@@ -1,4 +1,4 @@
-require_relative 'helpers/hash_unwrapper_helper'
+require_relative "helpers/hash_unwrapper_helper"
 
 class MessageSerializer
   include FastJsonapi::ObjectSerializer

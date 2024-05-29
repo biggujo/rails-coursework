@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
 class PostQuery
-  def initialize(relation = Post.all)
+  def initialize(relation=Post.all)
     @relation = relation
   end
 
-  def call(params = {})
+  def call(params={})
     scoped = @relation
     scoped = filter_by_content(scoped, params[:content]) if params[:content].present?
-    scoped = filter_by_date_range(scoped, params[:start_date], params[:end_date]) if params[:start_date].present? && params[:end_date].present?
+    if params[:start_date].present? && params[:end_date].present?
+      scoped = filter_by_date_range(scoped, params[:start_date],
+                                    params[:end_date])
+    end
     scoped = sort_by_activity(scoped, params[:sort_activity]) if params[:sort_activity].present?
     scoped = sort_by_date(scoped, params[:sort_date]) if params[:sort_date].present?
     scoped
@@ -17,7 +20,7 @@ class PostQuery
   private
 
   def filter_by_content(relation, content)
-    relation.where('content LIKE ?', "%#{content}%")
+    relation.where("content LIKE ?", "%#{content}%")
   end
 
   def filter_by_date_range(relation, start_date, end_date)
@@ -36,4 +39,3 @@ class PostQuery
     relation.order(created_at: direction)
   end
 end
-
