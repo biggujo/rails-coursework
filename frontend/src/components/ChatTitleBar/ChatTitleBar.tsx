@@ -33,7 +33,7 @@ export default function ChatTitleBar({
         >
           <MyAvatar alt={title} size={'small'} src={avatarSrc} />
           <Typography variant={'h6'} component={'h3'}>
-            Name: {title}
+            {title}
           </Typography>
         </Stack>
       </Grid>
