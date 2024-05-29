@@ -6,15 +6,26 @@ class SearchService
   end
 
   def call
-    users = User.where("full_name ILIKE ? OR nickname ILIKE ?", "%#{@query}%", "%#{@query}%")
-    groups = Group.where("name ILIKE ?", "%#{@query}%")
+    serialized_users + serialized_groups
+  end
 
-    serialized_users = UserSerializer.new(users).serializable_hash
-    serialized_groups = GroupSerializer.new(groups).serializable_hash
+  private
 
-    serialized_users[:data].each { |user| user[:type] = 'user' }
-    serialized_groups[:data].each { |group| group[:type] = 'group' }
+  def search_users
+    User.where("full_name ILIKE :name OR nickname ILIKE :name", name: "%#{@query}%")
+  end
 
-    serialized_users[:data] + serialized_groups[:data]
+  def search_groups
+    Group.where("name ILIKE :name", name: "%#{@query}%")
+  end
+
+  def serialized_users
+    UserSerializer.new(search_users).serializable_hash[:data].map { |user| user.merge(type: 'user') }
+  end
+
+  def serialized_groups
+    GroupSerializer.new(search_groups).serializable_hash[:data].map { |group| group.merge(type: 'group') }
   end
 end
+
+
