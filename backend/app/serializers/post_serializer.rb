@@ -6,7 +6,7 @@ class PostSerializer
   include FastJsonapi::ObjectSerializer
   include HashUnwrapperHelper
 
-  attributes :id, :content, :created_at, :updated_at
+  attributes :id, :title, :content, :created_at, :updated_at
 
   attribute :likes_count do |post|
     post.get_upvotes.size
