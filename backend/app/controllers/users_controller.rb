@@ -1,6 +1,6 @@
 require 'pagy/extras/array'
 
-class UsersController < ApplicationController
+class UsersController < ApiController
   include ActiveStorage::SetCurrent
   before_action :authenticate_user!
 

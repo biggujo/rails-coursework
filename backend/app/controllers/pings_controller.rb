@@ -1,4 +1,4 @@
-class PingsController < ApplicationController
+class PingsController < ApiController
   def index
     render json: {
       message: "ping",

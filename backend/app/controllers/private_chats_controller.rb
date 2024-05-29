@@ -1,4 +1,4 @@
-class PrivateChatsController < ApplicationController
+class PrivateChatsController < ApiController
   before_action :authenticate_user!
   before_action :validate_create_params, only: [:create]
 

@@ -1,15 +1,18 @@
-class ApplicationController < ActionController::API
-  include Pagy::Backend
-  before_action :configure_devise_params, if: :devise_controller?
-  before_action :update_last_seen_at, if: -> { user_signed_in? && current_user.last_seen_at < 5.minutes.ago }
+class ApplicationController < ActionController::Base
+  skip_before_action :verify_authenticity_token
 
-  include Pagy::Backend
+  protected
 
-  def update_last_seen_at
-    current_user.update_column(:last_seen_at, Time.now)
+  def authenticate_admin_user!
+    authenticate_user!
+    return if current_user.admin?
+
+    render json: { error: "Unauthorized access" }, status: :unauthorized
   end
 
-  def configure_devise_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :password, :nickname, :country, :city, :full_name])
+  def current_admin_user
+    return unless current_user&.admin?
+
+    current_user
   end
 end

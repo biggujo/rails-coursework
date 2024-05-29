@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class LikesController < ApplicationController
+class LikesController < ApiController
   before_action :find_likeable
   before_action :authenticate_user!
 

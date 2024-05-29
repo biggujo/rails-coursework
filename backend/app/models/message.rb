@@ -5,4 +5,13 @@ class Message < ApplicationRecord
   validates :private_chat, presence: true
   validates :author, presence: true
   validates :message, presence: true
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[author_id created_at id id_value message private_chat_id updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[author private_chat]
+  end
+
 end

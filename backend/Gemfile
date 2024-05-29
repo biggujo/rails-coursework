@@ -79,3 +79,6 @@ gem "acts_as_votable"
 
 gem "pagy", "~> 8.4.0"
 gem 'letter_opener', '~> 1.10.0'
+
+gem 'activeadmin'
+gem 'sassc-rails'
