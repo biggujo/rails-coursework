@@ -7,7 +7,7 @@ interface Props {
   userData: UserEntityExtended;
 }
 
-const MainData = ({ userData }: Props) => {
+const MainProfileData = ({ userData }: Props) => {
   const formattedJoinData = DateConverters.extractReadable(userData.updated_at);
 
   return (
@@ -38,4 +38,4 @@ const MainData = ({ userData }: Props) => {
   );
 };
 
-export default MainData;
+export default MainProfileData;

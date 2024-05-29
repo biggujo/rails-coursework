@@ -5,12 +5,14 @@ import { Button, ListItem, Stack, SvgIconTypeMap } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { UserEntityExtended } from '../../interfaces';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   userData: UserEntityExtended;
 }
 
 const UtilityButtons = ({ userData }: Props) => {
+  const navigate = useNavigate();
   const currentUser = useSelector(selectAuthUser);
 
   const buttonList: Array<{
@@ -23,6 +25,7 @@ const UtilityButtons = ({ userData }: Props) => {
     buttonList.push({
       title: 'Send message',
       icon: CreateIcon,
+      onClick: () => navigate(`/chat/${userData.id}`),
     });
   }
 
@@ -30,6 +33,7 @@ const UtilityButtons = ({ userData }: Props) => {
     buttonList.push({
       title: 'Edit Profile',
       icon: SettingsIcon,
+      onClick: () => navigate(`/profile_edit`),
     });
   }
 

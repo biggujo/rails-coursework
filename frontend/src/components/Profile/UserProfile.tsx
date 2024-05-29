@@ -1,7 +1,7 @@
 import { UserEntityExtended } from '../../interfaces';
 import { Stack } from '@mui/material';
 import createSubtitle from '../../utils/create-subtitle.tsx';
-import { MainData, FriendsData, UtilityButtons } from '.';
+import { MainProfileData, FriendsData, UtilityButtons } from '.';
 
 interface Props {
   userData: UserEntityExtended;
@@ -16,7 +16,7 @@ const UserProfile = ({ userData }: Props) => {
     >
       <Stack direction={'column'}>
         {createSubtitle('Main information')}
-        <MainData userData={userData} />
+        <MainProfileData userData={userData} />
         {createSubtitle('Connections')}
         <FriendsData userData={userData} />
       </Stack>
