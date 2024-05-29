@@ -4,7 +4,7 @@ import { SyntheticEvent } from 'react';
 interface Props {
   alt: string;
   src?: string;
-  size: 'small' | 'medium' | 'large';
+  size: 'small' | 'bigger' | 'medium' | 'large';
   onLoad?: (event: SyntheticEvent<unknown>) => void;
 }
 
@@ -16,6 +16,9 @@ export default function MyAvatar({ alt, src, onLoad, size }: Props) {
   switch (size) {
     case 'small':
       sizeValue = 36;
+      break;
+    case 'bigger':
+      sizeValue = 48;
       break;
     case 'medium':
       sizeValue = 64;
@@ -29,6 +32,7 @@ export default function MyAvatar({ alt, src, onLoad, size }: Props) {
 
   switch (size) {
     case 'small':
+    case 'bigger':
     case 'medium':
       borderValue = 2;
       break;

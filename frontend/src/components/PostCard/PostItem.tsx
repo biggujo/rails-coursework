@@ -41,12 +41,13 @@ export default function PostItem({ data }: Props) {
           <MyAvatar
             alt={data.user.nickname}
             src={data.user.profile_photo}
-            size={'small'}
+            size={'bigger'}
           />
         }
         action={<MyMenu actions={[]} />}
-        title="Lorem ipsum"
+        title={data.title}
         subheader={formattedDate}
+        titleTypographyProps={{ variant: 'h6', component: 'h3' }}
       />
       {/*<CardMedia*/}
       {/*  component="img"*/}
