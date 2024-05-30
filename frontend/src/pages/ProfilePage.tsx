@@ -7,6 +7,7 @@ import { UserProfile } from '../components/Profile';
 import useGetPostsQuery from '../hooks/query/useGetPostsQuery.ts';
 import createSubtitle from '../utils/create-subtitle.tsx';
 import PostList from '../components/PostList';
+import CommentItem from '../components/CommentItem/CommentItem.tsx';
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -28,7 +29,28 @@ export default function ProfilePage() {
       {!profileQuery.isLoading && profileQuery.data && (
         <>
           <UserProfile userData={profileQuery.data} />
-
+          <CommentItem
+            data={{
+              id: 1,
+              text: 'sdfdsfsdfsdfsdf',
+              created_at: '2024-05-26T17:56:18.036Z',
+              updated_at: '2024-05-26T17:56:18.036Z',
+              post_id: 2,
+              likes_count: 0,
+              dislikes_count: 0,
+              user: {
+                id: 36,
+                email: 'd@d.d',
+                last_seen_at: '2024-05-26T17:28:26.862Z',
+                nickname: 'ddd',
+                full_name: 'John Smith',
+                created_at: '2024-05-24T09:50:54.938Z',
+                profile_photo: null,
+              },
+              liked: false,
+              disliked: false,
+            }}
+          />
           {postsQuery.isLoading && (
             <Box height={400}>
               <Loader />

@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -10,6 +11,7 @@ import {
 } from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import {
+  Delete,
   ThumbDown,
   ThumbDownOutlined,
   ThumbUp,
@@ -72,7 +74,7 @@ export default function PostItem({ data }: Props) {
                 action: null,
               },
               {
-                title: 'Delete',
+                title: <Button startIcon={<Delete />}>Delete</Button>,
                 action: async () => {
                   try {
                     if (!confirm('Are you sure you want to delete the post?')) {

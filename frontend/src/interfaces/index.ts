@@ -6,3 +6,4 @@ export type { default as ChatEntity } from './ChatEntity.interface.ts';
 export type { default as PasswordRecoveryFormData } from './PasswordRecoveryFormData.interface.ts';
 export type { default as PostEntity } from './PostEntity.interface.ts';
 export type { default as NewPostEntity } from './NewPostEntity.interface.ts';
+export type { default as CommentEntity } from './CommentEntity.interface.ts';
