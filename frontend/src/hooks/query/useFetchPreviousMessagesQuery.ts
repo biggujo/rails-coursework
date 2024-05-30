@@ -53,6 +53,7 @@ const useFetchPreviousMessagesQuery = ({
     }
 
     dispatch(operationToDispatch);
+    // eslint-disable-next-line
   }, [data, dispatch]);
 
   return { items, isLoading, error, chatId: chatId.current };

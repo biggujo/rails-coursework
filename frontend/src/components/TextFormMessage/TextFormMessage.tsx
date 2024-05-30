@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function TextFormMessage({ onSubmit }: Props) {
-  const [formik, maxLength] = useTextMessageForm(onSubmit);
+  const { formik, maxLength } = useTextMessageForm(onSubmit);
 
   return (
     <FormikProvider value={formik}>

@@ -25,6 +25,9 @@ const useTextMessageForm = (onSubmit: (message: string) => void) => {
     },
   });
 
-  return [formik, MAX_MESSAGE_LENGTH];
+  return {
+    formik,
+    maxLength: MAX_MESSAGE_LENGTH,
+  };
 };
 export default useTextMessageForm;

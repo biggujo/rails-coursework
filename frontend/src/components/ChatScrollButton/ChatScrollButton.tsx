@@ -2,7 +2,6 @@ import { Button } from '@mui/material';
 
 interface Props {
   text: string;
-  // @ts-ignore
   onClick: (event: MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 

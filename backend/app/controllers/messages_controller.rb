@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MessagesController < ApplicationController
   before_action :authenticate_user!
 
@@ -24,7 +26,7 @@ class MessagesController < ApplicationController
 
     render json: {
       private_chat_id: private_chat_id.to_i,
-      metadata: metadata,
+      metadata:,
       items: items.reverse
     }
   end
@@ -36,11 +38,11 @@ class MessagesController < ApplicationController
     author_id = current_user.id
 
     begin
-      message = Message.create!(private_chat_id: private_chat_id,
-                                author_id: author_id,
+      message = Message.create!(private_chat_id:,
+                                author_id:,
                                 message: message_text)
     rescue ActiveRecord::RecordInvalid => e
-      render json: { message: "Record invalid: #{e.message}" }, status: :bad_request
+      render json: {message: "Record invalid: #{e.message}"}, status: :bad_request
       return
     end
 

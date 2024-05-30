@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
-  has_many :posts
-  has_many :comments
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
@@ -27,18 +29,18 @@ class User < ApplicationRecord
 
   def mutual_friends
     User.joins("INNER JOIN friends ON users.id = friends.friend_id")
-        .where(friends: { user_id: id })
-        .where(users: { id: followers.ids })
+        .where(friends: {user_id: id})
+        .where(users: {id: followers.ids})
   end
 
   def following
     User.joins("INNER JOIN friends ON users.id = friends.friend_id")
-        .where(friends: { user_id: id })
+        .where(friends: {user_id: id})
   end
 
   def followers
     User.joins("INNER JOIN friends ON users.id = friends.user_id")
-        .where(friends: { friend_id: id })
+        .where(friends: {friend_id: id})
   end
 
   def remove_friend(friend)

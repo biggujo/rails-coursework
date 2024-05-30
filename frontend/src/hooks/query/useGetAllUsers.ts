@@ -5,7 +5,7 @@ function useGetAllUsers() {
   return useQuery({
     queryKey: ['users'],
     queryFn: API.user.getAll,
-    // @ts-ignore
+    // @ts-expect-error of bad typing
     cacheTime: 0,
   });
 }

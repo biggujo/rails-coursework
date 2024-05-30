@@ -1,7 +1,7 @@
 import { Container, Typography } from '@mui/material';
 import FormWrapper from '../components/FormWrapper/FormWrapper.tsx';
 import PasswordRecoveryRecoveryForm from '../components/PasswordRecoveryRecoveryForm';
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 
 export default function PasswordResetRecoveryPage() {
   const [searchParams] = useSearchParams();

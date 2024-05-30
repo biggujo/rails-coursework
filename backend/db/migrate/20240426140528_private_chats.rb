@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PrivateChats < ActiveRecord::Migration[7.1]
   def change
     create_table :private_chats do |t|
@@ -6,7 +8,7 @@ class PrivateChats < ActiveRecord::Migration[7.1]
 
       t.foreign_key "users", column: "user_1_id"
       t.foreign_key "users", column: "user_2_id"
-      t.index [:user_1_id, :user_2_id], :unique => true
+      t.index %i[user_1_id user_2_id], unique: true
 
       t.timestamps
     end

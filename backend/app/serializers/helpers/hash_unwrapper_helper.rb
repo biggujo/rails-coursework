@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HashUnwrapperHelper
   def to_h
     data = serializable_hash
@@ -6,9 +8,9 @@ module HashUnwrapperHelper
       data[:data][:attributes]
 
     elsif data[:data].is_a? Array
-      data[:data].map { |x| x[:attributes] }
+      data[:data].pluck(:attributes)
 
-    elsif data[:data] == nil
+    elsif data[:data].nil?
       nil
 
     else

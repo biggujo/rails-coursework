@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PrivateChannel < ApplicationCable::Channel
   def subscribed
     # Create if not exists
@@ -27,9 +29,7 @@ class PrivateChannel < ApplicationCable::Channel
 
     private_chat = PrivateChat.get_private_chat(user_1_id, user_2_id).first
 
-    unless private_chat
-      private_chat = PrivateChat.create(user_1_id: user_1_id, user_2_id: user_2_id)
-    end
+    private_chat ||= PrivateChat.create(user_1_id:, user_2_id:)
 
     private_chat
   end

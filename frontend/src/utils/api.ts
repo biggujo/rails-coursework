@@ -8,6 +8,7 @@ import {
 } from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
+import UserEntity from '../interfaces/UserEntity.interface.ts';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
@@ -69,7 +70,7 @@ const refreshUser = async () => {
 const getAllUsers = async () => {
   const response: AxiosResponse = await axios.get('/users');
   return response.data as {
-    data: Array<UserEntityExtended>;
+    data: Array<UserEntity>;
   };
 };
 
@@ -117,6 +118,61 @@ const chats = {
   },
 };
 
+const friends = {
+  fetchFollowing: (id: number) => async () => {
+    const response: AxiosResponse = await axios.get(
+      `/users/${id}/friends/following`
+    );
+
+    return response.data as Array<UserEntity>;
+  },
+  fetchFollowers: (id: number) => async () => {
+    const response: AxiosResponse = await axios.get(
+      `/users/${id}/friends/followers`
+    );
+
+    return response.data as Array<UserEntity>;
+  },
+  fetchFriends: (id: number) => async () => {
+    const response: AxiosResponse = await axios.get(
+      `/users/${id}/friends/mutual_friends`
+    );
+
+    return response.data as Array<UserEntity>;
+  },
+  addFriend: async ({
+    currentUserId,
+    otherPersonId,
+  }: {
+    currentUserId: number;
+    otherPersonId: number;
+  }) => {
+    const data = {
+      friend_id: otherPersonId,
+    };
+
+    const response: AxiosResponse = await axios.post(
+      `/users/${currentUserId}/friends`,
+      data
+    );
+
+    return response.data as { success: string };
+  },
+  removeFriend: async ({
+    currentUserId,
+    otherPersonId,
+  }: {
+    currentUserId: number;
+    otherPersonId: number;
+  }) => {
+    const response: AxiosResponse = await axios.delete(
+      `/users/${currentUserId}/friends/${otherPersonId}`
+    );
+
+    return response.data as { success: string };
+  },
+};
+
 const passwordRecovery = {
   request: async (email: string) => {
     const data = {
@@ -153,6 +209,7 @@ const API = {
     getAll: getAllUsers,
     getById,
     updateById,
+    friends,
   },
   messages: messages,
   chats,

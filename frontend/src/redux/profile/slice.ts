@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { Nullable, UserEntityExtended } from '../../interfaces';
 import ProfileOperations from './operations.ts';
 
@@ -18,21 +18,35 @@ const slice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(ProfileOperations.fetchProfileData.pending, state => ({
-        ...state,
-        isLoading: true,
-        error: null,
-      }))
-      .addCase(
-        ProfileOperations.fetchProfileData.fulfilled,
+      .addMatcher(
+        isAnyOf(
+          ProfileOperations.fetchProfileData.pending,
+          ProfileOperations.fetchProfileDataWithoutLoading.pending
+        ),
+        (state, action) => ({
+          ...state,
+          isLoading:
+            action.type ===
+            ProfileOperations.fetchProfileData.pending.toString(),
+          error: null,
+        })
+      )
+      .addMatcher(
+        isAnyOf(
+          ProfileOperations.fetchProfileData.fulfilled,
+          ProfileOperations.fetchProfileDataWithoutLoading.fulfilled
+        ),
         (state, action: PayloadAction<UserEntityExtended>) => ({
           ...state,
           data: action.payload,
           isLoading: false,
         })
       )
-      .addCase(
-        ProfileOperations.fetchProfileData.rejected,
+      .addMatcher(
+        isAnyOf(
+          ProfileOperations.fetchProfileData.rejected,
+          ProfileOperations.fetchProfileDataWithoutLoading.rejected
+        ),
         (state, action) => ({
           ...state,
           isLoading: false,
