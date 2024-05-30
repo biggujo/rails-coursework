@@ -1,12 +1,13 @@
 import { Box, Fade, IconButton, Menu, MenuItem } from '@mui/material';
-import { useRef } from 'react';
+import { ReactElement, useRef } from 'react';
 import useToggle from '../../hooks/useToggle.ts';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Nullable } from '../../interfaces';
 
 interface Props {
   actions: Array<{
-    title: string;
-    action: () => void;
+    title: string | ReactElement;
+    action: Nullable<() => void>;
   }>;
 }
 
@@ -36,6 +37,10 @@ export default function MyMenu({ actions }: Props) {
           {actions.map(({ title, action }, index) => (
             <MenuItem
               onClick={() => {
+                if (action === null) {
+                  return;
+                }
+
                 toggle();
                 action();
               }}

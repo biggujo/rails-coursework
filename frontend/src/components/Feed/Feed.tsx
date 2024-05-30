@@ -1,5 +1,5 @@
 import { Box, Stack } from '@mui/material';
-import PostItem from '../PostCard';
+import PostItem from '../PostItem';
 
 export default function Feed() {
   return (

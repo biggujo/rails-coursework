@@ -1,5 +1,5 @@
 import { PostEntity } from '../../interfaces';
-import PostItem from '../PostCard';
+import PostItem from '../PostItem';
 import { ListItem, Stack } from '@mui/material';
 
 interface Props {

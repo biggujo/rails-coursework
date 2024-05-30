@@ -68,9 +68,17 @@ export default function PostItem({ data }: Props) {
           <MyMenu
             actions={[
               {
+                title: <PostUpdateModal postId={data.id} />,
+                action: null,
+              },
+              {
                 title: 'Delete',
                 action: async () => {
                   try {
+                    if (!confirm('Are you sure you want to delete the post?')) {
+                      return;
+                    }
+
                     await dispatch(
                       PostsOperations.deleteById(data.id)
                     ).unwrap();
@@ -102,7 +110,6 @@ export default function PostItem({ data }: Props) {
       {/*/>*/}
       <CardContent>
         <Typography color={'text.secondary'}>{data.content}</Typography>
-        <PostUpdateModal postId={data.id} />
       </CardContent>
       <CardActions
         sx={{

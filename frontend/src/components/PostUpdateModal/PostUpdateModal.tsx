@@ -1,6 +1,5 @@
 import FormWrapper from '../FormWrapper/FormWrapper.tsx';
 import BasicModal from '../BasicModal';
-import { Button } from '@mui/material';
 import PostUpdateForm from '../PostUpdateForm';
 
 interface Props {
@@ -8,7 +7,7 @@ interface Props {
 }
 
 export default function PostUpdateModal({ postId }: Props) {
-  const toggler = <Button>Toggle</Button>;
+  const toggler = <>Edit</>;
 
   const modalContent = (
     <FormWrapper title={'Post update'}>
