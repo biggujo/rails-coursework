@@ -1,14 +1,20 @@
 import { GroupEntity } from '../../interfaces';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectAuthUser } from '../../redux/auth/selectors.ts';
 
 interface Props {
   data: GroupEntity;
 }
 
 export default function GroupCard({ data }: Props) {
+  const theme = useTheme();
   const navigate = useNavigate();
+  const currentUser = useSelector(selectAuthUser);
+
+  const isCurrentUserGroupOwner = currentUser.id === data.user.id;
 
   return (
     <Stack
@@ -31,14 +37,32 @@ export default function GroupCard({ data }: Props) {
           width: '100%',
         }}
       >
-        {`${data.name}`}{' '}
-        <span
-          style={{
-            color: '#808080',
-          }}
+        <Stack
+          component={'span'}
+          direction={'row'}
+          justifyContent={'space-between'}
         >
-          (members: {data.members_count})
-        </span>
+          <span>
+            <span>{`${data.name}`} </span>
+            <span
+              style={{
+                color: '#808080',
+              }}
+            >
+              (members: {data.members_count})
+            </span>
+          </span>
+          {isCurrentUserGroupOwner && (
+            <span
+              style={{
+                color: theme.palette.primary.main,
+              }}
+            >
+              {' '}
+              [Owner]
+            </span>
+          )}
+        </Stack>
       </Typography>
     </Stack>
   );

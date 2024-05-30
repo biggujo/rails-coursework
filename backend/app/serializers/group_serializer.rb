@@ -15,9 +15,9 @@ class GroupSerializer
     group.users.include? params[:current_user]
   end
 
-    attributes :is_creator do |group, params|
-      group.user == params[:current_user]
-    end
+  attributes :is_creator do |group, params|
+    group.user.id == params[:current_user].id
+  end
 
   attribute :user do |group|
     UserSerializer.new(group.user).to_h

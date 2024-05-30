@@ -4,6 +4,7 @@ import createSubtitle from '../../utils/create-subtitle.tsx';
 import MainGroupData from './MainGroupDate.tsx';
 import UserProfileCard from '../UserProfileCard/UserProfileCard.tsx';
 import MembersData from './MembersData.tsx';
+import UtilityButtons from './UtilityButtons.tsx';
 
 interface Props {
   groupData: GroupEntity;
@@ -24,7 +25,7 @@ export default function GroupProfile({ groupData }: Props) {
         {createSubtitle('Stats')}
         <MembersData groupData={groupData} />
       </Stack>
-      {/*<UtilityButtons userData={userData} />*/}
+      <UtilityButtons groupData={groupData} />
     </Stack>
   );
 }

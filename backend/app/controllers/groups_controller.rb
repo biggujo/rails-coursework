@@ -22,7 +22,7 @@ class GroupsController < ApplicationController
     @group.user_id = current_user.id
 
     if @group.save
-      render json: GroupSerializer.new(@group).to_h, status: :ok
+      render json: GroupSerializer.new(@group, params: {current_user:}).to_h, status: :ok
     else
       render json: {error: @group.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1
   def update
     if @group.update(group_params)
-      render json: GroupSerializer.new(@group).to_h, status: :ok
+      render json: GroupSerializer.new(@group, params: {current_user:}).to_h, status: :ok
     else
       render json: {error: @group.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end

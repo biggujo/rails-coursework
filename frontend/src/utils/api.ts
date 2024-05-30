@@ -3,6 +3,7 @@ import {
   ChatEntity,
   ChatMessage,
   CommentEntity,
+  GroupEntity,
   NewCommentEntity,
   NewPostEntity,
   PasswordRecoveryFormData,
@@ -385,6 +386,10 @@ const comments = {
 };
 
 const groups = {
+  fetchAll: async () => {
+    const response: AxiosResponse = await axios.get(`/groups`);
+    return response.data as Array<GroupEntity>;
+  },
   fetchById: (id: number) => async () => {
     const response: AxiosResponse = await axios.get(`/groups/${id}`);
     return response.data;
@@ -392,6 +397,10 @@ const groups = {
   fetchMembersById: (id: number) => async () => {
     const response: AxiosResponse = await axios.get(`/groups/${id}/members`);
     return response.data;
+  },
+  deleteById: (id: number) => async () => {
+    await axios.delete(`/groups/${id}`);
+    return;
   },
 };
 

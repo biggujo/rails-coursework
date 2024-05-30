@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { Button, ListItem, Stack, SvgIconTypeMap } from '@mui/material';
+import { Button, ListItem, Stack } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { UserProfile } from '../../interfaces';
@@ -12,6 +11,7 @@ import { AppDispatch } from '../../redux/store.ts';
 import ProfileOperations from '../../redux/profile/operations.ts';
 import myToast from '../../utils/myToast.tsx';
 import PostCreateModal from '../PostCreateModal';
+import UtilityButtonInterface from '../../interfaces/UtilityButton.interface.ts';
 
 interface Props {
   userData: UserProfile;
@@ -41,12 +41,7 @@ const UtilityButtons = ({ userData }: Props) => {
   const currentUser = useSelector(selectAuthUser);
   const dispatch: AppDispatch = useDispatch();
 
-  const buttonList: Array<{
-    title: string;
-    icon: OverridableComponent<SvgIconTypeMap> & { muiName: string };
-    color?: string;
-    onClick?: () => void;
-  }> = [];
+  const buttonList: Array<UtilityButtonInterface> = [];
 
   if (userData.id !== currentUser.id) {
     buttonList.push({
