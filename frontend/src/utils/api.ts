@@ -5,6 +5,7 @@ import {
   CommentEntity,
   GroupEntity,
   NewCommentEntity,
+  GroupFormValues,
   NewPostEntity,
   PasswordRecoveryFormData,
   PostEntity,
@@ -397,6 +398,10 @@ const groups = {
   fetchMembersById: (id: number) => async () => {
     const response: AxiosResponse = await axios.get(`/groups/${id}/members`);
     return response.data;
+  },
+  updateById: async ({ id, data }: { id: number; data: GroupFormValues }) => {
+    const response: AxiosResponse = await axios.patch(`/groups/${id}`, data);
+    return response.data as GroupEntity;
   },
   joinById: async ({
     groupId,

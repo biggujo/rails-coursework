@@ -9,3 +9,4 @@ export type { default as NewPostEntity } from './NewPostEntity.interface.ts';
 export type { default as CommentEntity } from './CommentEntity.interface.ts';
 export type { default as NewCommentEntity } from './NewCommentEntity.interface.ts';
 export type { default as GroupEntity } from './GroupEntity.interface.ts';
+export type { default as GroupFormValues } from './GroupFormValues.interface.ts';

@@ -10,6 +10,7 @@ import useDeleteGroupMutation from '../../hooks/mutation/useDeleteGroupMutation.
 import myToast from '../../utils/myToast.tsx';
 import useJoinGroupMutation from '../../hooks/mutation/useJoinGroupMutation.ts';
 import useLeaveGroupMutation from '../../hooks/mutation/useLeaveGroupMutation.ts';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 interface Props {
   groupData: GroupEntity;
@@ -63,6 +64,12 @@ export default function UtilityButtons({ groupData }: Props) {
   }
 
   if (isCurrentUserGroupCreator) {
+    buttonList.push({
+      title: 'Edit Group',
+      icon: SettingsIcon,
+      onClick: () => navigate(`/group_edit/${groupData.id}`),
+    });
+
     buttonList.push({
       title: 'Delete group',
       icon: Delete,
