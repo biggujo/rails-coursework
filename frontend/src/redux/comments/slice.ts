@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ChatEntity, CommentEntity, Nullable } from '../../interfaces';
+import { CommentEntity, Nullable } from '../../interfaces';
 import CommentsOperations from './operations.ts';
 // @ts-expect-error as it can't find the type
 import { ActionsFromAsyncThunk } from '@reduxjs/toolkit/dist/matchers';
@@ -34,13 +34,26 @@ const slice = createSlice({
       }))
       .addCase(
         CommentsOperations.fetchByPostId.fulfilled,
-        (state, action: ActionsFromAsyncThunk<Array<ChatEntity>>) => ({
+        (state, action: ActionsFromAsyncThunk<Array<CommentEntity>>) => ({
           ...state,
           [`${action.meta.arg}`]: {
             isLoading: false,
             items: action.payload,
           },
         })
+      )
+      .addCase(
+        CommentsOperations.add.fulfilled,
+        (state, action: ActionsFromAsyncThunk<Array<CommentEntity>>) => {
+          const postId = action.meta.arg.postId;
+
+          return {
+            ...state,
+            [`${postId}`]: {
+              items: [...state[postId].items!, action.payload],
+            },
+          };
+        }
       )
       .addCase(
         CommentsOperations.updateById.fulfilled,

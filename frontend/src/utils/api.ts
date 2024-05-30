@@ -3,6 +3,7 @@ import {
   ChatEntity,
   ChatMessage,
   CommentEntity,
+  NewCommentEntity,
   NewPostEntity,
   PasswordRecoveryFormData,
   PostEntity,
@@ -298,6 +299,14 @@ const comments = {
     );
 
     return response.data as Array<CommentEntity>;
+  },
+  add: async ({ postId, data }: { postId: number; data: NewCommentEntity }) => {
+    const response: AxiosResponse = await axios.post(
+      `/posts/${postId}/comments`,
+      data
+    );
+
+    return response.data as CommentEntity;
   },
   updateById: async ({
     postId,

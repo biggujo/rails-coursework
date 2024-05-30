@@ -31,6 +31,7 @@ import myToast from '../../utils/myToast.tsx';
 import PostUpdateModal from '../PostUpdateModal';
 import CommentList from '../CommentList';
 import useToggle from '../../hooks/useToggle.ts';
+import CommentCreateForm from '../CommentCreateForm';
 
 interface Props {
   data: PostEntity;
@@ -176,6 +177,7 @@ export default function PostItem({ data }: Props) {
               Comments
             </Typography>
             <CommentList postId={data.id} />
+            <CommentCreateForm postId={data.id} />
           </>
         )}
       </Box>

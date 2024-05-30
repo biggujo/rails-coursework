@@ -7,3 +7,4 @@ export type { default as PasswordRecoveryFormData } from './PasswordRecoveryForm
 export type { default as PostEntity } from './PostEntity.interface.ts';
 export type { default as NewPostEntity } from './NewPostEntity.interface.ts';
 export type { default as CommentEntity } from './CommentEntity.interface.ts';
+export type { default as NewCommentEntity } from './NewCommentEntity.interface.ts';

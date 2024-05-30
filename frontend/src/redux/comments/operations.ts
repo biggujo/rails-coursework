@@ -1,11 +1,28 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import API from '../../utils/api.ts';
 import thunkErrorWrapper from '../../utils/async-thunk-error-wrapper.ts';
+import { NewCommentEntity } from '../../interfaces';
 
 const fetchByPostId = createAsyncThunk(
   'comments/fetchByPostId',
   async (postId, thunkAPI) =>
     thunkErrorWrapper(postId, API.comments.fetchByPostId, thunkAPI)
+);
+
+const add = createAsyncThunk(
+  'comments/add',
+  async (
+    { postId, data }: { postId: number; data: NewCommentEntity },
+    thunkAPI
+  ) =>
+    thunkErrorWrapper(
+      {
+        postId,
+        data,
+      },
+      API.comments.add,
+      thunkAPI
+    )
 );
 
 const updateById = createAsyncThunk(
@@ -48,6 +65,7 @@ const deleteById = createAsyncThunk(
 
 const CommentsOperations = {
   fetchByPostId,
+  add,
   updateById,
   deleteById,
 };
