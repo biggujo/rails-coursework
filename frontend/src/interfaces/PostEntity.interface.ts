@@ -6,8 +6,8 @@ interface PostEntity {
   content: string;
   created_at: string;
   updated_at: string;
-  likes_count: string;
-  dislikes_count: string;
+  likes_count: number;
+  dislikes_count: number;
   user: UserEntity;
   liked: boolean;
   disliked: boolean;

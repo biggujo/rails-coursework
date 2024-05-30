@@ -212,6 +212,12 @@ export interface FetchAllPostsResponse {
   items: Array<PostEntity>;
 }
 
+export interface LikeResponse {
+  id: number;
+  likesCount: number;
+  dislikesCount: number;
+}
+
 const posts = {
   fetchAll: async (userId: number) => {
     const response: AxiosResponse = await axios.get(`/users/${userId}/posts`);
@@ -251,6 +257,36 @@ const posts = {
     const response: AxiosResponse = await axios.delete(`/posts/${postId}`);
 
     return response.data as PostEntity;
+  },
+  likes: {
+    likeById: async (postId: number) => {
+      const data = {
+        likeable_id: `${postId}`,
+        likeable_type: 'post',
+      };
+
+      const response: AxiosResponse = await axios.post('/like', data);
+
+      return {
+        id: postId,
+        likesCount: response.data.likes_count,
+        dislikesCount: response.data.dislikes_count,
+      } as LikeResponse;
+    },
+    dislikeById: async (postId: number) => {
+      const data = {
+        likeable_id: `${postId}`,
+        likeable_type: 'post',
+      };
+
+      const response: AxiosResponse = await axios.post('/dislike', data);
+
+      return {
+        id: postId,
+        likesCount: response.data.likes_count,
+        dislikesCount: response.data.dislikes_count,
+      } as LikeResponse;
+    },
   },
 };
 

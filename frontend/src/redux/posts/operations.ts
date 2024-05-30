@@ -59,11 +59,35 @@ const deleteById = createAsyncThunk(
   }
 );
 
+const likeById = createAsyncThunk(
+  'posts/likeById',
+  async (postId: number, { rejectWithValue }) => {
+    try {
+      return await API.posts.likes.likeById(postId);
+    } catch (e) {
+      return rejectWithValue(ERROR_MESSAGE);
+    }
+  }
+);
+
+const dislikeById = createAsyncThunk(
+  'posts/dislikeById',
+  async (postId: number, { rejectWithValue }) => {
+    try {
+      return await API.posts.likes.dislikeById(postId);
+    } catch (e) {
+      return rejectWithValue(ERROR_MESSAGE);
+    }
+  }
+);
+
 const PostsOperations = {
   fetchAll,
   add,
   updateById,
   deleteById,
+  likeById,
+  dislikeById,
 };
 
 export default PostsOperations;

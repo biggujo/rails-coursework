@@ -29,6 +29,19 @@ interface Props {
   data: PostEntity;
 }
 
+const handleLikeDislike =
+  ({ dispatch, operation }) =>
+  async () => {
+    try {
+      await dispatch(operation).unwrap();
+    } catch (e) {
+      myToast({
+        message: e instanceof Error ? e.message : (e as string),
+        severity: 'error',
+      });
+    }
+  };
+
 export default function PostItem({ data }: Props) {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
@@ -91,12 +104,36 @@ export default function PostItem({ data }: Props) {
         <Typography color={'text.secondary'}>{data.content}</Typography>
         <PostUpdateModal postId={data.id} />
       </CardContent>
-      <CardActions>
-        <IconButton>
-          <Checkbox icon={<ThumbUpOutlined />} checkedIcon={<ThumbUp />} />
+      <CardActions
+        sx={{
+          px: 4,
+        }}
+      >
+        <Typography>{data.likes_count}</Typography>
+        <IconButton
+          onClick={handleLikeDislike({
+            dispatch,
+            operation: PostsOperations.likeById(data.id),
+          })}
+        >
+          <Checkbox
+            icon={<ThumbUpOutlined />}
+            checkedIcon={<ThumbUp />}
+            checked={data.liked}
+          />
         </IconButton>
-        <IconButton>
-          <Checkbox icon={<ThumbDownOutlined />} checkedIcon={<ThumbDown />} />
+        <IconButton
+          onClick={handleLikeDislike({
+            dispatch,
+            operation: PostsOperations.dislikeById(data.id),
+          })}
+        >
+          <Typography>{data.dislikes_count}</Typography>
+          <Checkbox
+            icon={<ThumbDownOutlined />}
+            checkedIcon={<ThumbDown />}
+            checked={data.disliked}
+          />
         </IconButton>
         <IconButton>
           <Checkbox icon={<ShareIcon />} checkedIcon={<ShareIcon />} />

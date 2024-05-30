@@ -1,7 +1,7 @@
 import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { Nullable, PostEntity } from '../../interfaces';
 import PostsOperations from './operations.ts';
-import { FetchAllPostsResponse } from '../../utils/api.ts';
+import { FetchAllPostsResponse, LikeResponse } from '../../utils/api.ts';
 
 const initialState: {
   data: {
@@ -31,6 +31,58 @@ const slice = createSlice({
           error: null,
         },
       }))
+      .addCase(
+        PostsOperations.likeById.fulfilled,
+        (state, action: PayloadAction<LikeResponse>) => {
+          const postIndex = state.data.items.findIndex(
+            ({ id: postId }) => postId === action.payload.id
+          );
+
+          if (postIndex === -1) {
+            return state;
+          }
+
+          const post = state.data.items[postIndex];
+
+          // Toggle
+          post.liked = !post.liked;
+
+          // Undislike
+          if (post.disliked) {
+            post.disliked = false;
+          }
+
+          // Update number
+          post.likes_count = action.payload.likesCount;
+          post.dislikes_count = action.payload.dislikesCount;
+        }
+      )
+      .addCase(
+        PostsOperations.dislikeById.fulfilled,
+        (state, action: PayloadAction<LikeResponse>) => {
+          const postIndex = state.data.items.findIndex(
+            ({ id: postId }) => postId === action.payload.id
+          );
+
+          if (postIndex === -1) {
+            return state;
+          }
+
+          const post = state.data.items[postIndex];
+
+          // Toggle
+          post.disliked = !post.disliked;
+
+          // Undislike
+          if (post.liked) {
+            post.liked = false;
+          }
+
+          // Update number
+          post.likes_count = action.payload.likesCount;
+          post.dislikes_count = action.payload.dislikesCount;
+        }
+      )
       .addCase(
         PostsOperations.fetchAll.fulfilled,
         (state, action: PayloadAction<FetchAllPostsResponse>) => ({
