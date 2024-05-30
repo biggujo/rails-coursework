@@ -1,7 +1,7 @@
 import FormWrapper from '../FormWrapper/FormWrapper.tsx';
-import PostUpdateForm from '../PostUpdateForm/PostUpdateForm.tsx';
 import BasicModal from '../BasicModal';
 import { Button } from '@mui/material';
+import PostUpdateForm from '../PostUpdateForm';
 
 interface Props {
   postId: number;

@@ -7,7 +7,7 @@ const validationSchema = Yup.object({
   content: Yup.string().min(3).required('Content is required'),
 });
 
-interface FormValuesType {
+export interface PostFormValues {
   title: string;
   content: string;
 }
@@ -19,7 +19,7 @@ const initialValues = {
 
 const usePostForm = (
   givenValues: PostEntity,
-  onSubmit: (values: FormValuesType) => void
+  onSubmit: (values: PostFormValues) => void
 ) => {
   return useFormik({
     initialValues:

@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import {
   ChatEntity,
   ChatMessage,
+  NewPostEntity,
   PasswordRecoveryFormData,
   PostEntity,
   UserProfile,
@@ -229,6 +230,11 @@ const posts = {
     const response: AxiosResponse = await axios.get(`/posts/${postId}`);
 
     return response.data;
+  },
+  add: async (data: NewPostEntity) => {
+    const response: AxiosResponse = await axios.post(`/posts`, data);
+
+    return response.data as PostEntity;
   },
   updateById: async (
     postId: number,
