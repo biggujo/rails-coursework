@@ -398,6 +398,35 @@ const groups = {
     const response: AxiosResponse = await axios.get(`/groups/${id}/members`);
     return response.data;
   },
+  joinById: async ({
+    groupId,
+    userId,
+  }: {
+    groupId: number;
+    userId: number;
+  }) => {
+    const data = { user_id: userId };
+
+    const response: AxiosResponse = await axios.post(
+      `/groups/${groupId}/members`,
+      data
+    );
+
+    return response.data[0] as UserEntity;
+  },
+  leaveById: async ({
+    groupId,
+    userId,
+  }: {
+    groupId: number;
+    userId: number;
+  }) => {
+    const response: AxiosResponse = await axios.delete(
+      `/groups/${groupId}/members/${userId}`
+    );
+
+    return response.data[0] as UserEntity;
+  },
   deleteById: (id: number) => async () => {
     await axios.delete(`/groups/${id}`);
     return;
