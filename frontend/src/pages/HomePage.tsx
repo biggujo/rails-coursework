@@ -39,6 +39,13 @@ export default function HomePage() {
           All users
         </Button>
         <Button
+          onClick={() => navigate('/groups')}
+          variant={'contained'}
+          color={'secondary'}
+        >
+          All groups
+        </Button>
+        <Button
           onClick={() => navigate('/chat')}
           variant={'contained'}
           color={'secondary'}

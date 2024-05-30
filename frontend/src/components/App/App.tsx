@@ -19,6 +19,7 @@ import PasswordResetRecoveryPage from '../../pages/PasswordResetRecoveryPage.tsx
 import { useSelector } from 'react-redux';
 import { selectAuthIsRefreshing } from '../../redux/auth/selectors.ts';
 import EditProfilePage from '../../pages/EditProfilePage.tsx';
+import GroupsPage from '../../pages/GroupsPage.tsx';
 
 export default function App() {
   const isTokenLoading = useAuthorizationTokenLoader();
@@ -88,6 +89,10 @@ export default function App() {
           element={
             <PrivateRoute redirectTo={'/sign-in'} component={<UsersPage />} />
           }
+        />
+        <Route
+          path={'/groups'}
+          element={<PrivateRoute redirectTo={'/'} component={<GroupsPage />} />}
         />
         <Route
           path={'/chat/:id'}

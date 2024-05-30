@@ -1,14 +1,16 @@
 import { Avatar, useTheme } from '@mui/material';
 import { SyntheticEvent } from 'react';
+import GroupIcon from '@mui/icons-material/Group';
 
 interface Props {
   alt: string;
   src?: string;
   size: 'small' | 'bigger' | 'medium' | 'large';
+  isGroup?: boolean;
   onLoad?: (event: SyntheticEvent<unknown>) => void;
 }
 
-export default function MyAvatar({ alt, src, onLoad, size }: Props) {
+export default function MyAvatar({ alt, src, onLoad, size, isGroup }: Props) {
   const theme = useTheme();
 
   let sizeValue: number;
@@ -51,6 +53,8 @@ export default function MyAvatar({ alt, src, onLoad, size }: Props) {
         border: `${borderValue}px solid ${theme.palette.primary.main}`,
       }}
       onLoad={onLoad}
-    />
+    >
+      {isGroup && <GroupIcon />}
+    </Avatar>
   );
 }
