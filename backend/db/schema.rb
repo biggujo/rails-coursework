@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_29_083158) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_30_121813) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string "namespace"
+    t.text "body"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.string "author_type"
+    t.bigint "author_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
+    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -107,7 +121,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_29_083158) do
     t.bigint "user_2_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_1_id", "user_2_id"], name: "index_private_chats_on_user_1_id_and_user_2_id"
+    t.index ["user_1_id", "user_2_id"], name: "index_private_chats_on_user_1_id_and_user_2_id", unique: true
     t.index ["user_1_id"], name: "index_private_chats_on_user_1_id"
     t.index ["user_2_id"], name: "index_private_chats_on_user_2_id"
   end
@@ -122,10 +136,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_29_083158) do
     t.datetime "updated_at", null: false
     t.string "jti", null: false
     t.string "nickname", null: false
-    t.datetime "last_seen_at", default: "2024-05-26 14:02:10", null: false
+    t.datetime "last_seen_at", default: "2024-05-28 19:01:30", null: false
     t.string "country", default: "Ukraine", null: false
     t.string "city", default: "Kyiv", null: false
     t.string "full_name", default: "John Smith", null: false
+    t.boolean "admin", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
@@ -152,6 +167,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_29_083158) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "friends", "users"
+  add_foreign_key "friends", "users", column: "friend_id"
   add_foreign_key "groups", "users"
   add_foreign_key "groups_users", "groups"
   add_foreign_key "groups_users", "users"
