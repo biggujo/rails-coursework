@@ -29,6 +29,10 @@ This is a social network built with Ruby on Rails, React, Docker, and PostgreSQL
 
 <img src="docs/database.png" alt="Database Schema">
 
+### Use-Case
+
+<img src="docs/use-case.png" alt="Use Case Diagram">
+
 ## Prerequisites
 
 - Docker + Docker Compose
