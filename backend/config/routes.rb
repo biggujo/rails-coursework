@@ -61,6 +61,8 @@ Rails.application.routes.draw do
 
   post "/password/reset", to: "password_recovery#reset"
 
+  get "/search", to: "search#search"
+
   mount ActionCable.server => "/cable"
   # get "/users", to: "users#index"
 
