@@ -14,6 +14,7 @@ import myToast from '../../utils/myToast.tsx';
 import CommentsOperations from '../../redux/comments/operations.ts';
 import { AppDispatch } from '../../redux/store.ts';
 import { useDispatch } from 'react-redux';
+import CommentUpdateModal from '../CommentUpdateModal';
 
 interface Props {
   data: CommentEntity;
@@ -42,6 +43,12 @@ export default function CommentItem({ data, postId }: Props) {
         action={
           <MyMenu
             actions={[
+              {
+                title: (
+                  <CommentUpdateModal postId={postId} commentId={data.id} />
+                ),
+                action: null,
+              },
               {
                 title: <Button startIcon={<Delete />}>Delete</Button>,
                 action: async () => {

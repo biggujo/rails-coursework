@@ -299,6 +299,24 @@ const comments = {
 
     return response.data as Array<CommentEntity>;
   },
+  updateById: async ({
+    postId,
+    commentId,
+    data,
+  }: {
+    postId: number;
+    commentId: number;
+    data: {
+      text: string;
+    };
+  }) => {
+    const response: AxiosResponse = await axios.patch(
+      `/posts/${postId}/comments/${commentId}`,
+      data
+    );
+
+    return response.data;
+  },
   deleteById: async ({
     postId,
     commentId,

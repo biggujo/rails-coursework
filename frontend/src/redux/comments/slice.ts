@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ChatEntity, CommentEntity, Nullable } from '../../interfaces';
 import CommentsOperations from './operations.ts';
 // @ts-expect-error as it can't find the type
@@ -41,6 +41,26 @@ const slice = createSlice({
             items: action.payload,
           },
         })
+      )
+      .addCase(
+        CommentsOperations.updateById.fulfilled,
+        (state, action: PayloadAction<CommentEntity>) => {
+          const postId = action.meta.arg.postId as number;
+
+          if (!state[postId]) {
+            return state;
+          }
+
+          const commentIndex = state[postId].items!.findIndex(
+            ({ id }) => id === action.payload.id
+          );
+
+          if (commentIndex === -1) {
+            return state;
+          }
+
+          state[postId].items![commentIndex] = action.payload;
+        }
       )
       .addCase(CommentsOperations.deleteById.fulfilled, (state, action) => {
         const postId = action.meta.arg.postId as number;
