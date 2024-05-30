@@ -8,8 +8,16 @@ class GroupSerializer
 
   attributes :id, :name, :description
   attributes :members_count do |object|
-    object.users.size
+    object.users.size + 1 # include creator
   end
+
+  attributes :is_joined do |group, params|
+    group.users.include? params[:current_user]
+  end
+
+    attributes :is_creator do |group, params|
+      group.user == params[:current_user]
+    end
 
   attribute :user do |group|
     UserSerializer.new(group.user).to_h

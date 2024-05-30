@@ -8,12 +8,12 @@ class GroupsController < ApplicationController
   # GET /groups
   def index
     @groups = Group.all
-    render json: GroupSerializer.new(@groups).to_h, status: :ok
+    render json: GroupSerializer.new(@groups, params: {current_user:}).to_h, status: :ok
   end
 
   # GET /groups/1
   def show
-    render json: GroupSerializer.new(@group).to_h, status: :ok
+    render json: GroupSerializer.new(@group, params: {current_user:}).to_h, status: :ok
   end
 
   # POST /groups
@@ -67,7 +67,10 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/members
   def members
-    render json: UserSerializer.new(@group.users).to_h
+    members = @group.users.map(&:clone)
+    members << @group.user
+
+    render json: UserSerializer.new(members).to_h
   end
 
   # GET /groups/1/posts

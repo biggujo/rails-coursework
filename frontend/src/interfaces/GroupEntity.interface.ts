@@ -5,6 +5,8 @@ interface GroupEntity {
   name: string;
   description: string;
   members_count: number;
+  is_joined: false;
+  is_creator: true;
   user: UserEntity;
 }
 

@@ -384,6 +384,17 @@ const comments = {
   },
 };
 
+const groups = {
+  fetchById: (id: number) => async () => {
+    const response: AxiosResponse = await axios.get(`/groups/${id}`);
+    return response.data;
+  },
+  fetchMembersById: (id: number) => async () => {
+    const response: AxiosResponse = await axios.get(`/groups/${id}/members`);
+    return response.data;
+  },
+};
+
 const API = {
   auth: {
     signIn,
@@ -398,6 +409,7 @@ const API = {
     purgeProfilePhoto,
     friends,
   },
+  groups,
   posts,
   comments,
   messages: messages,
