@@ -37,7 +37,10 @@ export default function CommentItem({ data }: Props) {
       <CardContent
         sx={{
           py: 0,
-          pl: 8.25,
+          pl: 8.5,
+          '&:last-child': {
+            pb: 0,
+          },
         }}
       >
         <Typography color={'text.secondary'}>{data.text}</Typography>

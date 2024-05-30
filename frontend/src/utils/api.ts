@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import {
   ChatEntity,
   ChatMessage,
+  CommentEntity,
   NewPostEntity,
   PasswordRecoveryFormData,
   PostEntity,
@@ -290,6 +291,16 @@ const posts = {
   },
 };
 
+const comments = {
+  fetchByPostId: async (postId: number) => {
+    const response: AxiosResponse = await axios.get(
+      `/posts/${postId}/comments`
+    );
+
+    return response.data as Array<CommentEntity>;
+  },
+};
+
 const API = {
   auth: {
     signIn,
@@ -305,6 +316,7 @@ const API = {
     friends,
   },
   posts,
+  comments,
   messages: messages,
   chats,
   passwordRecovery,

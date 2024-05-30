@@ -15,6 +15,7 @@ import {
 } from 'redux-persist/es/constants';
 import { chatListReducer } from './chatList/slice.ts';
 import { postsReducer } from './posts/slice.ts';
+import { commentsReducer } from './comments/slice.ts';
 
 const persistConfig = {
   key: 'auth',
@@ -26,6 +27,7 @@ export const store = configureStore({
     chatMessages: chatHistoryReducer,
     chatList: chatListReducer,
     posts: postsReducer,
+    comments: commentsReducer,
     // @ts-expect-error because of non-existing types on persistor
     auth: persistReducer(persistConfig, authReducer),
     profile: profileReducer,

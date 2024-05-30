@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -26,6 +27,8 @@ import PostsOperations from '../../redux/posts/operations.ts';
 import { useDispatch } from 'react-redux';
 import myToast from '../../utils/myToast.tsx';
 import PostUpdateModal from '../PostUpdateModal';
+import CommentList from '../CommentList';
+import useToggle from '../../hooks/useToggle.ts';
 
 interface Props {
   data: PostEntity;
@@ -47,6 +50,8 @@ const handleLikeDislike =
 export default function PostItem({ data }: Props) {
   const dispatch: AppDispatch = useDispatch();
   const theme = useTheme();
+
+  const { isOpen, toggle } = useToggle();
 
   const formattedDate = DateFormatter.formatRelativeToNow(data.created_at);
 
@@ -118,13 +123,13 @@ export default function PostItem({ data }: Props) {
           px: 4,
         }}
       >
-        <Typography>{data.likes_count}</Typography>
         <IconButton
           onClick={handleLikeDislike({
             dispatch,
             operation: PostsOperations.likeById(data.id),
           })}
         >
+          <Typography>{data.likes_count}</Typography>
           <Checkbox
             icon={<ThumbUpOutlined />}
             checkedIcon={<ThumbUp />}
@@ -148,6 +153,17 @@ export default function PostItem({ data }: Props) {
           <Checkbox icon={<ShareIcon />} checkedIcon={<ShareIcon />} />
         </IconButton>
       </CardActions>
+      <Box pb={1}>
+        <Button
+          onClick={toggle}
+          sx={{
+            width: '100%',
+          }}
+        >
+          {isOpen ? 'Hide comments' : 'Show comments'}
+        </Button>
+        {isOpen && <CommentList postId={data.id} />}
+      </Box>
     </Card>
   );
 }
