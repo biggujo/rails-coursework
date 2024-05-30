@@ -51,7 +51,7 @@ class PostQuery
   def sort_by_date(scoped, params)
     direction = params[:sort_date]
 
-    return scoped.order(created_at: "ASC") unless direction
+    return scoped.order(created_at: "DESC") unless direction
 
     scoped.order(created_at: direction)
   end

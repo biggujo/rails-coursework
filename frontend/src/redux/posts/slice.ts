@@ -43,6 +43,17 @@ const slice = createSlice({
         })
       )
       .addCase(
+        PostsOperations.add.fulfilled,
+        (state, action: PayloadAction<PostEntity>) => ({
+          ...state,
+          data: {
+            ...state.data,
+            items: [action.payload, ...state.data.items],
+            isLoading: false,
+          },
+        })
+      )
+      .addCase(
         PostsOperations.updateById.fulfilled,
         (state, action: PayloadAction<PostEntity>) => {
           const postIndex = state.data.items.findIndex(

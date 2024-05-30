@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { PostEntity } from '../../interfaces';
+import { Nullable, PostEntity } from '../../interfaces';
 
 const validationSchema = Yup.object({
   title: Yup.string().required('Title is required'),
@@ -18,15 +18,16 @@ const initialValues = {
 };
 
 const usePostForm = (
-  givenValues: PostEntity,
+  givenValues: Nullable<PostEntity>,
   onSubmit: (values: PostFormValues) => void
 ) => {
   return useFormik({
     initialValues:
-      {
+      (givenValues && {
         title: givenValues.title,
         content: givenValues.content,
-      } || initialValues,
+      }) ||
+      initialValues,
     validationSchema,
     onSubmit: async values => {
       onSubmit(values);

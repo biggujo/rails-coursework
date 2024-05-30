@@ -11,6 +11,7 @@ import API from '../../utils/api.ts';
 import { AppDispatch } from '../../redux/store.ts';
 import ProfileOperations from '../../redux/profile/operations.ts';
 import myToast from '../../utils/myToast.tsx';
+import PostCreateModal from '../PostCreateModal';
 
 interface Props {
   userData: UserProfile;
@@ -99,6 +100,11 @@ const UtilityButtons = ({ userData }: Props) => {
 
   return (
     <Stack direction={'column'} alignItems={'stretch'}>
+      {userData.id === currentUser.id && (
+        <ListItem key={-1}>
+          <PostCreateModal />
+        </ListItem>
+      )}
       {buttonList.map(({ title, icon: Icon, onClick, color }, index) => (
         <ListItem key={index}>
           <Button
