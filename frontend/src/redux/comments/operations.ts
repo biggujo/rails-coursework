@@ -63,11 +63,25 @@ const deleteById = createAsyncThunk(
     thunkErrorWrapper({ postId, commentId }, API.comments.deleteById, thunkAPI)
 );
 
+const likeById = createAsyncThunk(
+  'comments/likeById',
+  async (commentId: number, thunkAPI) =>
+    thunkErrorWrapper(commentId, API.comments.likes.likeById, thunkAPI)
+);
+
+const dislikeById = createAsyncThunk(
+  'comments/dislikeById',
+  async (commentId: number, thunkAPI) =>
+    thunkErrorWrapper(commentId, API.comments.likes.dislikeById, thunkAPI)
+);
+
 const CommentsOperations = {
   fetchByPostId,
   add,
   updateById,
   deleteById,
+  likeById,
+  dislikeById,
 };
 
 export default CommentsOperations;

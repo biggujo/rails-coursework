@@ -63,7 +63,15 @@ export default function EditProfilePage() {
       <Box mt={2}>
         <Button
           type={'submit'}
-          onClick={handlePurgeProfilePhoto}
+          onClick={() => {
+            if (
+              !confirm('Are you sure you want to remove the profile photo?')
+            ) {
+              return;
+            }
+
+            handlePurgeProfilePhoto();
+          }}
           color={'error'}
           variant={'contained'}
         >

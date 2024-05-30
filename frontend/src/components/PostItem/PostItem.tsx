@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   Checkbox,
+  Divider,
   IconButton,
   Stack,
   Typography,
@@ -26,32 +27,23 @@ import DateFormatter from '../../utils/date-formatter.ts';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
 import { AppDispatch } from '../../redux/store.ts';
 import PostsOperations from '../../redux/posts/operations.ts';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import myToast from '../../utils/myToast.tsx';
 import PostUpdateModal from '../PostUpdateModal';
 import CommentList from '../CommentList';
 import useToggle from '../../hooks/useToggle.ts';
 import CommentCreateForm from '../CommentCreateForm';
+import useHandleOperationWithNotify from '../../hooks/useHandleOperationWithNotify.ts';
+import { selectAuthUser } from '../../redux/auth/selectors.ts';
 
 interface Props {
   data: PostEntity;
 }
 
-const handleLikeDislike =
-  ({ dispatch, operation }) =>
-  async () => {
-    try {
-      await dispatch(operation).unwrap();
-    } catch (e) {
-      myToast({
-        message: e instanceof Error ? e.message : (e as string),
-        severity: 'error',
-      });
-    }
-  };
-
 export default function PostItem({ data }: Props) {
   const dispatch: AppDispatch = useDispatch();
+  const operationHandler = useHandleOperationWithNotify();
+  const currentUser = useSelector(selectAuthUser);
   const theme = useTheme();
 
   const { isOpen, toggle } = useToggle();
@@ -76,38 +68,42 @@ export default function PostItem({ data }: Props) {
           />
         }
         action={
-          <MyMenu
-            actions={[
-              {
-                title: <PostUpdateModal postId={data.id} />,
-                action: null,
-              },
-              {
-                title: <Button startIcon={<Delete />}>Delete</Button>,
-                action: async () => {
-                  try {
-                    if (!confirm('Are you sure you want to delete the post?')) {
-                      return;
-                    }
-
-                    await dispatch(
-                      PostsOperations.deleteById(data.id)
-                    ).unwrap();
-
-                    myToast({
-                      message: 'The post has been deleted',
-                      severity: 'success',
-                    });
-                  } catch (e) {
-                    myToast({
-                      message: e,
-                      severity: 'error',
-                    });
-                  }
+          currentUser.id === data.user.id && (
+            <MyMenu
+              actions={[
+                {
+                  title: <PostUpdateModal postId={data.id} />,
+                  action: null,
                 },
-              },
-            ]}
-          />
+                {
+                  title: <Button startIcon={<Delete />}>Delete</Button>,
+                  action: async () => {
+                    try {
+                      if (
+                        !confirm('Are you sure you want to delete the post?')
+                      ) {
+                        return;
+                      }
+
+                      await dispatch(
+                        PostsOperations.deleteById(data.id)
+                      ).unwrap();
+
+                      myToast({
+                        message: 'The post has been deleted',
+                        severity: 'success',
+                      });
+                    } catch (e) {
+                      myToast({
+                        message: e,
+                        severity: 'error',
+                      });
+                    }
+                  },
+                },
+              ]}
+            />
+          )
         }
         title={data.title}
         subheader={formattedDate}
@@ -130,7 +126,7 @@ export default function PostItem({ data }: Props) {
         >
           <Box>
             <IconButton
-              onClick={handleLikeDislike({
+              onClick={operationHandler({
                 dispatch,
                 operation: PostsOperations.likeById(data.id),
               })}
@@ -143,7 +139,7 @@ export default function PostItem({ data }: Props) {
               />
             </IconButton>
             <IconButton
-              onClick={handleLikeDislike({
+              onClick={operationHandler({
                 dispatch,
                 operation: PostsOperations.dislikeById(data.id),
               })}
@@ -173,6 +169,12 @@ export default function PostItem({ data }: Props) {
       <Box pb={1}>
         {isOpen && (
           <>
+            <Divider
+              sx={{
+                bgcolor: theme.palette.primary.light,
+                mb: 2,
+              }}
+            />
             <Typography variant={'h6'} fontWeight={'normal'} pl={4}>
               Comments
             </Typography>

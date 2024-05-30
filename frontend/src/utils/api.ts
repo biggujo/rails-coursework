@@ -216,6 +216,7 @@ export interface FetchAllPostsResponse {
 
 export interface LikeResponse {
   id: number;
+  postId?: number;
   likesCount: number;
   dislikesCount: number;
 }
@@ -338,6 +339,48 @@ const comments = {
     );
 
     return response.data;
+  },
+  likes: {
+    likeById: async (commentId: number) => {
+      const data = {
+        likeable_id: `${commentId}`,
+        likeable_type: 'comment',
+      };
+
+      const response: AxiosResponse = await axios.post('/like', data);
+
+      const comment = response.data.Comment as {
+        id: number;
+        post_id: number;
+      };
+
+      return {
+        id: comment.id,
+        postId: comment.post_id,
+        likesCount: response.data.likes_count,
+        dislikesCount: response.data.dislikes_count,
+      } as LikeResponse;
+    },
+    dislikeById: async (commentId: number) => {
+      const data = {
+        likeable_id: `${commentId}`,
+        likeable_type: 'comment',
+      };
+
+      const response: AxiosResponse = await axios.post('/dislike', data);
+
+      const comment = response.data.Comment as {
+        id: number;
+        post_id: number;
+      };
+
+      return {
+        id: comment.id,
+        postId: comment.post_id,
+        likesCount: response.data.likes_count,
+        dislikesCount: response.data.dislikes_count,
+      } as LikeResponse;
+    },
   },
 };
 

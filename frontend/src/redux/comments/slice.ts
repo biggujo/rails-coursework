@@ -3,6 +3,7 @@ import { CommentEntity, Nullable } from '../../interfaces';
 import CommentsOperations from './operations.ts';
 // @ts-expect-error as it can't find the type
 import { ActionsFromAsyncThunk } from '@reduxjs/toolkit/dist/matchers';
+import { LikeResponse } from '../../utils/api.ts';
 
 interface State {
   [key: number]: {
@@ -32,6 +33,64 @@ const slice = createSlice({
           isLoading: true,
         },
       }))
+      .addCase(
+        CommentsOperations.likeById.fulfilled,
+        (state, action: PayloadAction<LikeResponse>) => {
+          const postId = action.payload.postId;
+          const commentId = action.payload.id;
+
+          const commentIndex = state[postId!].items!.findIndex(
+            ({ id }) => id === commentId
+          );
+
+          if (commentIndex === -1) {
+            return state;
+          }
+
+          const comment = state[postId!].items![commentIndex];
+
+          // Toggle
+          comment.liked = !comment.liked;
+
+          // Undislike
+          if (comment.disliked) {
+            comment.disliked = false;
+          }
+
+          // Update number
+          comment.likes_count = action.payload.likesCount;
+          comment.dislikes_count = action.payload.dislikesCount;
+        }
+      )
+      .addCase(
+        CommentsOperations.dislikeById.fulfilled,
+        (state, action: PayloadAction<LikeResponse>) => {
+          const postId = action.payload.postId;
+          const commentId = action.payload.id;
+
+          const commentIndex = state[postId!].items!.findIndex(
+            ({ id }) => id === commentId
+          );
+
+          if (commentIndex === -1) {
+            return state;
+          }
+
+          const comment = state[postId!].items![commentIndex];
+
+          // Toggle
+          comment.disliked = !comment.disliked;
+
+          // Undislike
+          if (comment.liked) {
+            comment.liked = false;
+          }
+
+          // Update number
+          comment.likes_count = action.payload.likesCount;
+          comment.dislikes_count = action.payload.dislikesCount;
+        }
+      )
       .addCase(
         CommentsOperations.fetchByPostId.fulfilled,
         (state, action: ActionsFromAsyncThunk<Array<CommentEntity>>) => ({
