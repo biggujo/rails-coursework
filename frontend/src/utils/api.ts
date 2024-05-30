@@ -225,6 +225,22 @@ const posts = {
       items,
     } as FetchAllPostsResponse;
   },
+  fetchById: async (postId: number) => {
+    const response: AxiosResponse = await axios.get(`/posts/${postId}`);
+
+    return response.data;
+  },
+  updateById: async (
+    postId: number,
+    data: {
+      title: string;
+      content: string;
+    }
+  ) => {
+    const response: AxiosResponse = await axios.patch(`/posts/${postId}`, data);
+
+    return response.data;
+  },
   deleteById: async (postId: number) => {
     const response: AxiosResponse = await axios.delete(`/posts/${postId}`);
 

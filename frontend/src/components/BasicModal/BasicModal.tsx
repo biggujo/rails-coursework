@@ -3,13 +3,14 @@ import useToggle from '../../hooks/useToggle.ts';
 import { createPortal } from 'react-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { ReactElement, useEffect } from 'react';
+import { Nullable } from '../../interfaces';
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 500,
   height: 600,
   bgcolor: 'background.paper',
   boxShadow: 24,
@@ -21,8 +22,8 @@ const style = {
 interface Props {
   toggler: ReactElement;
   modalContent: ReactElement;
-  onOpen: () => void;
-  onClose: () => void;
+  onOpen: Nullable<() => void>;
+  onClose: Nullable<() => void>;
 }
 
 export default function BasicModal({
@@ -35,11 +36,11 @@ export default function BasicModal({
 
   useEffect(() => {
     if (!isOpen) {
-      onClose();
+      onClose && onClose();
       return;
     }
 
-    onOpen();
+    onOpen && onOpen();
     // eslint-disable-next-line
   }, [isOpen]);
 
@@ -56,7 +57,7 @@ export default function BasicModal({
                 borderRadius: '50%',
                 top: '15px',
                 color: '#80808099',
-                left: '295px',
+                left: '395px',
               }}
               onClick={toggle}
             >

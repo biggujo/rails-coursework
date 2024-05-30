@@ -14,6 +14,28 @@ const fetchAll = createAsyncThunk(
   }
 );
 
+const updateById = createAsyncThunk(
+  'posts/updateById',
+  async (
+    {
+      postId,
+      title,
+      content,
+    }: {
+      postId: number;
+      title: string;
+      content: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      return await API.posts.updateById(postId, { title, content });
+    } catch (e) {
+      return rejectWithValue(ERROR_MESSAGE);
+    }
+  }
+);
+
 const deleteById = createAsyncThunk(
   'posts/deleteById',
   async (postId: number, { rejectWithValue }) => {
@@ -27,6 +49,7 @@ const deleteById = createAsyncThunk(
 
 const PostsOperations = {
   fetchAll,
+  updateById,
   deleteById,
 };
 

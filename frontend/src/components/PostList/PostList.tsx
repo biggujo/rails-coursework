@@ -10,7 +10,7 @@ export default function PostList({ items }: Props) {
   return (
     <Stack gap={2}>
       {items.map(item => (
-        <ListItem>
+        <ListItem key={item.id}>
           <PostItem data={item} />
         </ListItem>
       ))}

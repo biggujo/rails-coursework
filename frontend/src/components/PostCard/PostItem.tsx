@@ -23,6 +23,7 @@ import { AppDispatch } from '../../redux/store.ts';
 import PostsOperations from '../../redux/posts/operations.ts';
 import { useDispatch } from 'react-redux';
 import myToast from '../../utils/myToast.tsx';
+import PostUpdateModal from '../PostUpdateModal';
 
 interface Props {
   data: PostEntity;
@@ -88,6 +89,7 @@ export default function PostItem({ data }: Props) {
       {/*/>*/}
       <CardContent>
         <Typography color={'text.secondary'}>{data.content}</Typography>
+        <PostUpdateModal postId={data.id} />
       </CardContent>
       <CardActions>
         <IconButton>

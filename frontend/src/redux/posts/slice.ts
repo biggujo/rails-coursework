@@ -43,6 +43,31 @@ const slice = createSlice({
         })
       )
       .addCase(
+        PostsOperations.updateById.fulfilled,
+        (state, action: PayloadAction<PostEntity>) => {
+          const postIndex = state.data.items.findIndex(
+            ({ id: postId }) => postId === action.payload.id
+          );
+
+          if (postIndex === -1) {
+            return state;
+          }
+
+          const updatedPosts = [...state.data.items];
+
+          updatedPosts[postIndex] = action.payload;
+
+          return {
+            ...state,
+            data: {
+              ...state.data,
+              items: updatedPosts,
+              isLoading: false,
+            },
+          };
+        }
+      )
+      .addCase(
         PostsOperations.deleteById.fulfilled,
         (state, action: PayloadAction<PostEntity>) => {
           const postIndex = state.data.items.findIndex(
@@ -60,8 +85,9 @@ const slice = createSlice({
           return {
             ...state,
             data: {
-              ...state,
+              ...state.data,
               items: updatedPosts,
+              isLoading: false,
             },
           };
         }
@@ -69,6 +95,7 @@ const slice = createSlice({
       .addMatcher(
         isAnyOf(
           PostsOperations.fetchAll.rejected,
+          PostsOperations.updateById.rejected,
           PostsOperations.deleteById.rejected
         ),
         (state, action: PayloadAction<string>) => ({
