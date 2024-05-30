@@ -8,8 +8,24 @@ const fetchByPostId = createAsyncThunk(
     thunkErrorWrapper(postId, API.comments.fetchByPostId, thunkAPI)
 );
 
+const deleteById = createAsyncThunk(
+  'comments/deleteById',
+  async (
+    {
+      postId,
+      commentId,
+    }: {
+      postId: number;
+      commentId: number;
+    },
+    thunkAPI
+  ) =>
+    thunkErrorWrapper({ postId, commentId }, API.comments.deleteById, thunkAPI)
+);
+
 const CommentsOperations = {
   fetchByPostId,
+  deleteById,
 };
 
 export default CommentsOperations;

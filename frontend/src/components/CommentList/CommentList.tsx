@@ -25,7 +25,11 @@ export default function CommentList({ postId }: Props) {
   }
 
   if (items!.length === 0) {
-    return <Typography>No comments available.</Typography>;
+    return (
+      <Typography pl={4} pb={4}>
+        No comments available.
+      </Typography>
+    );
   }
 
   return (
@@ -38,7 +42,7 @@ export default function CommentList({ postId }: Props) {
     >
       {items!.map(item => (
         <ListItem key={item.id}>
-          <CommentItem data={item} />
+          <CommentItem data={item} postId={postId} />
         </ListItem>
       ))}
     </Stack>

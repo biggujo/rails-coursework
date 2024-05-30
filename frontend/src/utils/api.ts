@@ -299,6 +299,19 @@ const comments = {
 
     return response.data as Array<CommentEntity>;
   },
+  deleteById: async ({
+    postId,
+    commentId,
+  }: {
+    postId: number;
+    commentId: number;
+  }) => {
+    const response: AxiosResponse = await axios.delete(
+      `/posts/${postId}/comments/${commentId}`
+    );
+
+    return response.data;
+  },
 };
 
 const API = {

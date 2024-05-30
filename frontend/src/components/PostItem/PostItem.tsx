@@ -7,11 +7,13 @@ import {
   CardHeader,
   Checkbox,
   IconButton,
+  Stack,
   Typography,
   useTheme,
 } from '@mui/material';
 import ShareIcon from '@mui/icons-material/Share';
 import {
+  Chat,
   Delete,
   ThumbDown,
   ThumbDownOutlined,
@@ -59,6 +61,7 @@ export default function PostItem({ data }: Props) {
     <Card
       sx={{
         width: '100%',
+        px: 2,
         border: `1px solid ${theme.palette.primary.light}`,
         boxShadow: 'none',
       }}
@@ -118,51 +121,63 @@ export default function PostItem({ data }: Props) {
       <CardContent>
         <Typography color={'text.secondary'}>{data.content}</Typography>
       </CardContent>
-      <CardActions
-        sx={{
-          px: 4,
-        }}
-      >
-        <IconButton
-          onClick={handleLikeDislike({
-            dispatch,
-            operation: PostsOperations.likeById(data.id),
-          })}
+      <CardActions>
+        <Stack
+          width={'100%'}
+          direction={'row'}
+          justifyContent={'space-between'}
         >
-          <Typography>{data.likes_count}</Typography>
-          <Checkbox
-            icon={<ThumbUpOutlined />}
-            checkedIcon={<ThumbUp />}
-            checked={data.liked}
-          />
-        </IconButton>
-        <IconButton
-          onClick={handleLikeDislike({
-            dispatch,
-            operation: PostsOperations.dislikeById(data.id),
-          })}
-        >
-          <Typography>{data.dislikes_count}</Typography>
-          <Checkbox
-            icon={<ThumbDownOutlined />}
-            checkedIcon={<ThumbDown />}
-            checked={data.disliked}
-          />
-        </IconButton>
-        <IconButton>
-          <Checkbox icon={<ShareIcon />} checkedIcon={<ShareIcon />} />
-        </IconButton>
+          <Box>
+            <IconButton
+              onClick={handleLikeDislike({
+                dispatch,
+                operation: PostsOperations.likeById(data.id),
+              })}
+            >
+              <Typography>{data.likes_count}</Typography>
+              <Checkbox
+                icon={<ThumbUpOutlined />}
+                checkedIcon={<ThumbUp />}
+                checked={data.liked}
+              />
+            </IconButton>
+            <IconButton
+              onClick={handleLikeDislike({
+                dispatch,
+                operation: PostsOperations.dislikeById(data.id),
+              })}
+            >
+              <Typography>{data.dislikes_count}</Typography>
+              <Checkbox
+                icon={<ThumbDownOutlined />}
+                checkedIcon={<ThumbDown />}
+                checked={data.disliked}
+              />
+            </IconButton>
+          </Box>
+          <Box>
+            <IconButton onClick={toggle}>
+              <Checkbox icon={<Chat />} checkedIcon={<Chat />} />
+            </IconButton>
+            <IconButton>
+              <Checkbox
+                icon={<ShareIcon />}
+                checkedIcon={<ShareIcon />}
+                checked={false}
+              />
+            </IconButton>
+          </Box>
+        </Stack>
       </CardActions>
       <Box pb={1}>
-        <Button
-          onClick={toggle}
-          sx={{
-            width: '100%',
-          }}
-        >
-          {isOpen ? 'Hide comments' : 'Show comments'}
-        </Button>
-        {isOpen && <CommentList postId={data.id} />}
+        {isOpen && (
+          <>
+            <Typography variant={'h6'} fontWeight={'normal'} pl={4}>
+              Comments
+            </Typography>
+            <CommentList postId={data.id} />
+          </>
+        )}
       </Box>
     </Card>
   );
