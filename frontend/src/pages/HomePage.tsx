@@ -46,6 +46,13 @@ export default function HomePage() {
           All groups
         </Button>
         <Button
+          onClick={() => navigate('/group_create')}
+          variant={'contained'}
+          color={'secondary'}
+        >
+          Create group
+        </Button>
+        <Button
           onClick={() => navigate('/chat')}
           variant={'contained'}
           color={'secondary'}

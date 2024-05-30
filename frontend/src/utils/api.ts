@@ -399,6 +399,10 @@ const groups = {
     const response: AxiosResponse = await axios.get(`/groups/${id}/members`);
     return response.data;
   },
+  create: async (data: GroupFormValues) => {
+    const response: AxiosResponse = await axios.post(`/groups`, data);
+    return response.data as GroupEntity;
+  },
   updateById: async ({ id, data }: { id: number; data: GroupFormValues }) => {
     const response: AxiosResponse = await axios.patch(`/groups/${id}`, data);
     return response.data as GroupEntity;
