@@ -1,4 +1,5 @@
 import UserEntity from './UserEntity.interface.ts';
+import { GroupEntity, Nullable } from './index.ts';
 
 interface PostEntity {
   id: number;
@@ -9,6 +10,7 @@ interface PostEntity {
   likes_count: number;
   dislikes_count: number;
   user: UserEntity;
+  group: Nullable<GroupEntity>;
   liked: boolean;
   disliked: boolean;
   // TODO: group

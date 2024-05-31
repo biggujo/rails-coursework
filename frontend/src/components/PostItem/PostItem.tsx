@@ -21,6 +21,8 @@ import {
   ThumbUp,
   ThumbUpOutlined,
 } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+
 import MyMenu from '../MyMenu';
 import { PostEntity } from '../../interfaces';
 import DateFormatter from '../../utils/date-formatter.ts';
@@ -50,6 +52,18 @@ export default function PostItem({ data }: Props) {
   const { isOpen, toggle } = useToggle();
 
   const formattedDate = DateFormatter.formatRelativeToNow(data.created_at);
+
+  const shouldShowGroupInfo =
+    currentUser.id === data.user.id && data.group !== null;
+
+  const postSubtitle = shouldShowGroupInfo ? (
+    <Typography variant={'body2'}>
+      Posted in {<Link to={`/group/${data.group.id}`}>{data.group.name}</Link>}{' '}
+      {formattedDate}
+    </Typography>
+  ) : (
+    <Typography variant={'body2'}>{formattedDate}</Typography>
+  );
 
   return (
     <Card
@@ -105,7 +119,7 @@ export default function PostItem({ data }: Props) {
           )
         }
         title={data.title}
-        subheader={formattedDate}
+        subheader={postSubtitle}
         titleTypographyProps={{ variant: 'h6', component: 'h3' }}
       />
       {/*<CardMedia*/}
