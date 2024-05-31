@@ -1,6 +1,6 @@
 import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { Nullable, PostEntity } from '../../interfaces';
-import PostsOperations from './operations.ts';
+import { ProfilePostsOperations } from './operations.ts';
 import { FetchAllPostsResponse, LikeResponse } from '../../utils/api.ts';
 
 const initialState: {
@@ -23,7 +23,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(PostsOperations.fetchAll.pending, state => ({
+      .addCase(ProfilePostsOperations.fetchAll.pending, state => ({
         ...state,
         data: {
           ...state.data,
@@ -32,7 +32,7 @@ const slice = createSlice({
         },
       }))
       .addCase(
-        PostsOperations.likeById.fulfilled,
+        ProfilePostsOperations.likeById.fulfilled,
         (state, action: PayloadAction<LikeResponse>) => {
           const postIndex = state.data.items.findIndex(
             ({ id: postId }) => postId === action.payload.id
@@ -58,7 +58,7 @@ const slice = createSlice({
         }
       )
       .addCase(
-        PostsOperations.dislikeById.fulfilled,
+        ProfilePostsOperations.dislikeById.fulfilled,
         (state, action: PayloadAction<LikeResponse>) => {
           const postIndex = state.data.items.findIndex(
             ({ id: postId }) => postId === action.payload.id
@@ -84,7 +84,7 @@ const slice = createSlice({
         }
       )
       .addCase(
-        PostsOperations.fetchAll.fulfilled,
+        ProfilePostsOperations.fetchAll.fulfilled,
         (state, action: PayloadAction<FetchAllPostsResponse>) => ({
           ...state,
           data: {
@@ -95,7 +95,7 @@ const slice = createSlice({
         })
       )
       .addCase(
-        PostsOperations.add.fulfilled,
+        ProfilePostsOperations.add.fulfilled,
         (state, action: PayloadAction<PostEntity>) => ({
           ...state,
           data: {
@@ -106,7 +106,7 @@ const slice = createSlice({
         })
       )
       .addCase(
-        PostsOperations.updateById.fulfilled,
+        ProfilePostsOperations.updateById.fulfilled,
         (state, action: PayloadAction<PostEntity>) => {
           const postIndex = state.data.items.findIndex(
             ({ id: postId }) => postId === action.payload.id
@@ -131,7 +131,7 @@ const slice = createSlice({
         }
       )
       .addCase(
-        PostsOperations.deleteById.fulfilled,
+        ProfilePostsOperations.deleteById.fulfilled,
         (state, action: PayloadAction<PostEntity>) => {
           const postIndex = state.data.items.findIndex(
             ({ id: postId }) => postId === action.payload.id
@@ -157,9 +157,9 @@ const slice = createSlice({
       )
       .addMatcher(
         isAnyOf(
-          PostsOperations.fetchAll.rejected,
-          PostsOperations.updateById.rejected,
-          PostsOperations.deleteById.rejected
+          ProfilePostsOperations.fetchAll.rejected,
+          ProfilePostsOperations.updateById.rejected,
+          ProfilePostsOperations.deleteById.rejected
         ),
         (state, action: PayloadAction<string>) => ({
           ...state,

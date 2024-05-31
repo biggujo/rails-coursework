@@ -6,9 +6,17 @@ import {
   selectPostsItems,
 } from '../../redux/posts/selectors.ts';
 import { useEffect } from 'react';
-import PostsOperations from '../../redux/posts/operations.ts';
+import { PostsOperations } from '../../redux/posts/operations.ts';
 
-const useGetPostsQuery = (id: number) => {
+interface FunctionInterface {
+  id: number;
+  operations: PostsOperations;
+}
+
+const useGetPostsQuery = ({
+  id,
+  operations: Operations,
+}: FunctionInterface) => {
   const dispatch: AppDispatch = useDispatch();
 
   const data = useSelector(selectPostsItems);
@@ -16,8 +24,8 @@ const useGetPostsQuery = (id: number) => {
   const error = useSelector(selectPostsError);
 
   useEffect(() => {
-    dispatch(PostsOperations.fetchAll(id));
-  }, [dispatch, id]);
+    dispatch(Operations.fetchAll(id));
+  }, [Operations, dispatch, id]);
 
   return { data, isLoading, error };
 };

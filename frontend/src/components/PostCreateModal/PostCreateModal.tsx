@@ -4,7 +4,11 @@ import BasicModal from '../BasicModal';
 import PostCreateForm from '../PostCreateForm';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
-export default function PostCreateModal() {
+interface Props {
+  additionalValues?: object;
+}
+
+export default function PostCreateModal({ additionalValues }: Props) {
   const toggler = (
     <Button
       startIcon={<EditNoteIcon />}
@@ -19,7 +23,7 @@ export default function PostCreateModal() {
 
   const modalContent = (
     <FormWrapper title={'Post creation'}>
-      <PostCreateForm />
+      <PostCreateForm additionalValues={additionalValues} />
     </FormWrapper>
   );
 

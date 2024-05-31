@@ -223,9 +223,11 @@ export interface LikeResponse {
   dislikesCount: number;
 }
 
-const posts = {
+const postsBlueprint = (prefix: 'users' | 'groups') => ({
   fetchAll: async (userId: number) => {
-    const response: AxiosResponse = await axios.get(`/users/${userId}/posts`);
+    const response: AxiosResponse = await axios.get(
+      `/${prefix}/${userId}/posts`
+    );
 
     const data = response.data;
 
@@ -239,11 +241,6 @@ const posts = {
   },
   fetchById: async (postId: number) => {
     const response: AxiosResponse = await axios.get(`/posts/${postId}`);
-
-    return response.data;
-  },
-  add: async (data: NewPostEntity) => {
-    const response: AxiosResponse = await axios.post(`/posts`, data);
 
     return response.data as PostEntity;
   },
@@ -292,6 +289,24 @@ const posts = {
         dislikesCount: response.data.dislikes_count,
       } as LikeResponse;
     },
+  },
+});
+
+const profilePosts = {
+  ...postsBlueprint('users'),
+  add: async (data: NewPostEntity) => {
+    const response: AxiosResponse = await axios.post(`/posts`, data);
+
+    return response.data as PostEntity;
+  },
+};
+
+const groupPosts = {
+  ...postsBlueprint('groups'),
+  add: async (data: Required<NewPostEntity>) => {
+    const response: AxiosResponse = await axios.post(`/posts`, data);
+
+    return response.data as PostEntity;
   },
 };
 
@@ -457,7 +472,8 @@ const API = {
     friends,
   },
   groups,
-  posts,
+  profilePosts,
+  groupPosts,
   comments,
   messages: messages,
   chats,

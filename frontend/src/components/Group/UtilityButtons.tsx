@@ -11,6 +11,8 @@ import myToast from '../../utils/myToast.tsx';
 import useJoinGroupMutation from '../../hooks/mutation/useJoinGroupMutation.ts';
 import useLeaveGroupMutation from '../../hooks/mutation/useLeaveGroupMutation.ts';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { GroupPostsOperations } from '../../redux/posts/operations.ts';
+import { PostsOperationsProvider } from '../../providers/PostsOperationsProvider.tsx';
 
 interface Props {
   groupData: GroupEntity;
@@ -100,6 +102,17 @@ export default function UtilityButtons({ groupData }: Props) {
 
   return (
     <Stack direction={'column'} alignItems={'stretch'}>
+      {(groupData.is_joined || isCurrentUserGroupCreator) && (
+        <ListItem key={-1}>
+          <PostsOperationsProvider apiContext={GroupPostsOperations}>
+            <PostCreateModal
+              additionalValues={{
+                group_id: groupData.id,
+              }}
+            />
+          </PostsOperationsProvider>
+        </ListItem>
+      )}
       {buttonList.map(({ title, icon: Icon, onClick, color }, index) => (
         <ListItem key={index}>
           <Button
@@ -115,11 +128,6 @@ export default function UtilityButtons({ groupData }: Props) {
           </Button>
         </ListItem>
       ))}
-      {groupData.is_joined && (
-        <ListItem key={-1}>
-          <PostCreateModal />
-        </ListItem>
-      )}
     </Stack>
   );
 }

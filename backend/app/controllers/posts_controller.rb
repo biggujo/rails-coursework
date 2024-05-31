@@ -12,7 +12,7 @@ class PostsController < ApplicationController
 
     serialized_posts = PostSerializer.new(posts, params: {current_user:}).to_h
 
-    paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
+    paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i, page: params[:page])
 
     render json: paginated_posts
   end

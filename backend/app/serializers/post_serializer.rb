@@ -20,8 +20,8 @@ class PostSerializer
     UserSerializer.new(post.user).to_h
   end
 
-  attribute :group do |post|
-    GroupSerializer.new(post.group).to_h if post.group
+  attribute :group do |post, params|
+    GroupSerializer.new(post.group, params: {current_user: params[:current_user]}).to_h if post.group
   end
 
   attribute :repost do |post, params|

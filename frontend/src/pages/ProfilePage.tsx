@@ -7,11 +7,16 @@ import { UserProfile } from '../components/Profile';
 import useGetPostsQuery from '../hooks/query/useGetPostsQuery.ts';
 import createSubtitle from '../utils/create-subtitle.tsx';
 import PostList from '../components/PostList';
+import { PostsOperationsProvider } from '../providers/PostsOperationsProvider.tsx';
+import { ProfilePostsOperations } from '../redux/posts/operations.ts';
 
 export default function ProfilePage() {
   const { id } = useParams();
   const profileQuery = useGetProfileQuery(Number(id));
-  const postsQuery = useGetPostsQuery(Number(id));
+  const postsQuery = useGetPostsQuery({
+    id: Number(id),
+    operations: ProfilePostsOperations,
+  });
 
   return (
     <Container>
@@ -38,7 +43,9 @@ export default function ProfilePage() {
             <>
               {createSubtitle('User posts')}
               {postsQuery.data.length > 0 ? (
-                <PostList items={postsQuery.data} />
+                <PostsOperationsProvider apiContext={ProfilePostsOperations}>
+                  <PostList items={postsQuery.data} />
+                </PostsOperationsProvider>
               ) : (
                 <Typography>No posts available.</Typography>
               )}

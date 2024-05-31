@@ -26,7 +26,6 @@ import { PostEntity } from '../../interfaces';
 import DateFormatter from '../../utils/date-formatter.ts';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
 import { AppDispatch } from '../../redux/store.ts';
-import PostsOperations from '../../redux/posts/operations.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import myToast from '../../utils/myToast.tsx';
 import PostUpdateModal from '../PostUpdateModal';
@@ -35,6 +34,7 @@ import useToggle from '../../hooks/useToggle.ts';
 import CommentCreateForm from '../CommentCreateForm';
 import useHandleOperationWithNotify from '../../hooks/useHandleOperationWithNotify.ts';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
+import { usePostsOperationsContext } from '../../providers/PostsOperationsProvider.tsx';
 
 interface Props {
   data: PostEntity;
@@ -44,6 +44,7 @@ export default function PostItem({ data }: Props) {
   const dispatch: AppDispatch = useDispatch();
   const operationHandler = useHandleOperationWithNotify();
   const currentUser = useSelector(selectAuthUser);
+  const Operations = usePostsOperationsContext();
   const theme = useTheme();
 
   const { isOpen, toggle } = useToggle();
@@ -85,9 +86,7 @@ export default function PostItem({ data }: Props) {
                         return;
                       }
 
-                      await dispatch(
-                        PostsOperations.deleteById(data.id)
-                      ).unwrap();
+                      await dispatch(Operations.deleteById(data.id)).unwrap();
 
                       myToast({
                         message: 'The post has been deleted',
@@ -128,7 +127,7 @@ export default function PostItem({ data }: Props) {
             <IconButton
               onClick={operationHandler({
                 dispatch,
-                operation: PostsOperations.likeById(data.id),
+                operation: Operations.likeById(data.id),
               })}
             >
               <Typography>{data.likes_count}</Typography>
@@ -141,7 +140,7 @@ export default function PostItem({ data }: Props) {
             <IconButton
               onClick={operationHandler({
                 dispatch,
-                operation: PostsOperations.dislikeById(data.id),
+                operation: Operations.dislikeById(data.id),
               })}
             >
               <Typography>{data.dislikes_count}</Typography>
