@@ -10,16 +10,18 @@ const validationSchema = Yup.object({
 export interface PostFormValues {
   title: string;
   content: string;
+  photos: Array<File>;
 }
 
 const initialValues = {
   title: '',
   content: '',
+  photos: [],
 };
 
 const usePostForm = (
   givenValues: Nullable<PostEntity>,
-  onSubmit: (values: PostFormValues) => void
+  onSubmit: (values: Omit<PostFormValues, 'photos'>) => void
 ) => {
   return useFormik({
     initialValues:

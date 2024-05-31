@@ -52,6 +52,7 @@ export default function GroupForm({ formik }: Props) {
             onAddFile={([file]) => {
               formik.setFieldValue('profile_photo', file);
             }}
+            maxFiles={1}
           />
         </Box>
         <Box alignSelf={'flex-start'}>

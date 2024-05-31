@@ -35,4 +35,8 @@ class PostSerializer
   attribute :disliked do |post, params|
     params[:current_user].voted_down_on?(post)
   end
+
+  attribute :photos do |post|
+    post.photos(&:url)
+  end
 end

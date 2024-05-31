@@ -18,6 +18,12 @@ import UserEntity from '../interfaces/UserEntity.interface.ts';
 
 axios.defaults.baseURL = 'http://localhost:5401'; // Rails
 
+const MULTIPART_FORM_HEADERS = {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+};
+
 const signUp = async (data: UserSignUpFormAPI) => {
   const response: AxiosResponse = await axios.post('/sign_up', {
     user: data,
@@ -59,11 +65,7 @@ const updateById = async (data: ProfileUpdateFormAPI) => {
     {
       user: data,
     },
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }
+    MULTIPART_FORM_HEADERS
   );
   return response.data as UserProfile;
 };
@@ -251,7 +253,15 @@ const postsBlueprint = (prefix: 'users' | 'groups') => ({
       content: string;
     }
   ) => {
-    const response: AxiosResponse = await axios.patch(`/posts/${postId}`, data);
+    const response: AxiosResponse = await axios.patch(
+      `/posts/${postId}`,
+      data,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
 
     return response.data;
   },
@@ -295,7 +305,11 @@ const postsBlueprint = (prefix: 'users' | 'groups') => ({
 const profilePosts = {
   ...postsBlueprint('users'),
   add: async (data: NewPostEntity) => {
-    const response: AxiosResponse = await axios.post(`/posts`, data);
+    const response: AxiosResponse = await axios.post(
+      `/posts`,
+      data,
+      MULTIPART_FORM_HEADERS
+    );
 
     return response.data as PostEntity;
   },
@@ -304,7 +318,11 @@ const profilePosts = {
 const groupPosts = {
   ...postsBlueprint('groups'),
   add: async (data: Required<NewPostEntity>) => {
-    const response: AxiosResponse = await axios.post(`/posts`, data);
+    const response: AxiosResponse = await axios.post(
+      `/posts`,
+      data,
+      MULTIPART_FORM_HEADERS
+    );
 
     return response.data as PostEntity;
   },
@@ -419,11 +437,11 @@ const groups = {
     return response.data as GroupEntity;
   },
   updateById: async ({ id, data }: { id: number; data: GroupFormValues }) => {
-    const response: AxiosResponse = await axios.patch(`/groups/${id}`, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response: AxiosResponse = await axios.patch(
+      `/groups/${id}`,
+      data,
+      MULTIPART_FORM_HEADERS
+    );
     return response.data as GroupEntity;
   },
   joinById: async ({

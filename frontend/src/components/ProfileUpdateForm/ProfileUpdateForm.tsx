@@ -67,6 +67,7 @@ export default function ProfileUpdateForm() {
           onAddFile={([file]) => {
             formik.setFieldValue('profile_photo', file);
           }}
+          maxFiles={1}
         />
         <LoadingButton
           type={'submit'}

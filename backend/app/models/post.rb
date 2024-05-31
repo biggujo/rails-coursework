@@ -6,6 +6,8 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   belongs_to :repost, optional: true, class_name: "Post", foreign_key: :reposted_post_id # rubocop:disable Rails/InverseOf
 
+  has_many_attached :photos
+
   acts_as_votable
 
   def likes_count

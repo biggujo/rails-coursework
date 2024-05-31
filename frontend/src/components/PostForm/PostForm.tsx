@@ -1,11 +1,14 @@
-import { Stack, TextField } from '@mui/material';
+import { Box, Stack, TextField, Typography } from '@mui/material';
 import { FormikProps, FormikProvider } from 'formik';
 import ButtonSubmit from '../ButtonSubmit';
 import { PostFormValues } from '../../hooks/forms/usePostForm.ts';
+import MyDropzone from '../MyDropzone/MyDropzone.tsx';
 
 interface Props {
   formik: FormikProps<PostFormValues>;
 }
+
+const MAX_PHOTOS_SIZE = 4;
 
 export default function PostForm({ formik }: Props) {
   return (
@@ -37,6 +40,18 @@ export default function PostForm({ formik }: Props) {
           minRows={5}
           required
         />
+        <Box>
+          <Typography variant={'h6'} pb={2}>
+            Photos
+          </Typography>
+          <MyDropzone
+            title={`New photos (up to ${MAX_PHOTOS_SIZE})`}
+            onAddFile={files => {
+              formik.setFieldValue('photos', files);
+            }}
+            maxFiles={MAX_PHOTOS_SIZE}
+          />
+        </Box>
         <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
       </Stack>
     </FormikProvider>
