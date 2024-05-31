@@ -13,6 +13,8 @@ import { AppDispatch } from '../redux/store.ts';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { resetPosts } from '../redux/posts/slice.ts';
+import createSmallSubtitle from '../utils/create-small-subtitle.tsx';
+import PostsFiltersForm from '../components/PostsFilters/PostsFiltersForm.tsx';
 
 export default function GroupPage() {
   const { id } = useParams();
@@ -44,6 +46,11 @@ export default function GroupPage() {
       {isSuccess && (
         <>
           <GroupProfile groupData={data} />
+          {createSubtitle('Group posts')}
+          {createSmallSubtitle('Filters')}
+          <PostsFiltersForm />
+          {createSmallSubtitle('Posts')}
+
           {postsQuery.isLoading && (
             <Box height={400}>
               <Loader />
@@ -52,7 +59,6 @@ export default function GroupPage() {
           {postsQuery.error && <Typography>{postsQuery.error}</Typography>}
           {!postsQuery.isLoading && postsQuery.data && (
             <>
-              {createSubtitle('Group posts')}
               {postsQuery.data.length > 0 ? (
                 <PostsOperationsProvider apiContext={GroupPostsOperations}>
                   <PostListInfiniteWrapper

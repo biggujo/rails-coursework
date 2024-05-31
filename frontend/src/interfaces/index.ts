@@ -11,3 +11,4 @@ export type { default as NewCommentEntity } from './NewCommentEntity.interface.t
 export type { default as GroupEntity } from './GroupEntity.interface.ts';
 export type { default as GroupFormValues } from './GroupFormValues.interface.ts';
 export type { default as PostsApi } from './PostsApi.interface.ts';
+export type { default as PostsFilters } from './PostsFilters.interface.ts';

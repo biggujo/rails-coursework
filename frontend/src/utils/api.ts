@@ -11,6 +11,7 @@ import {
   PostEntity,
   UserProfile,
   UserSignInFormAPI,
+  PostsFilters,
 } from '../interfaces';
 import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
@@ -230,10 +231,12 @@ const postsBlueprint = (prefix: 'users' | 'groups') => ({
     id,
     page,
     offset,
+    filterData,
   }: {
     id: number;
     page: number;
     offset: number;
+    filterData: PostsFilters;
   }) => {
     const params = new URLSearchParams({});
 
@@ -243,6 +246,13 @@ const postsBlueprint = (prefix: 'users' | 'groups') => ({
 
     if (offset) {
       params.set('offset', String(offset));
+    }
+
+    for (const key in filterData) {
+      const value = filterData[key as keyof PostsFilters];
+      if (value) {
+        params.set(key, String(value));
+      }
     }
 
     const response: AxiosResponse = await axios.get(

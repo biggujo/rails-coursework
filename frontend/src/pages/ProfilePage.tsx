@@ -13,6 +13,8 @@ import { useEffect } from 'react';
 import { AppDispatch } from '../redux/store.ts';
 import { useDispatch } from 'react-redux';
 import { resetPosts } from '../redux/posts/slice.ts';
+import PostsFiltersForm from '../components/PostsFilters/PostsFiltersForm.tsx';
+import createSmallSubtitle from '../utils/create-small-subtitle.tsx';
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -44,28 +46,31 @@ export default function ProfilePage() {
       {!profileQuery.isLoading && profileQuery.data && (
         <>
           <UserProfile userData={profileQuery.data} />
+          {createSubtitle('User posts')}
+          {createSmallSubtitle('Filters')}
+          <PostsFiltersForm />
+          {createSmallSubtitle('Posts')}
+
           {postsQuery.isLoading && (
             <Box height={400}>
               <Loader />
             </Box>
           )}
+
           {postsQuery.error && <Typography>{postsQuery.error}</Typography>}
-          {!postsQuery.isLoading && postsQuery.data && (
-            <>
-              {createSubtitle('User posts')}
-              {postsQuery.data.length > 0 ? (
-                <PostsOperationsProvider apiContext={ProfilePostsOperations}>
-                  <PostListInfiniteWrapper
-                    id={Number(id)}
-                    parentElId={null}
-                    items={postsQuery.data}
-                  />
-                </PostsOperationsProvider>
+          <PostsOperationsProvider apiContext={ProfilePostsOperations}>
+            {!postsQuery.isLoading &&
+              postsQuery.data &&
+              (postsQuery.data.length > 0 ? (
+                <PostListInfiniteWrapper
+                  id={Number(id)}
+                  parentElId={null}
+                  items={postsQuery.data}
+                />
               ) : (
                 <Typography>No posts available.</Typography>
-              )}
-            </>
-          )}
+              ))}
+          </PostsOperationsProvider>
         </>
       )}
     </Container>

@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { NewPostEntity, PostsApi } from '../../interfaces';
+import {
+  NewPostEntity,
+  Nullable,
+  PostsApi,
+  PostsFilters,
+} from '../../interfaces';
 import API from '../../utils/api.ts';
 
 const ERROR_MESSAGE = 'An error just happened. Please, try again later.';
@@ -8,11 +13,21 @@ const createOperations = (api: PostsApi) => ({
   fetchAll: createAsyncThunk(
     'posts/fetchAll',
     async (
-      { id, page, offset }: { id: number; page: number; offset: number },
+      {
+        id,
+        page,
+        offset,
+        filterData,
+      }: {
+        id: number;
+        page: number;
+        offset: number;
+        filterData: Nullable<PostsFilters>;
+      },
       { rejectWithValue }
     ) => {
       try {
-        return await api.fetchAll({ id, page, offset });
+        return await api.fetchAll({ id, page, offset, filterData });
       } catch (e) {
         return rejectWithValue(ERROR_MESSAGE);
       }

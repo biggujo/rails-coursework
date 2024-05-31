@@ -3,6 +3,12 @@ import { Nullable, PostEntity } from '../../interfaces';
 import { ProfilePostsOperations } from './operations.ts';
 import { FetchAllPostsResponse, LikeResponse } from '../../utils/api.ts';
 
+const resetMetadataFn = state => ({
+  ...state,
+  data: state.data,
+  metadata: { ...initialState.metadata },
+});
+
 const initialState: {
   data: {
     items: Array<PostEntity>;
@@ -33,10 +39,20 @@ const slice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
+    resetPostsMetadata: resetMetadataFn,
     resetPosts: () => ({ ...initialState }),
   },
   extraReducers: builder => {
     builder
+      .addCase('filters/setPostsFilters', () => {
+        return {
+          ...initialState,
+          data: {
+            ...initialState.data,
+            isLoading: true,
+          },
+        };
+      })
       .addCase(ProfilePostsOperations.fetchAll.pending, state => ({
         ...state,
         data: {
@@ -193,6 +209,6 @@ const slice = createSlice({
   },
 });
 
-export const { resetPosts } = slice.actions;
+export const { resetPostsMetadata, resetPosts } = slice.actions;
 
 export const postsReducer = slice.reducer;

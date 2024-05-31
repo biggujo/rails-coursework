@@ -1,4 +1,4 @@
-import { createContext, ReactElement, useContext } from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 import { PostsOperations } from '../redux/posts/operations.ts';
 
 const PostsOperationsContext = createContext<PostsOperations>(null!);
@@ -11,7 +11,7 @@ export const PostsOperationsProvider = ({
   children,
 }: {
   apiContext: PostsOperations;
-  children: ReactElement | Array<ReactElement>;
+  children: ReactNode | Array<ReactNode>;
 }) => {
   return (
     <PostsOperationsContext.Provider value={apiContext!}>

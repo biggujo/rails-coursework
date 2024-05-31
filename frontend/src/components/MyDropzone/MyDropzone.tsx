@@ -55,7 +55,15 @@ function MyDropzone({ title, onAddFile, maxFiles }: Props) {
   }, [files]);
 
   const handleRemoveAttachmentByIndex = (givenIndex: number) => {
-    setFiles(prevState => prevState.filter((_, index) => index !== givenIndex));
+    setFiles(prevState =>
+      prevState.filter((_, index) => {
+        if (index === givenIndex) {
+          URL.revokeObjectURL(prevState[index].preview);
+        }
+
+        return index !== givenIndex;
+      })
+    );
   };
 
   return (
