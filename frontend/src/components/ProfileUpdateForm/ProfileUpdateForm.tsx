@@ -60,13 +60,14 @@ export default function ProfileUpdateForm() {
           </Stack>
         </Stack>
         <Typography variant={'h6'} pb={2}>
-          Avatar
+          New Avatar
         </Typography>
         <MyDropzone
           title={'New avatar'}
           onAddFile={([file]) => {
             formik.setFieldValue('profile_photo', file);
           }}
+          maxFiles={1}
         />
         <LoadingButton
           type={'submit'}

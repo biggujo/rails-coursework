@@ -111,6 +111,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_121813) do
     t.datetime "updated_at", null: false
     t.bigint "group_id"
     t.bigint "reposted_post_id"
+    t.string "title", default: "Lorem ipsum", null: false
     t.index ["group_id"], name: "index_posts_on_group_id"
     t.index ["reposted_post_id"], name: "index_posts_on_reposted_post_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
@@ -121,7 +122,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_121813) do
     t.bigint "user_2_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_1_id", "user_2_id"], name: "index_private_chats_on_user_1_id_and_user_2_id", unique: true
+    t.index ["user_1_id", "user_2_id"], name: "index_private_chats_on_user_1_id_and_user_2_id"
     t.index ["user_1_id"], name: "index_private_chats_on_user_1_id"
     t.index ["user_2_id"], name: "index_private_chats_on_user_2_id"
   end
@@ -136,7 +137,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_121813) do
     t.datetime "updated_at", null: false
     t.string "jti", null: false
     t.string "nickname", null: false
-    t.datetime "last_seen_at", default: "2024-05-28 19:01:30", null: false
+    t.datetime "last_seen_at", default: "2024-05-26 14:02:10", null: false
     t.string "country", default: "Ukraine", null: false
     t.string "city", default: "Kyiv", null: false
     t.string "full_name", default: "John Smith", null: false

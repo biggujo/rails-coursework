@@ -6,9 +6,13 @@ import UserEntity from '../../interfaces/UserEntity.interface.ts';
 
 interface Props {
   items: Array<UserEntity>;
+  shouldShowCurrentUser?: boolean;
 }
 
-export default function UserProfileList({ items }: Props) {
+export default function UserProfileList({
+  items,
+  shouldShowCurrentUser = false,
+}: Props) {
   const user = useSelector(selectAuthUser);
   return (
     <Stack
@@ -18,7 +22,7 @@ export default function UserProfileList({ items }: Props) {
       }}
     >
       {items.map((data, index) => {
-        if (data.id === user.id) {
+        if (!shouldShowCurrentUser && data.id === user.id) {
           return null;
         }
 

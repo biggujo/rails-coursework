@@ -4,7 +4,9 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :group, optional: true
   has_many :comments, dependent: :destroy
-  belongs_to :repost, optional: true, class_name: "Post", foreign_key: :reposted_post_id, inverse_of: :repost
+  belongs_to :repost, optional: true, class_name: "Post", foreign_key: :reposted_post_id # rubocop:disable Rails/InverseOf
+
+  has_many_attached :photos
 
   acts_as_votable
 

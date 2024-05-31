@@ -1,9 +1,9 @@
 import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
-import { Nullable, UserEntityExtended } from '../../interfaces';
+import { Nullable, UserProfile } from '../../interfaces';
 import ProfileOperations from './operations.ts';
 
 const initialState: {
-  data: UserEntityExtended;
+  data: UserProfile;
   isLoading: boolean;
   error: Nullable<object>;
 } = {
@@ -36,7 +36,7 @@ const slice = createSlice({
           ProfileOperations.fetchProfileData.fulfilled,
           ProfileOperations.fetchProfileDataWithoutLoading.fulfilled
         ),
-        (state, action: PayloadAction<UserEntityExtended>) => ({
+        (state, action: PayloadAction<UserProfile>) => ({
           ...state,
           data: action.payload,
           isLoading: false,

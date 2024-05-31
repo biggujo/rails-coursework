@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'csv'
+require "csv"
 
 class PostsCsvExportService
   def initialize(records)
@@ -15,7 +15,7 @@ class PostsCsvExportService
       csv << attributes
 
       @records.each do |record|
-        csv << attributes.map { |attr| fetch_attribute(record, attr) }
+        csv << attributes.map {|attr| fetch_attribute(record, attr) }
       end
     end
   end
@@ -33,10 +33,9 @@ class PostsCsvExportService
   end
 
   def fetch_attribute(record, attr)
-    parts = attr.split('.')
+    parts = attr.split(".")
     parts.inject(record) do |obj, method|
       obj.respond_to?(method) ? obj.send(method) : nil
     end
   end
 end
-

@@ -9,12 +9,12 @@ class GroupsController < ApplicationController
   # GET /groups
   def index
     @groups = Group.all
-    render json: GroupSerializer.new(@groups).to_h, status: :ok
+    render json: GroupSerializer.new(@groups, params: {current_user:}).to_h, status: :ok
   end
 
   # GET /groups/1
   def show
-    render json: GroupSerializer.new(@group).to_h, status: :ok
+    render json: GroupSerializer.new(@group, params: {current_user:}).to_h, status: :ok
   end
 
   # POST /groups
@@ -23,7 +23,7 @@ class GroupsController < ApplicationController
     @group.user_id = current_user.id
 
     if @group.save
-      render json: GroupSerializer.new(@group).to_h, status: :ok
+      render json: GroupSerializer.new(@group, params: {current_user:}).to_h, status: :ok
     else
       render json: {error: @group.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
@@ -32,7 +32,7 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1
   def update
     if @group.update(group_params)
-      render json: GroupSerializer.new(@group).to_h, status: :ok
+      render json: GroupSerializer.new(@group, params: {current_user:}).to_h, status: :ok
     else
       render json: {error: @group.errors.full_messages.to_sentence}, status: :unprocessable_entity
     end
@@ -68,16 +68,19 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/members
   def members
-    render json: UserSerializer.new(@group.users).to_h
+    members = @group.users.map(&:clone)
+    members << @group.user
+
+    render json: UserSerializer.new(members).to_h
   end
 
   # GET /groups/1/posts
-  def group_posts
+  def group_posts # rubocop:disable Metrics/AbcSize
     posts = PostQuery.new(@group.posts).call(params)
 
     respond_to do |format|
       format.json do
-        serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
+        serialized_posts = PostSerializer.new(posts, params: {current_user:}).to_h
         paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
 
         render json: paginated_posts
@@ -85,11 +88,26 @@ class GroupsController < ApplicationController
 
       format.csv do
         csv_data = PostsCsvExportService.new(posts).to_csv
-        send_data csv_data, filename: "group_posts_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
+        send_data csv_data, filename: "group_posts_#{Time.now.getlocal.strftime('%Y%m%d%H%M%S')}.csv"
       end
 
       format.any { render json: paginated_posts }
     end
+  end
+
+  def purge_profile_photo
+    group_id = params[:id]
+
+    group = Group.find(group_id)
+
+    if group.user.id != current_user.id
+      head 401
+      return
+    end
+
+    group.profile_photo.purge
+
+    head 204
   end
 
   private
@@ -99,7 +117,7 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group).permit(:name, :description)
+    params.permit(:name, :description, :profile_photo)
   end
 
   def authorize_group_manage!

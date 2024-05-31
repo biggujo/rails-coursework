@@ -8,21 +8,21 @@ class PostsController < ApplicationController
 
   # GET /posts
   # GET /posts.json
-  def index
+  def index # rubocop:disable Metrics/AbcSize
     posts = PostQuery.new(Post.all).call(params)
 
     respond_to do |format|
       format.json do
-        serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
+        serialized_posts = PostSerializer.new(posts, params: {current_user:}).to_h
 
-        paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
+        paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i, page: params[:page])
 
         render json: paginated_posts
       end
 
       format.csv do
         csv_data = PostsCsvExportService.new(posts).to_csv
-        send_data csv_data, filename: "group_posts_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
+        send_data csv_data, filename: "group_posts_#{Time.now.getlocal.strftime('%Y%m%d%H%M%S')}.csv"
       end
 
       format.any { render json: paginated_posts }
@@ -61,7 +61,26 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   # DELETE /posts/1.json
   def destroy
+    post = @post
+
     @post.destroy!
+
+    render json: PostSerializer.new(post, params: {current_user:}).to_h
+  end
+
+  def purge_photos
+    post_id = params[:id]
+
+    post = Post.find(post_id)
+
+    if post.user.id != current_user.id
+      head 401
+      return
+    end
+
+    post.photos.purge
+
+    head 204
   end
 
   private
@@ -80,7 +99,7 @@ class PostsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def post_params
-    params.require(:post).permit(:content, :group_id, :reposted_post_id)
+    params.permit(:title, :content, :group_id, :reposted_post_id, photos: [])
   end
 
   def authorize_post_manage!

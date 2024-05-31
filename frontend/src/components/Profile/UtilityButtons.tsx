@@ -1,19 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { Button, ListItem, Stack, SvgIconTypeMap } from '@mui/material';
+import { Button, ListItem, Stack } from '@mui/material';
 import CreateIcon from '@mui/icons-material/Create';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { UserEntityExtended } from '../../interfaces';
+import { UserProfile } from '../../interfaces';
 import { useNavigate } from 'react-router-dom';
 import { PersonAdd, PersonRemove } from '@mui/icons-material';
 import API from '../../utils/api.ts';
 import { AppDispatch } from '../../redux/store.ts';
 import ProfileOperations from '../../redux/profile/operations.ts';
 import myToast from '../../utils/myToast.tsx';
+import PostCreateModal from '../PostCreateModal';
+import UtilityButtonInterface from '../../interfaces/UtilityButton.interface.ts';
 
 interface Props {
-  userData: UserEntityExtended;
+  userData: UserProfile;
 }
 
 const followFunction =
@@ -40,12 +41,7 @@ const UtilityButtons = ({ userData }: Props) => {
   const currentUser = useSelector(selectAuthUser);
   const dispatch: AppDispatch = useDispatch();
 
-  const buttonList: Array<{
-    title: string;
-    icon: OverridableComponent<SvgIconTypeMap> & { muiName: string };
-    color?: string;
-    onClick?: () => void;
-  }> = [];
+  const buttonList: Array<UtilityButtonInterface> = [];
 
   if (userData.id !== currentUser.id) {
     buttonList.push({
@@ -99,6 +95,11 @@ const UtilityButtons = ({ userData }: Props) => {
 
   return (
     <Stack direction={'column'} alignItems={'stretch'}>
+      {userData.id === currentUser.id && (
+        <ListItem key={-1}>
+          <PostCreateModal />
+        </ListItem>
+      )}
       {buttonList.map(({ title, icon: Icon, onClick, color }, index) => (
         <ListItem key={index}>
           <Button

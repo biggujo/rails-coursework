@@ -33,7 +33,7 @@ const useReachBottom = ({
         if (el.scrollTop + el.offsetHeight < el.scrollHeight) {
           onBottomReached();
         }
-      }, 50)
+      }, 5)
     );
     // eslint-disable-next-line
   }, []);

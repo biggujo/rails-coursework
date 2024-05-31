@@ -4,6 +4,8 @@ import CreateIcon from '@mui/icons-material/Create';
 import { ComponentType, MouseEventHandler } from 'react';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
 import UserEntity from '../../interfaces/UserEntity.interface.ts';
+import { useSelector } from 'react-redux';
+import { selectAuthUser } from '../../redux/auth/selectors.ts';
 
 interface Props {
   data: UserEntity;
@@ -27,6 +29,7 @@ const CardIconButton = ({
 export default function UserProfileCard({
   data: { id, nickname, profile_photo, full_name },
 }: Props) {
+  const currentUser = useSelector(selectAuthUser);
   const navigate = useNavigate();
 
   return (
@@ -59,14 +62,16 @@ export default function UserProfileCard({
           ({full_name})
         </span>
       </Typography>
-      <CardIconButton
-        onClick={event => {
-          // @ts-expect-error as TS doesn't know about this
-          event.stopPropagation();
-          navigate(`/chat/${id}`);
-        }}
-        iconComponent={CreateIcon}
-      />
+      {currentUser.id !== id && (
+        <CardIconButton
+          onClick={event => {
+            // @ts-expect-error as TS doesn't know about this
+            event.stopPropagation();
+            navigate(`/chat/${id}`);
+          }}
+          iconComponent={CreateIcon}
+        />
+      )}
     </Stack>
   );
 }

@@ -21,14 +21,14 @@ class UsersController < ApplicationController
                                                              }), status: :ok
   end
 
-  def user_posts
+  def user_posts # rubocop:disable Metrics/AbcSize
     user = User.find(params[:id])
 
-    posts = PostQuery.new(user.posts).call(params)
+    posts = fetch_user_posts(user)
 
     respond_to do |format|
       format.json do
-        serialized_posts = PostSerializer.new(posts, params: { current_user: current_user }).to_h
+        serialized_posts = PostSerializer.new(posts, params: {current_user:}).to_h
 
         paginated_posts = pagy_array(serialized_posts, items: 10, outset: params[:offset].to_i)
 
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
 
       format.csv do
         csv_data = PostsCsvExportService.new(posts).to_csv
-        send_data csv_data, filename: "group_posts_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv"
+        send_data csv_data, filename: "group_posts_#{Time.now.getlocal.strftime('%Y%m%d%H%M%S')}.csv"
       end
 
       format.any { render json: paginated_posts }
@@ -55,12 +55,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def purge_profile_photo
+    current_user.profile_photo.purge
+
+    head 204
+  end
+
   def refresh
     render json: UserExtendedSerializer.new(current_user).to_h,
            status: :ok
   end
 
   private
+
+  def fetch_user_posts(user)
+    PostQuery.new(user.posts).call(params)
+  end
 
   def user_params
     params.require(:user).permit(:email, :nickname, :city, :country, :full_name, :profile_photo)
