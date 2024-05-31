@@ -28,7 +28,12 @@ export default function GroupCard({ data }: Props) {
       }}
       onClick={() => navigate(`/group/${data.id}`)}
     >
-      <MyAvatar alt={data.name} size={'small'} isGroup={true} />
+      <MyAvatar
+        alt={data.name}
+        src={data.profile_photo}
+        size={'small'}
+        isGroup={true}
+      />
       <Typography
         sx={{
           textOverflow: 'ellipsis',

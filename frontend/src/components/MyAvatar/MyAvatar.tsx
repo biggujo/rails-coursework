@@ -5,7 +5,7 @@ import GroupIcon from '@mui/icons-material/Group';
 interface Props {
   alt: string;
   src?: string;
-  size: 'small' | 'bigger' | 'medium' | 'large';
+  size: 'smaller' | 'small' | 'bigger' | 'medium' | 'large';
   isGroup?: boolean;
   onLoad?: (event: SyntheticEvent<unknown>) => void;
 }
@@ -16,6 +16,9 @@ export default function MyAvatar({ alt, src, onLoad, size, isGroup }: Props) {
   let sizeValue: number;
 
   switch (size) {
+    case 'smaller':
+      sizeValue = 16;
+      break;
     case 'small':
       sizeValue = 36;
       break;
@@ -33,6 +36,9 @@ export default function MyAvatar({ alt, src, onLoad, size, isGroup }: Props) {
   let borderValue: number;
 
   switch (size) {
+    case 'smaller':
+      borderValue = 1;
+      break;
     case 'small':
     case 'bigger':
     case 'medium':

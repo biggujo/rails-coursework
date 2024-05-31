@@ -84,6 +84,21 @@ class GroupsController < ApplicationController
     render json: paginated_posts
   end
 
+  def purge_profile_photo
+    group_id = params[:id]
+
+    group = Group.find(group_id)
+
+    if group.user.id != current_user.id
+      head 401
+      return
+    end
+
+    group.profile_photo.purge
+
+    head 204
+  end
+
   private
 
   def set_group
@@ -91,7 +106,7 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group).permit(:name, :description)
+    params.permit(:name, :description, :profile_photo)
   end
 
   def authorize_group_manage!

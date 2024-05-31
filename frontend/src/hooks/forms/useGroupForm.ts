@@ -10,11 +10,12 @@ const validationSchema = Yup.object({
 const initialValues: GroupFormValues = {
   name: '',
   description: '',
+  profile_photo: null,
 };
 
 const useGroupForm = (
   givenValues: Nullable<GroupEntity>,
-  onSubmit: (values: GroupFormValues) => void
+  onSubmit: (values: Omit<GroupFormValues, 'profile_photo'>) => void
 ) => {
   return useFormik({
     initialValues:

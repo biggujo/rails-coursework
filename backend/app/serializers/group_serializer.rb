@@ -11,6 +11,10 @@ class GroupSerializer
     object.users.size + 1 # include creator
   end
 
+  attributes :profile_photo do |group|
+    group.profile_photo.url
+  end
+
   attributes :is_joined do |group, params|
     group.users.include? params[:current_user]
   end

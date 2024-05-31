@@ -8,6 +8,7 @@ import {
   Checkbox,
   Divider,
   IconButton,
+  Link,
   Stack,
   Typography,
   useTheme,
@@ -21,7 +22,7 @@ import {
   ThumbUp,
   ThumbUpOutlined,
 } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import MyMenu from '../MyMenu';
 import { PostEntity } from '../../interfaces';
@@ -57,10 +58,24 @@ export default function PostItem({ data }: Props) {
     currentUser.id === data.user.id && data.group !== null;
 
   const postSubtitle = shouldShowGroupInfo ? (
-    <Typography variant={'body2'}>
-      Posted in {<Link to={`/group/${data.group.id}`}>{data.group.name}</Link>}{' '}
-      {formattedDate}
-    </Typography>
+    <Stack direction={'row'}>
+      <Typography variant={'body2'}>Posted in&nbsp;</Typography>
+      <MyAvatar
+        alt={data.group.name}
+        size={'smaller'}
+        src={data.group.profile_photo}
+        isGroup={true}
+      />
+      <Typography variant={'body2'}>
+        &nbsp;
+        {
+          <Link component={RouterLink} to={`/group/${data.group.id}`}>
+            {data.group.name}
+          </Link>
+        }{' '}
+        {formattedDate}
+      </Typography>
+    </Stack>
   ) : (
     <Typography variant={'body2'}>{formattedDate}</Typography>
   );

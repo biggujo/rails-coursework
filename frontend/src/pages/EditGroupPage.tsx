@@ -1,14 +1,16 @@
 import { useParams } from 'react-router-dom';
 import useFetchGroupQuery from '../hooks/query/useFetchGroupQuery.ts';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import createSubtitle from '../utils/create-subtitle.tsx';
-import MainGroupData from '../components/Group/MainGroupDate.tsx';
+import MainGroupData from '../components/Group/MainGroupData.tsx';
 import GroupUpdateForm from '../components/GroupUpdateForm';
 import Loader from '../components/Loader';
+import API from '../utils/api.ts';
+import myToast from '../utils/myToast.tsx';
 
 export default function EditGroupPage() {
   const { id } = useParams();
-  const { data, isLoading, isError } = useFetchGroupQuery(Number(id));
+  const { data, isLoading, isError, refetch } = useFetchGroupQuery(Number(id));
 
   if (isLoading) {
     return (
@@ -24,14 +26,48 @@ export default function EditGroupPage() {
     );
   }
 
+  const handlePurgeProfilePhoto = async () => {
+    try {
+      await API.groups.purgeProfilePhoto(Number(id));
+      await refetch();
+
+      myToast({
+        message: 'The photo has been deleted',
+        severity: 'info',
+      });
+    } catch (error) {
+      myToast({
+        message: 'An error occurred. Please, try again later',
+        severity: 'error',
+      });
+    }
+  };
+
   return (
     <Container>
       {createSubtitle('Original information')}
       <MainGroupData groupData={data} />
 
       {createSubtitle('Updated information')}
-      <Box width={'400px'}>
+      <Box width={'450px'}>
         <GroupUpdateForm groupId={Number(id)} />
+      </Box>
+
+      <Box mt={2}>
+        <Button
+          type={'submit'}
+          onClick={() => {
+            if (!confirm('Are you sure you want to remove the group photo?')) {
+              return;
+            }
+
+            handlePurgeProfilePhoto();
+          }}
+          color={'error'}
+          variant={'contained'}
+        >
+          Delete photo
+        </Button>
       </Box>
     </Container>
   );

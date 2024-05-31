@@ -419,7 +419,11 @@ const groups = {
     return response.data as GroupEntity;
   },
   updateById: async ({ id, data }: { id: number; data: GroupFormValues }) => {
-    const response: AxiosResponse = await axios.patch(`/groups/${id}`, data);
+    const response: AxiosResponse = await axios.patch(`/groups/${id}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data as GroupEntity;
   },
   joinById: async ({
@@ -453,6 +457,10 @@ const groups = {
   },
   deleteById: (id: number) => async () => {
     await axios.delete(`/groups/${id}`);
+    return;
+  },
+  purgeProfilePhoto: async (id: number) => {
+    await axios.delete(`/group_profile_photo/${id}`);
     return;
   },
 };

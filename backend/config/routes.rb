@@ -55,6 +55,8 @@ Rails.application.routes.draw do
   get "/profile", to: "users#profile"
   get "/refresh", to: "users#refresh"
 
+  delete "/group_profile_photo/:id", to: "groups#purge_profile_photo"
+
   get "/users/:id/posts", to: "users#user_posts"
 
   get "/chats", to: "private_chats#my_chats"

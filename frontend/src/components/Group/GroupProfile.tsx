@@ -1,7 +1,7 @@
 import { GroupEntity } from '../../interfaces';
 import { Stack } from '@mui/material';
 import createSubtitle from '../../utils/create-subtitle.tsx';
-import MainGroupData from './MainGroupDate.tsx';
+import MainGroupData from './MainGroupData.tsx';
 import UserProfileCard from '../UserProfileCard/UserProfileCard.tsx';
 import MembersData from './MembersData.tsx';
 import UtilityButtons from './UtilityButtons.tsx';
