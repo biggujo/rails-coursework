@@ -594,9 +594,11 @@ Sends password recovery instructions.
 
 Endpoints `/posts`, `/users/:id/posts` and `/groups/:id/posts` support querying and pagination.
 
-Example of post querying: `/users/2/posts?sort_activity=asc&content=c&start_date=2024-05-28&end_date=2024-05-29&sort_date=desc`
+Example of post querying: 
+- `/users/2/posts?sort_activity=asc&content=c&start_date=2024-05-28&end_date=2024-05-29&sort_date=desc`
 
-Example of post pagination: `/groups/2/posts?page=1&offset=2`
+Example of post pagination: 
+- `/groups/2/posts?page=1&offset=2`
 
 These endpoint also support csv export available at `/posts.csv`, `/users/:id/posts.csv` and `/groups/:id/posts.csv`
 
