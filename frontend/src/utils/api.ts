@@ -251,6 +251,7 @@ const postsBlueprint = (prefix: 'users' | 'groups') => ({
     data: {
       title: string;
       content: string;
+      photos: Array<File>;
     }
   ) => {
     const response: AxiosResponse = await axios.patch(
@@ -326,6 +327,11 @@ const groupPosts = {
 
     return response.data as PostEntity;
   },
+};
+
+const purgePostPhotosById = async (id: number) => {
+  await axios.delete(`/post_photos/${id}`);
+  return;
 };
 
 const comments = {
@@ -502,6 +508,7 @@ const API = {
   groupPosts,
   comments,
   messages: messages,
+  purgePostPhotosById,
   chats,
   passwordRecovery,
   webSocket: {

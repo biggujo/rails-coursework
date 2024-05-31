@@ -56,6 +56,21 @@ class PostsController < ApplicationController
     render json: PostSerializer.new(post, params: {current_user:}).to_h
   end
 
+  def purge_photos
+    post_id = params[:id]
+
+    post = Post.find(post_id)
+
+    if post.user.id != current_user.id
+      head 401
+      return
+    end
+
+    post.photos.purge
+
+    head 204
+  end
+
   private
 
   def build_post(post_params)

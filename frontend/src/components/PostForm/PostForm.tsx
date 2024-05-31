@@ -42,7 +42,7 @@ export default function PostForm({ formik }: Props) {
         />
         <Box>
           <Typography variant={'h6'} pb={2}>
-            Photos
+            New Photos
           </Typography>
           <MyDropzone
             title={`New photos (up to ${MAX_PHOTOS_SIZE})`}

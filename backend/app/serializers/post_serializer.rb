@@ -37,6 +37,6 @@ class PostSerializer
   end
 
   attribute :photos do |post|
-    post.photos(&:url)
+    post.photos.map(&:url)
   end
 end

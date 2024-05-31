@@ -45,7 +45,7 @@ export default function GroupForm({ formik }: Props) {
         </Stack>
         <Box>
           <Typography variant={'h6'} pb={2}>
-            Avatar
+            New Avatar
           </Typography>
           <MyDropzone
             title={'New avatar'}

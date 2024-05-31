@@ -60,7 +60,7 @@ export default function ProfileUpdateForm() {
           </Stack>
         </Stack>
         <Typography variant={'h6'} pb={2}>
-          Avatar
+          New Avatar
         </Typography>
         <MyDropzone
           title={'New avatar'}

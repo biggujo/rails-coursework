@@ -34,15 +34,17 @@ const createOperations = (api: PostsApi) => ({
         postId,
         title,
         content,
+        photos,
       }: {
         postId: number;
         title: string;
         content: string;
+        photos: Array<File>;
       },
       { rejectWithValue }
     ) => {
       try {
-        return await api.updateById(postId, { title, content });
+        return await api.updateById(postId, { title, content, photos });
       } catch (e) {
         return rejectWithValue(ERROR_MESSAGE);
       }

@@ -1,7 +1,7 @@
 import { AppDispatch } from '../../redux/store.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import myToast from '../../utils/myToast.tsx';
-import usePostForm from './usePostForm.ts';
+import usePostForm, { PostFormValues } from './usePostForm.ts';
 import { selectPostsItems } from '../../redux/posts/selectors.ts';
 import { usePostsOperationsContext } from '../../providers/PostsOperationsProvider.tsx';
 
@@ -13,13 +13,14 @@ const usePostUpdateForm = (postId: number) => {
 
   const currentPost = posts.find(({ id }) => id === postId);
 
-  const handleSubmit = async (values: { title: string; content: string }) => {
+  const handleSubmit = async (values: PostFormValues) => {
     try {
       await dispatch(
         Operations.updateById({
           postId,
           title: values.title,
           content: values.content,
+          photos: values.photos,
         })
       ).unwrap();
 

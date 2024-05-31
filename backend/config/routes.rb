@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   get "/refresh", to: "users#refresh"
 
   delete "/group_profile_photo/:id", to: "groups#purge_profile_photo"
+  delete "/post_photos/:id", to: "posts#purge_photos"
 
   get "/users/:id/posts", to: "users#user_posts"
 

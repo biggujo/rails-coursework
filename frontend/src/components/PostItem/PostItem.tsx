@@ -22,7 +22,7 @@ import {
   ThumbUp,
   ThumbUpOutlined,
 } from '@mui/icons-material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 import MyMenu from '../MyMenu';
 import { PostEntity } from '../../interfaces';
@@ -38,6 +38,7 @@ import CommentCreateForm from '../CommentCreateForm';
 import useHandleOperationWithNotify from '../../hooks/useHandleOperationWithNotify.ts';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { usePostsOperationsContext } from '../../providers/PostsOperationsProvider.tsx';
+import MyCarousel from '../MyCarousel/MyCarousel.tsx';
 
 interface Props {
   data: PostEntity;
@@ -45,6 +46,7 @@ interface Props {
 
 export default function PostItem({ data }: Props) {
   const dispatch: AppDispatch = useDispatch();
+  const location = useLocation();
   const operationHandler = useHandleOperationWithNotify();
   const currentUser = useSelector(selectAuthUser);
   const Operations = usePostsOperationsContext();
@@ -54,8 +56,14 @@ export default function PostItem({ data }: Props) {
 
   const formattedDate = DateFormatter.formatRelativeToNow(data.created_at);
 
+  const handlePurgePhotos = () => {
+    dispatch(Operations.fetchAll(data?.group?.id || data.user.id));
+  };
+
+  const isInProfile = location.pathname.includes('/profile/');
+
   const shouldShowGroupInfo =
-    currentUser.id === data.user.id && data.group !== null;
+    currentUser.id === data.user.id && data.group !== null && isInProfile;
 
   const postSubtitle = shouldShowGroupInfo ? (
     <Stack direction={'row'}>
@@ -81,136 +89,157 @@ export default function PostItem({ data }: Props) {
   );
 
   return (
-    <Card
-      sx={{
-        width: '100%',
-        px: 2,
-        border: `1px solid ${theme.palette.primary.light}`,
-        boxShadow: 'none',
-      }}
-    >
-      <CardHeader
-        avatar={
-          <MyAvatar
-            alt={data.user.nickname}
-            src={data.user.profile_photo}
-            size={'bigger'}
-          />
-        }
-        action={
-          currentUser.id === data.user.id && (
-            <MyMenu
-              actions={[
-                {
-                  title: <PostUpdateModal postId={data.id} />,
-                  action: null,
-                },
-                {
-                  title: <Button startIcon={<Delete />}>Delete</Button>,
-                  action: async () => {
-                    try {
-                      if (
-                        !confirm('Are you sure you want to delete the post?')
-                      ) {
-                        return;
-                      }
-
-                      await dispatch(Operations.deleteById(data.id)).unwrap();
-
-                      myToast({
-                        message: 'The post has been deleted',
-                        severity: 'success',
-                      });
-                    } catch (e) {
-                      myToast({
-                        message: e,
-                        severity: 'error',
-                      });
-                    }
+    <>
+      <Card
+        sx={{
+          width: '100%',
+          px: 2,
+          border: `1px solid ${theme.palette.primary.light}`,
+          boxShadow: 'none',
+        }}
+      >
+        <CardHeader
+          avatar={
+            <MyAvatar
+              alt={data.user.nickname}
+              src={data.user.profile_photo}
+              size={'bigger'}
+            />
+          }
+          action={
+            currentUser.id === data.user.id && (
+              <MyMenu
+                actions={[
+                  {
+                    title: (
+                      <PostUpdateModal
+                        postId={data.id}
+                        onPurgePhotos={handlePurgePhotos}
+                      />
+                    ),
+                    action: null,
                   },
-                },
-              ]}
-            />
-          )
-        }
-        title={data.title}
-        subheader={postSubtitle}
-        titleTypographyProps={{ variant: 'h6', component: 'h3' }}
-      />
-      {/*<CardMedia*/}
-      {/*  component="img"*/}
-      {/*  height="350"*/}
-      {/*  image="https://media.istockphoto.com/id/1397698601/uk/%D1%84%D0%BE%D1%82%D0%BE/%D0%B2%D0%B5%D1%81%D0%BD%D1%8F%D0%BD%D0%B8%D0%B9-%D0%BF%D0%B5%D0%B9%D0%B7%D0%B0%D0%B6.jpg?s=612x612&w=0&k=20&c=SpQCEsgBKMdIGl4NvWz7cL0jGmfLxDh9QTDct_cEYmU="*/}
-      {/*  alt="Field"*/}
-      {/*/>*/}
-      <CardContent>
-        <Typography color={'text.secondary'}>{data.content}</Typography>
-      </CardContent>
-      <CardActions>
-        <Stack
-          width={'100%'}
-          direction={'row'}
-          justifyContent={'space-between'}
-        >
+                  {
+                    title: <Button startIcon={<Delete />}>Delete</Button>,
+                    action: async () => {
+                      try {
+                        if (
+                          !confirm('Are you sure you want to delete the post?')
+                        ) {
+                          return;
+                        }
+
+                        await dispatch(Operations.deleteById(data.id)).unwrap();
+
+                        myToast({
+                          message: 'The post has been deleted',
+                          severity: 'success',
+                        });
+                      } catch (e) {
+                        myToast({
+                          message: e,
+                          severity: 'error',
+                        });
+                      }
+                    },
+                  },
+                ]}
+              />
+            )
+          }
+          title={data.title}
+          subheader={postSubtitle}
+          titleTypographyProps={{ variant: 'h6', component: 'h3' }}
+        />
+        <CardContent>
           <Box>
-            <IconButton
-              onClick={operationHandler({
-                dispatch,
-                operation: Operations.likeById(data.id),
-              })}
-            >
-              <Typography>{data.likes_count}</Typography>
-              <Checkbox
-                icon={<ThumbUpOutlined />}
-                checkedIcon={<ThumbUp />}
-                checked={data.liked}
-              />
-            </IconButton>
-            <IconButton
-              onClick={operationHandler({
-                dispatch,
-                operation: Operations.dislikeById(data.id),
-              })}
-            >
-              <Typography>{data.dislikes_count}</Typography>
-              <Checkbox
-                icon={<ThumbDownOutlined />}
-                checkedIcon={<ThumbDown />}
-                checked={data.disliked}
-              />
-            </IconButton>
-          </Box>
-          <Box>
-            <IconButton onClick={toggle}>
-              <Checkbox icon={<Chat />} checkedIcon={<Chat />} />
-            </IconButton>
-            <IconButton>
-              <Checkbox
-                icon={<ShareIcon />}
-                checkedIcon={<ShareIcon />}
-                checked={false}
-              />
-            </IconButton>
-          </Box>
-        </Stack>
-      </CardActions>
-      <Box pb={1}>
-        {isOpen && (
-          <>
-            <Divider
-              sx={{
-                bgcolor: theme.palette.primary.light,
-                mb: 2,
-              }}
-            />
-            <Typography variant={'h6'} fontWeight={'normal'} pl={4}>
-              Comments
+            <Typography color={'text.secondary'} mb={2}>
+              {data.content}
             </Typography>
-            <CommentList postId={data.id} />
-            <CommentCreateForm postId={data.id} />
-          </>
-        )}
-      </Box>
-    </Card>
+            {data.photos.length > 0 && (
+              <MyCarousel>
+                {data.photos.map(photoUrl => (
+                  <img
+                    src={photoUrl}
+                    alt=""
+                    height={400}
+                    style={{
+                      width: '100%',
+                      objectFit: 'cover',
+                    }}
+                    loading={'eager'}
+                  />
+                ))}
+              </MyCarousel>
+            )}
+          </Box>
+        </CardContent>
+        <CardActions>
+          <Stack
+            width={'100%'}
+            direction={'row'}
+            justifyContent={'space-between'}
+          >
+            <Box>
+              <IconButton
+                onClick={operationHandler({
+                  dispatch,
+                  operation: Operations.likeById(data.id),
+                })}
+              >
+                <Typography>{data.likes_count}</Typography>
+                <Checkbox
+                  icon={<ThumbUpOutlined />}
+                  checkedIcon={<ThumbUp />}
+                  checked={data.liked}
+                />
+              </IconButton>
+              <IconButton
+                onClick={operationHandler({
+                  dispatch,
+                  operation: Operations.dislikeById(data.id),
+                })}
+              >
+                <Typography>{data.dislikes_count}</Typography>
+                <Checkbox
+                  icon={<ThumbDownOutlined />}
+                  checkedIcon={<ThumbDown />}
+                  checked={data.disliked}
+                />
+              </IconButton>
+            </Box>
+            <Box>
+              <IconButton onClick={toggle}>
+                <Checkbox icon={<Chat />} checkedIcon={<Chat />} />
+              </IconButton>
+              <IconButton>
+                <Checkbox
+                  icon={<ShareIcon />}
+                  checkedIcon={<ShareIcon />}
+                  checked={false}
+                />
+              </IconButton>
+            </Box>
+          </Stack>
+        </CardActions>
+        <Box pb={1}>
+          {isOpen && (
+            <>
+              <Divider
+                sx={{
+                  bgcolor: theme.palette.primary.light,
+                  mb: 2,
+                }}
+              />
+              <Typography variant={'h6'} fontWeight={'normal'} pl={4}>
+                Comments
+              </Typography>
+              <CommentList postId={data.id} />
+              <CommentCreateForm postId={data.id} />
+            </>
+          )}
+        </Box>
+      </Card>
+    </>
   );
 }
