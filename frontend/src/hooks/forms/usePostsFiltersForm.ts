@@ -17,7 +17,6 @@ const usePostsFiltersForm = () => {
 
   return useFormik({
     initialValues,
-    validationSchema,
     onSubmit: async values => {
       dispatch(setPostsFilters(values));
     },

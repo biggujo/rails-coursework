@@ -42,9 +42,10 @@ import MyCarousel from '../MyCarousel/MyCarousel.tsx';
 
 interface Props {
   data: PostEntity;
+  dontShowControls?: boolean;
 }
 
-export default function PostItem({ data }: Props) {
+export default function PostItem({ data, dontShowControls }: Props) {
   const dispatch: AppDispatch = useDispatch();
   const location = useLocation();
   const operationHandler = useHandleOperationWithNotify();
@@ -66,7 +67,7 @@ export default function PostItem({ data }: Props) {
     currentUser.id === data.user.id && data.group !== null && isInProfile;
 
   const postSubtitle = shouldShowGroupInfo ? (
-    <Stack direction={'row'}>
+    <Stack direction={'row'} width={'300px'}>
       <Typography variant={'body2'}>Posted in&nbsp;</Typography>
       <MyAvatar
         alt={data.group.name}
@@ -107,7 +108,8 @@ export default function PostItem({ data }: Props) {
             />
           }
           action={
-            currentUser.id === data.user.id && (
+            currentUser.id === data.user.id &&
+            !dontShowControls && (
               <MyMenu
                 actions={[
                   {
@@ -156,6 +158,14 @@ export default function PostItem({ data }: Props) {
             <Typography color={'text.secondary'} mb={2}>
               {data.content}
             </Typography>
+            {data.repost && (
+              <>
+                <Typography fontWeight={'bold'} mb={1}>
+                  Original post:
+                </Typography>
+                <PostItem data={data.repost} dontShowControls={true} />
+              </>
+            )}
             {data.photos.length > 0 && (
               <MyCarousel>
                 {data.photos.map(photoUrl => (
@@ -174,54 +184,56 @@ export default function PostItem({ data }: Props) {
             )}
           </Box>
         </CardContent>
-        <CardActions>
-          <Stack
-            width={'100%'}
-            direction={'row'}
-            justifyContent={'space-between'}
-          >
-            <Box>
-              <IconButton
-                onClick={operationHandler({
-                  dispatch,
-                  operation: Operations.likeById(data.id),
-                })}
-              >
-                <Typography>{data.likes_count}</Typography>
-                <Checkbox
-                  icon={<ThumbUpOutlined />}
-                  checkedIcon={<ThumbUp />}
-                  checked={data.liked}
-                />
-              </IconButton>
-              <IconButton
-                onClick={operationHandler({
-                  dispatch,
-                  operation: Operations.dislikeById(data.id),
-                })}
-              >
-                <Typography>{data.dislikes_count}</Typography>
-                <Checkbox
-                  icon={<ThumbDownOutlined />}
-                  checkedIcon={<ThumbDown />}
-                  checked={data.disliked}
-                />
-              </IconButton>
-            </Box>
-            <Box>
-              <IconButton onClick={toggle}>
-                <Checkbox icon={<Chat />} checkedIcon={<Chat />} />
-              </IconButton>
-              <IconButton>
-                <Checkbox
-                  icon={<ShareIcon />}
-                  checkedIcon={<ShareIcon />}
-                  checked={false}
-                />
-              </IconButton>
-            </Box>
-          </Stack>
-        </CardActions>
+        {!dontShowControls && (
+          <CardActions>
+            <Stack
+              width={'100%'}
+              direction={'row'}
+              justifyContent={'space-between'}
+            >
+              <Box>
+                <IconButton
+                  onClick={operationHandler({
+                    dispatch,
+                    operation: Operations.likeById(data.id),
+                  })}
+                >
+                  <Typography>{data.likes_count}</Typography>
+                  <Checkbox
+                    icon={<ThumbUpOutlined />}
+                    checkedIcon={<ThumbUp />}
+                    checked={data.liked}
+                  />
+                </IconButton>
+                <IconButton
+                  onClick={operationHandler({
+                    dispatch,
+                    operation: Operations.dislikeById(data.id),
+                  })}
+                >
+                  <Typography>{data.dislikes_count}</Typography>
+                  <Checkbox
+                    icon={<ThumbDownOutlined />}
+                    checkedIcon={<ThumbDown />}
+                    checked={data.disliked}
+                  />
+                </IconButton>
+              </Box>
+              <Box>
+                <IconButton onClick={toggle}>
+                  <Checkbox icon={<Chat />} checkedIcon={<Chat />} />
+                </IconButton>
+                <IconButton>
+                  <Checkbox
+                    icon={<ShareIcon />}
+                    checkedIcon={<ShareIcon />}
+                    checked={false}
+                  />
+                </IconButton>
+              </Box>
+            </Stack>
+          </CardActions>
+        )}
         <Box pb={1}>
           {isOpen && (
             <>
