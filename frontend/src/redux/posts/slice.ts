@@ -9,25 +9,39 @@ const initialState: {
     isLoading: boolean;
     error: Nullable<string>;
   };
+  metadata: {
+    isInitialised: boolean;
+    offset: number;
+    page: number;
+    maxPage: number;
+  };
 } = {
   data: {
     items: [],
     isLoading: true,
     error: null,
   },
+  metadata: {
+    isInitialised: false,
+    offset: 0,
+    page: 0,
+    maxPage: 0,
+  },
 };
 
 const slice = createSlice({
   name: 'posts',
   initialState,
-  reducers: {},
+  reducers: {
+    resetPosts: () => ({ ...initialState }),
+  },
   extraReducers: builder => {
     builder
       .addCase(ProfilePostsOperations.fetchAll.pending, state => ({
         ...state,
         data: {
           ...state.data,
-          isLoading: true,
+          isLoading: !state.metadata.isInitialised,
           error: null,
         },
       }))
@@ -89,8 +103,15 @@ const slice = createSlice({
           ...state,
           data: {
             ...state.data,
-            items: action.payload.items,
+            items: [...state.data.items, ...action.payload.items],
             isLoading: false,
+          },
+          metadata: {
+            ...state.metadata,
+            isInitialised: true,
+            offset: state.metadata.offset > 0 ? state.metadata.offset - 1 : 0,
+            page: state.metadata.page ? state.metadata.page + 1 : 2,
+            maxPage: action.payload.metadata.last,
           },
         })
       )
@@ -171,5 +192,7 @@ const slice = createSlice({
       );
   },
 });
+
+export const { resetPosts } = slice.actions;
 
 export const postsReducer = slice.reducer;

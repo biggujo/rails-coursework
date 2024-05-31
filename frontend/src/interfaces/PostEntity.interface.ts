@@ -14,9 +14,7 @@ interface PostEntity {
   liked: boolean;
   disliked: boolean;
   photos: Array<string>;
-  // TODO: group
   // TODO: report
-  // TODO: liked
 }
 
 export default PostEntity;

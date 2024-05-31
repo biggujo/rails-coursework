@@ -226,9 +226,27 @@ export interface LikeResponse {
 }
 
 const postsBlueprint = (prefix: 'users' | 'groups') => ({
-  fetchAll: async (userId: number) => {
+  fetchAll: async ({
+    id,
+    page,
+    offset,
+  }: {
+    id: number;
+    page: number;
+    offset: number;
+  }) => {
+    const params = new URLSearchParams({});
+
+    if (page) {
+      params.set('page', String(page));
+    }
+
+    if (offset) {
+      params.set('offset', String(offset));
+    }
+
     const response: AxiosResponse = await axios.get(
-      `/${prefix}/${userId}/posts`
+      `/${prefix}/${id}/posts?${params}`
     );
 
     const data = response.data;

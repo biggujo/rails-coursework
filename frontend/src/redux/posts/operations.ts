@@ -7,9 +7,12 @@ const ERROR_MESSAGE = 'An error just happened. Please, try again later.';
 const createOperations = (api: PostsApi) => ({
   fetchAll: createAsyncThunk(
     'posts/fetchAll',
-    async (userId: number, { rejectWithValue }) => {
+    async (
+      { id, page, offset }: { id: number; page: number; offset: number },
+      { rejectWithValue }
+    ) => {
       try {
-        return await api.fetchAll(userId);
+        return await api.fetchAll({ id, page, offset });
       } catch (e) {
         return rejectWithValue(ERROR_MESSAGE);
       }
@@ -87,6 +90,10 @@ const createOperations = (api: PostsApi) => ({
 
 export type PostsOperations = ReturnType<typeof createOperations>;
 
-export const ProfilePostsOperations = createOperations(API.profilePosts);
+export const ProfilePostsOperations: PostsOperations = createOperations(
+  API.profilePosts
+);
 
-export const GroupPostsOperations = createOperations(API.groupPosts);
+export const GroupPostsOperations: PostsOperations = createOperations(
+  API.groupPosts
+);
