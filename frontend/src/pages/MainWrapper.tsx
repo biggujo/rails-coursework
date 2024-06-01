@@ -1,7 +1,6 @@
 import NavBar from '../components/NavBar';
 import { Container, Stack } from '@mui/material';
 import SideBar from '../components/SideBar';
-import Rightbar from '../components/Rightbar';
 import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAuthIsLoggedIn } from '../redux/auth/selectors.ts';
@@ -16,8 +15,8 @@ export default function MainWrapper({ children }: Props) {
   return (
     <>
       <NavBar />
-      <Container maxWidth={'xl'}>
-        <Stack direction={'row'} justifyContent={'space-between'}>
+      <Container>
+        <Stack direction={'row'}>
           {isLoggedIn && <SideBar />}
           <Container
             maxWidth={'md'}
@@ -27,7 +26,6 @@ export default function MainWrapper({ children }: Props) {
           >
             {children}
           </Container>
-          {isLoggedIn && <Rightbar />}
         </Stack>
       </Container>
     </>

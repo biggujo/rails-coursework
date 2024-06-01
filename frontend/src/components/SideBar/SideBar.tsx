@@ -90,7 +90,7 @@ export default function SideBar() {
   return (
     <Box
       sx={{
-        flex: 1,
+        flex: 0.5,
       }}
     >
       <Box
