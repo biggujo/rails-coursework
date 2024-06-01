@@ -1,4 +1,4 @@
-import { Box, IconButton, Menu, MenuItem, Stack } from '@mui/material';
+import { Menu, MenuItem, Stack } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import { useRef, useState } from 'react';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AuthOperations from '../../redux/auth/operations.ts';
 import { AppDispatch } from '../../redux/store.ts';
-import LanguageChanger from '../LanguageChanger';
 import { useTranslation } from 'react-i18next';
 
 export default function IconBar() {
@@ -29,13 +28,6 @@ export default function IconBar() {
         alignItems: 'center',
       }}
     >
-      <Box
-        sx={{
-          pr: 1,
-        }}
-      >
-        <LanguageChanger />
-      </Box>
       <IconButton onClick={() => navigate('/my_chats')}>
         <MailIcon
           color="action"

@@ -14,8 +14,6 @@ const useSearchGroupsAndUsersMutation = () =>
           attributes: UserEntity | GroupEntity;
         }>
       >,
-    // @ts-expect-error of bad typing
-    cacheTime: 120,
     enabled: false,
   });
 
