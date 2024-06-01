@@ -574,6 +574,29 @@ const search = async (name: string) => {
   }>;
 };
 
+const reposts = {
+  add: async ({
+    data,
+    originalPostId,
+  }: {
+    data: NewPostEntity;
+    originalPostId: number;
+  }) => {
+    const completeData = {
+      ...data,
+      reposted_post_id: originalPostId,
+    };
+
+    const response: AxiosResponse = await axios.post(
+      `/posts`,
+      completeData,
+      MULTIPART_FORM_HEADERS
+    );
+
+    return response.data as PostEntity;
+  },
+};
+
 const API = {
   auth: {
     signIn,
@@ -594,6 +617,7 @@ const API = {
   groupPosts,
   comments,
   messages: messages,
+  reposts,
   purgePostPhotosById,
   chats,
   search,

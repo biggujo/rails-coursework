@@ -13,7 +13,6 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import ShareIcon from '@mui/icons-material/Share';
 import {
   Chat,
   Delete,
@@ -39,6 +38,7 @@ import useHandleOperationWithNotify from '../../hooks/useHandleOperationWithNoti
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { usePostsOperationsContext } from '../../providers/PostsOperationsProvider.tsx';
 import MyCarousel from '../MyCarousel/MyCarousel.tsx';
+import RepostCreateModal from '../RepostCreateModal/RepostCreateModal.tsx';
 
 interface Props {
   data: PostEntity;
@@ -219,18 +219,12 @@ export default function PostItem({ data, dontShowControls }: Props) {
                   />
                 </IconButton>
               </Box>
-              <Box>
+              <Stack direction={'row'}>
                 <IconButton onClick={toggle}>
                   <Checkbox icon={<Chat />} checkedIcon={<Chat />} />
                 </IconButton>
-                <IconButton>
-                  <Checkbox
-                    icon={<ShareIcon />}
-                    checkedIcon={<ShareIcon />}
-                    checked={false}
-                  />
-                </IconButton>
-              </Box>
+                <RepostCreateModal originalPostId={data.id} />
+              </Stack>
             </Stack>
           </CardActions>
         )}
