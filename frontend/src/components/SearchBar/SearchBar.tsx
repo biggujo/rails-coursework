@@ -38,13 +38,9 @@ export default function SearchBar() {
       return;
     }
 
-    if (!shouldShowResults) {
-      return;
-    }
-
     mutateAsync(value);
     // eslint-disable-next-line
-  }, [mutateAsync, shouldShowResults, isFocused]);
+  }, [value]);
 
   return (
     <Box

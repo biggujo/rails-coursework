@@ -1,17 +1,14 @@
-import { Box, ListItem, Stack, Typography } from '@mui/material';
+import { Box, ListItem, Stack, Typography, useTheme } from '@mui/material';
 import createNavitationLinks from '../../utils/create-navigation-links.ts';
 import { useSelector } from 'react-redux';
-import {
-  selectAuthIsLoggedIn,
-  selectAuthUser,
-} from '../../redux/auth/selectors.ts';
+import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { useTranslation } from 'react-i18next';
 import { Link as RouterLink } from 'react-router-dom';
 
 export default function Footer() {
-  const { t } = useTranslation();
+  const theme = useTheme();
   const currentUser = useSelector(selectAuthUser);
-  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
+  const { t } = useTranslation();
   const links = createNavitationLinks(currentUser.id, t);
 
   return (
@@ -29,12 +26,19 @@ export default function Footer() {
           pb: '50px',
         }}
       >
-        {isLoggedIn &&
-          links.map(({ title, to }, index) => (
-            <ListItem key={index} disablePadding component={RouterLink} to={to}>
-              {title}
-            </ListItem>
-          ))}
+        {links.map(({ title, to }, index) => (
+          <ListItem
+            key={index}
+            disablePadding
+            component={RouterLink}
+            to={to}
+            sx={{
+              color: theme.palette.primary.main,
+            }}
+          >
+            {title}
+          </ListItem>
+        ))}
         <Typography
           sx={{
             pt: 1,

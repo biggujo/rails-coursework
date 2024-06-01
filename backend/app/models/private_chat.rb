@@ -8,7 +8,7 @@ class PrivateChat < ApplicationRecord
   validates :user_1, presence: true
   validates :user_2, presence: true
   # Here is a disabled cop as it gives a false alarm
-  validates :user_1_id, uniqueness: {scope: :user_2_id} # rubocop:disable Rails/UniqueValidationWithoutIndex
+  validates :user_1_id, uniqueness: {scope: :user_2_id}
   validate :cannot_chat_with_yourself
   validate :unique_chats
 

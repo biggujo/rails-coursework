@@ -8,6 +8,10 @@ class Post < ApplicationRecord
 
   has_many_attached :photos
 
+  validates :title, presence: true
+  validates :content, presence: true
+  validates :user, presence: true
+
   acts_as_votable
 
   def likes_count

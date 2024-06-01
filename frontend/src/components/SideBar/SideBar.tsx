@@ -51,6 +51,7 @@ export default function SideBar() {
     <Box
       sx={{
         flex: 0.7,
+        minHeight: '600px',
       }}
     >
       <Box

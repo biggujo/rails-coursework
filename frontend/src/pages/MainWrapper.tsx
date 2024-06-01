@@ -29,7 +29,7 @@ export default function MainWrapper({ children }: Props) {
           </Container>
         </Stack>
       </Container>
-      <Footer />
+      {isLoggedIn && <Footer />}
     </>
   );
 }

@@ -10,13 +10,24 @@ import downloadCsv from '../utils/download-csv.ts';
 import API from '../utils/api.ts';
 import { FileCopy } from '@mui/icons-material';
 import myToast from '../utils/myToast.tsx';
+import { useEffect } from 'react';
+import { resetPosts, resetPostsMetadata } from '../redux/posts/slice.ts';
+import { useDispatch } from 'react-redux';
 
 export default function MainPage() {
+  const dispatch = useDispatch();
   const postsQuery = useGetPostsQuery({
     id: null,
     operations: AllPostsOperations,
   });
   const { t } = useTranslation();
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetPostsMetadata());
+      dispatch(resetPosts());
+    };
+  }, [dispatch]);
 
   return (
     <>
