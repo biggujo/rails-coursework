@@ -3,12 +3,15 @@ import FormWrapper from '../FormWrapper/FormWrapper.tsx';
 import BasicModal from '../BasicModal';
 import PostCreateForm from '../PostCreateForm';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   additionalValues?: object;
 }
 
 export default function PostCreateModal({ additionalValues }: Props) {
+  const { t } = useTranslation();
+
   const toggler = (
     <Button
       startIcon={<EditNoteIcon />}
@@ -17,12 +20,12 @@ export default function PostCreateModal({ additionalValues }: Props) {
         width: '200px',
       }}
     >
-      Create post
+      {t('action.post.create')}
     </Button>
   );
 
   const modalContent = (
-    <FormWrapper title={'Post creation'}>
+    <FormWrapper title={t('action.post.creation')}>
       <PostCreateForm additionalValues={additionalValues} />
     </FormWrapper>
   );

@@ -3,25 +3,23 @@ import { Box, Typography } from '@mui/material';
 import Loader from '../components/Loader';
 import createSubtitle from '../utils/create-subtitle.tsx';
 import ChatList from '../components/ChatList';
+import { useTranslation } from 'react-i18next';
 
 export default function ChatsPage() {
   const { data, isLoading, isSuccess, isError } = useFetchAllChatsQuery();
+  const { t } = useTranslation();
 
   return (
     <>
-      {createSubtitle('My chats')}
+      {createSubtitle(t('chat.myChats'))}
       {isLoading && (
         <Box height={400}>
           <Loader />
         </Box>
       )}
-      {isError && (
-        <Typography>
-          An error just happened. Please, try again later.
-        </Typography>
-      )}
+      {isError && <Typography>{t('error.tryAgainLater')}</Typography>}
       {isSuccess && data.length === 0 && (
-        <Typography>No previous chats available.</Typography>
+        <Typography>{t('chat.noChatsAvailable')}</Typography>
       )}
       {isSuccess && <ChatList items={data} />}
     </>

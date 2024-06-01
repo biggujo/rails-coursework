@@ -3,6 +3,7 @@ import { FormikProps, FormikProvider } from 'formik';
 import ButtonSubmit from '../ButtonSubmit';
 import { PostFormValues } from '../../hooks/forms/usePostForm.ts';
 import MyDropzone from '../MyDropzone/MyDropzone.tsx';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   formik: FormikProps<PostFormValues>;
@@ -11,6 +12,8 @@ interface Props {
 const MAX_PHOTOS_SIZE = 4;
 
 export default function PostForm({ formik }: Props) {
+  const { t } = useTranslation();
+
   return (
     <FormikProvider value={formik}>
       <Stack
@@ -23,7 +26,7 @@ export default function PostForm({ formik }: Props) {
         alignItems={'stretch'}
       >
         <TextField
-          label={'Updated title'}
+          label={t('form.title')}
           type={'text'}
           {...formik.getFieldProps('title')}
           error={formik.touched.title && Boolean(formik.errors.title)}
@@ -31,7 +34,7 @@ export default function PostForm({ formik }: Props) {
           required
         />
         <TextField
-          label={'Updated content'}
+          label={t('form.content')}
           type={'text'}
           {...formik.getFieldProps('content')}
           error={formik.touched.content && Boolean(formik.errors.content)}
@@ -42,17 +45,19 @@ export default function PostForm({ formik }: Props) {
         />
         <Box>
           <Typography variant={'h6'} pb={2}>
-            New Photos
+            {t('form.newPhotos')}
           </Typography>
           <MyDropzone
-            title={`New photos (up to ${MAX_PHOTOS_SIZE})`}
+            title={t('form.newPhotosWithLimit', { maxAmount: MAX_PHOTOS_SIZE })}
             onAddFile={files => {
               formik.setFieldValue('photos', files);
             }}
             maxFiles={MAX_PHOTOS_SIZE}
           />
         </Box>
-        <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
+        <ButtonSubmit isSubmitting={formik.isSubmitting}>
+          {t('form.submit')}
+        </ButtonSubmit>
       </Stack>
     </FormikProvider>
   );

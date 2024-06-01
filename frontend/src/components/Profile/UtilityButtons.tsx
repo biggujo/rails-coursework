@@ -12,6 +12,7 @@ import ProfileOperations from '../../redux/profile/operations.ts';
 import myToast from '../../utils/myToast.tsx';
 import PostCreateModal from '../PostCreateModal';
 import UtilityButtonInterface from '../../interfaces/UtilityButton.interface.ts';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   userData: UserProfile;
@@ -40,19 +41,20 @@ const UtilityButtons = ({ userData }: Props) => {
   const navigate = useNavigate();
   const currentUser = useSelector(selectAuthUser);
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   const buttonList: Array<UtilityButtonInterface> = [];
 
   if (userData.id !== currentUser.id) {
     buttonList.push({
-      title: 'Send message',
+      title: t('profile.sendMessage'),
       icon: CreateIcon,
       onClick: () => navigate(`/chat/${userData.id}`),
     });
 
     if (userData.is_following) {
       buttonList.push({
-        title: 'Unfollow',
+        title: t('friends.unfollow'),
         icon: PersonRemove,
         onClick: followFunction(
           () =>
@@ -60,7 +62,7 @@ const UtilityButtons = ({ userData }: Props) => {
               currentUserId: currentUser.id,
               otherPersonId: userData.id,
             }),
-          'Already unfollowed',
+          t('error.tryAgainLater'),
           dispatch,
           userData.id
         ),
@@ -68,7 +70,7 @@ const UtilityButtons = ({ userData }: Props) => {
       });
     } else {
       buttonList.push({
-        title: 'Follow',
+        title: t('friends.follow'),
         icon: PersonAdd,
         onClick: followFunction(
           () =>
@@ -76,7 +78,7 @@ const UtilityButtons = ({ userData }: Props) => {
               currentUserId: currentUser.id,
               otherPersonId: userData.id,
             }),
-          'Already followed',
+          t('error.tryAgainLater'),
           dispatch,
           userData.id
         ),
@@ -87,7 +89,7 @@ const UtilityButtons = ({ userData }: Props) => {
 
   if (userData.id === currentUser.id) {
     buttonList.push({
-      title: 'Edit Profile',
+      title: t('action.profileEdit'),
       icon: SettingsIcon,
       onClick: () => navigate(`/profile_edit`),
     });

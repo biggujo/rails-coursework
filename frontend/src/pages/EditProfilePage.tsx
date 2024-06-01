@@ -10,6 +10,7 @@ import { AppDispatch } from '../redux/store.ts';
 import API from '../utils/api.ts';
 import ProfileOperations from '../redux/profile/operations.ts';
 import myToast from '../utils/myToast.tsx';
+import { useTranslation } from 'react-i18next';
 
 export default function EditProfilePage() {
   const dispatch: AppDispatch = useDispatch();
@@ -19,6 +20,7 @@ export default function EditProfilePage() {
     isLoading,
     error,
   } = useGetProfileQuery(Number(currentUser.id));
+  const { t } = useTranslation();
 
   const handlePurgeProfilePhoto = async () => {
     try {
@@ -55,9 +57,9 @@ export default function EditProfilePage() {
 
   return (
     <>
-      {createSubtitle('Original information')}
+      {createSubtitle(t('form.originalInformation'))}
       <MainProfileData userData={profileData} />
-      {createSubtitle('Updated information')}
+      {createSubtitle(t('form.updatedInformation'))}
       <ProfileUpdateForm />
 
       <Box mt={2}>
@@ -75,7 +77,7 @@ export default function EditProfilePage() {
           color={'error'}
           variant={'contained'}
         >
-          Delete photo
+          {t('action.profilePhoto.delete')}
         </Button>
       </Box>
     </>

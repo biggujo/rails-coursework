@@ -14,6 +14,8 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { useSelector } from 'react-redux';
 import { Chat, Diversity3, Person } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 interface LinkInterface {
   title: string;
@@ -22,33 +24,34 @@ interface LinkInterface {
   isExact?: boolean;
 }
 
-const createLinks: (currentUserId: number) => Array<LinkInterface> = (
-  currentUserId: number
-) => [
+const createLinks: (
+  currentUserId: number,
+  t: TFunction<'translation', undefined>
+) => Array<LinkInterface> = (currentUserId: number, t) => [
   {
-    title: 'Home Page',
+    title: t('navigation.homePage'),
     to: '/',
     isExact: true,
     icon: HomeIcon,
   },
   {
-    title: 'My Profile',
+    title: t('navigation.myProfile'),
     to: `/profile/${currentUserId}`,
     isExact: true,
     icon: Person,
   },
   {
-    title: 'My Chats',
+    title: t('navigation.myChats'),
     to: '/my_chats',
     icon: Chat,
   },
   {
-    title: 'My Friends',
+    title: t('navigation.myFriends'),
     to: '/my_friends',
     icon: PeopleAltIcon,
   },
   {
-    title: 'My Groups',
+    title: t('navigation.myGroups'),
     to: '/my_groups',
     icon: Diversity3,
   },
@@ -86,11 +89,12 @@ const MyListItem = ({
 export default function SideBar() {
   const { id } = useSelector(selectAuthUser);
   const { pathname } = useLocation();
+  const { t } = useTranslation();
 
   return (
     <Box
       sx={{
-        flex: 0.5,
+        flex: 0.7,
       }}
     >
       <Box
@@ -100,7 +104,7 @@ export default function SideBar() {
         }}
       >
         <List>
-          {createLinks(id).map(({ title, to, icon, isExact }) => (
+          {createLinks(id, t).map(({ title, to, icon, isExact }) => (
             <MyListItem
               title={title}
               to={to}

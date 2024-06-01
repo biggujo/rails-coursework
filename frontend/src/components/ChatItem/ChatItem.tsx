@@ -4,6 +4,7 @@ import MyAvatar from '../MyAvatar/MyAvatar.tsx';
 import DateFormatter from '../../utils/date-formatter.ts';
 import { useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   data: ChatEntity;
@@ -11,6 +12,7 @@ interface Props {
 
 export default function ChatItem({ data }: Props) {
   const currentUser = useSelector(selectAuthUser);
+  const { t, i18n } = useTranslation();
 
   const otherPerson =
     data.user_1.id === currentUser.id ? data.user_2 : data.user_1;
@@ -18,7 +20,7 @@ export default function ChatItem({ data }: Props) {
   const latestMessage = data.latest_message;
 
   const formattedDate = latestMessage
-    ? DateFormatter.formatRelativeToNow(latestMessage.created_at)
+    ? DateFormatter.formatRelativeToNow(latestMessage.created_at, i18n.language)
     : '';
 
   return (
@@ -32,7 +34,7 @@ export default function ChatItem({ data }: Props) {
         <Box>
           <Typography variant={'h5'}>{otherPerson.nickname}</Typography>
           <Typography>
-            {latestMessage && 'Latest message: '}
+            {latestMessage && `${t('chat.latestMessage')}: `}
             {latestMessage?.message || ''}
           </Typography>
         </Box>

@@ -4,21 +4,23 @@ import { NewCommentEntity } from '../../interfaces';
 import myToast from '../../utils/myToast.tsx';
 import CommentsOperations from '../../redux/comments/operations.ts';
 import useCommentForm from './useCommentForm.ts';
+import { useTranslation } from 'react-i18next';
 
 const useCommentCreateForm = (postId: number) => {
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleSubmit = async (values: NewCommentEntity) => {
     try {
       await dispatch(CommentsOperations.add({ postId, data: values })).unwrap();
 
       myToast({
-        message: 'The comment has been created',
+        message: t('action.successCommentCreate'),
         severity: 'success',
       });
     } catch (e) {
       myToast({
-        message: e as string,
+        message: t('action.failureCommentCreate'),
         severity: 'error',
       });
     }

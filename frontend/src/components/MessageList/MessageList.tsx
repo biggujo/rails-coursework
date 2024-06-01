@@ -10,6 +10,7 @@ import {
 import { AppDispatch } from '../../redux/store.ts';
 import ChatMessagesOperations from '../../redux/chatMessages/operations.ts';
 import MyInfiniteScroll from '../MyInfiniteScroll';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   items: Array<ChatMessage>;
@@ -23,6 +24,7 @@ export default function MessageList({ items, parentElId }: Props) {
   );
   const chatId = useSelector(selectChatCurrentId);
   const user = useSelector(selectAuthUser);
+  const { t } = useTranslation();
 
   const hasMorePages = page <= maxPage;
 
@@ -46,7 +48,7 @@ export default function MessageList({ items, parentElId }: Props) {
       dataLength={items.length}
       next={handleFetchNextPage}
       hasMore={hasMorePages}
-      endMessage={'This is the start of the chat'}
+      endMessage={t('chat.thisIsTheStart')}
       inverse={true}
       style={{ display: 'flex', flexDirection: 'column-reverse' }}
     >
