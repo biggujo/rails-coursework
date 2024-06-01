@@ -4,12 +4,10 @@ import FormWrapper from '../components/FormWrapper/FormWrapper.tsx';
 
 export default function SignInPage() {
   return (
-    <>
-      <Container component="main" maxWidth="xs">
-        <FormWrapper title={'Sign In'}>
-          <SignInForm />
-        </FormWrapper>
-      </Container>
-    </>
+    <Container component="main" maxWidth="xs">
+      <FormWrapper title={'Sign In'}>
+        <SignInForm />
+      </FormWrapper>
+    </Container>
   );
 }

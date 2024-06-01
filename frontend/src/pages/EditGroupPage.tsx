@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import useFetchGroupQuery from '../hooks/query/useFetchGroupQuery.ts';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import createSubtitle from '../utils/create-subtitle.tsx';
 import MainGroupData from '../components/Group/MainGroupData.tsx';
 import GroupUpdateForm from '../components/GroupUpdateForm';
@@ -44,7 +44,7 @@ export default function EditGroupPage() {
   };
 
   return (
-    <Container>
+    <>
       {createSubtitle('Original information')}
       <MainGroupData groupData={data} />
 
@@ -69,6 +69,6 @@ export default function EditGroupPage() {
           Delete photo
         </Button>
       </Box>
-    </Container>
+    </>
   );
 }

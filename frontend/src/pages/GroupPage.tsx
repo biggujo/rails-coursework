@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import useFetchGroupQuery from '../hooks/query/useFetchGroupQuery.ts';
 import Loader from '../components/Loader';
@@ -34,7 +34,7 @@ export default function GroupPage() {
   }, [dispatch]);
 
   return (
-    <Container>
+    <>
       {isLoading && (
         <Box height={400}>
           <Loader />
@@ -74,6 +74,6 @@ export default function GroupPage() {
           )}
         </>
       )}
-    </Container>
+    </>
   );
 }

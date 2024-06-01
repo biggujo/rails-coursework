@@ -1,17 +1,18 @@
-import {
-  Avatar,
-  Badge,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-} from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, Stack } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useRef, useState } from 'react';
+import MyAvatar from '../MyAvatar/MyAvatar.tsx';
+import { selectAuthUser } from '../../redux/auth/selectors.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import AuthOperations from '../../redux/auth/operations.ts';
+import { AppDispatch } from '../../redux/store.ts';
 
 export default function IconBar() {
+  const dispatch: AppDispatch = useDispatch();
+  const currentUser = useSelector(selectAuthUser);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   const avatarRef = useRef(null);
 
   const handleOpen = () => setIsOpen(true);
@@ -25,54 +26,46 @@ export default function IconBar() {
         alignItems: 'center',
       }}
     >
-      <IconButton>
-        <Badge
-          badgeContent={4}
-          color={'secondary'}
+      <IconButton onClick={() => navigate('/my_chats')}>
+        <MailIcon
+          color="action"
           sx={{
-            cursor: 'pointer',
+            color: 'primary.contrastText',
           }}
-        >
-          <MailIcon
-            color="action"
-            sx={{
-              color: 'primary.contrastText',
-            }}
-          />
-        </Badge>
-      </IconButton>
-      <IconButton>
-        <Badge
-          badgeContent={4}
-          color={'secondary'}
-          sx={{
-            cursor: 'pointer',
-          }}
-        >
-          <NotificationsIcon
-            color="action"
-            sx={{
-              color: 'primary.contrastText',
-            }}
-          />
-        </Badge>
-      </IconButton>
-      <IconButton>
-        <Avatar
-          sx={{
-            cursor: 'pointer',
-          }}
-          src={
-            'https://cdn.pixabay.com/photo/2023/11/29/21/05/animal-8420313_1280.jpg'
-          }
-          onClick={handleOpen}
-          ref={avatarRef}
         />
       </IconButton>
+      <IconButton>
+        <Box
+          onClick={handleOpen}
+          ref={avatarRef}
+          sx={{
+            cursor: 'pointer',
+          }}
+        >
+          <MyAvatar
+            alt={currentUser.nickname}
+            size={'small'}
+            src={currentUser.profile_photo}
+          />
+        </Box>
+      </IconButton>
       <Menu anchorEl={avatarRef.current} open={isOpen} onClose={handleClose}>
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate(`/profile/${currentUser.id}`);
+            handleClose();
+          }}
+        >
+          Profile
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            dispatch(AuthOperations.signOut());
+            handleClose();
+          }}
+        >
+          Logout
+        </MenuItem>
       </Menu>
     </Stack>
   );

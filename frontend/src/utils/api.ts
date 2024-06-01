@@ -331,6 +331,49 @@ const postsBlueprint = (prefix: 'users' | 'groups') => ({
   },
 });
 
+const allPosts = {
+  ...postsBlueprint('users'),
+  fetchAll: async ({
+    page,
+    offset,
+    filterData,
+  }: {
+    id: number;
+    page: number;
+    offset: number;
+    filterData: PostsFilters;
+  }) => {
+    const params = new URLSearchParams({});
+
+    if (page) {
+      params.set('page', String(page));
+    }
+
+    if (offset) {
+      params.set('offset', String(offset));
+    }
+
+    for (const key in filterData) {
+      const value = filterData[key as keyof PostsFilters];
+      if (value) {
+        params.set(key, String(value));
+      }
+    }
+
+    const response: AxiosResponse = await axios.get(`/posts?${params}`);
+
+    const data = response.data;
+
+    const metadata = data[0];
+    const items = data[1];
+
+    return {
+      metadata,
+      items,
+    } as FetchAllPostsResponse;
+  },
+};
+
 const profilePosts = {
   ...postsBlueprint('users'),
   add: async (data: NewPostEntity) => {
@@ -458,6 +501,10 @@ const groups = {
     const response: AxiosResponse = await axios.get(`/groups`);
     return response.data as Array<GroupEntity>;
   },
+  fetchMyGroups: async () => {
+    const response: AxiosResponse = await axios.get(`/my_groups`);
+    return response.data as Array<GroupEntity>;
+  },
   fetchById: (id: number) => async () => {
     const response: AxiosResponse = await axios.get(`/groups/${id}`);
     return response.data;
@@ -532,6 +579,7 @@ const API = {
     friends,
   },
   groups,
+  allPosts,
   profilePosts,
   groupPosts,
   comments,

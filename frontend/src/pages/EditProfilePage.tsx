@@ -4,7 +4,7 @@ import { MainProfileData } from '../components/Profile';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser } from '../redux/auth/selectors.ts';
 import useGetProfileQuery from '../hooks/query/useGetProfileQuery.ts';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Loader from '../components/Loader';
 import { AppDispatch } from '../redux/store.ts';
 import API from '../utils/api.ts';
@@ -54,7 +54,7 @@ export default function EditProfilePage() {
   }
 
   return (
-    <Container>
+    <>
       {createSubtitle('Original information')}
       <MainProfileData userData={profileData} />
       {createSubtitle('Updated information')}
@@ -78,6 +78,6 @@ export default function EditProfilePage() {
           Delete photo
         </Button>
       </Box>
-    </Container>
+    </>
   );
 }

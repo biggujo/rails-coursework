@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import useGetProfileQuery from '../hooks/query/useGetProfileQuery.ts';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
@@ -32,7 +32,7 @@ export default function ProfilePage() {
   }, [dispatch]);
 
   return (
-    <Container id={'container'}>
+    <>
       {profileQuery.isLoading && (
         <Box height={400}>
           <Loader />
@@ -73,6 +73,6 @@ export default function ProfilePage() {
           </PostsOperationsProvider>
         </>
       )}
-    </Container>
+    </>
   );
 }

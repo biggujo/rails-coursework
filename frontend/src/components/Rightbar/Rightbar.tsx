@@ -4,7 +4,7 @@ export default function Rightbar() {
   return (
     <Box
       sx={{
-        flex: 2,
+        flex: 1,
       }}
     >
       <Box

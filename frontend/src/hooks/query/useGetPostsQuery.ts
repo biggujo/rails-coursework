@@ -9,10 +9,11 @@ import {
 import { useEffect, useRef } from 'react';
 import { PostsOperations } from '../../redux/posts/operations.ts';
 import { selectPostsFilters } from '../../redux/filters/selectors.ts';
+import { Nullable } from '../../interfaces';
 
 interface FunctionInterface {
-  id: number;
-  operations: PostsOperations;
+  id: Nullable<number>;
+  operations: PostsOperations | Pick<PostsOperations, 'fetchAll'>;
 }
 
 const useGetPostsQuery = ({

@@ -18,6 +18,7 @@ class User < ApplicationRecord
                           class_name: "User",
                           join_table: :friends,
                           association_foreign_key: :friend_id
+  has_many :groups, dependent: :restrict_with_error
 
   validate :acceptable_image
   validates :nickname, presence: true, uniqueness: true

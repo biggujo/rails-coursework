@@ -67,7 +67,7 @@ export default function PostItem({ data, dontShowControls }: Props) {
     currentUser.id === data.user.id && data.group !== null && isInProfile;
 
   const postSubtitle = shouldShowGroupInfo ? (
-    <Stack direction={'row'} width={'300px'}>
+    <Stack direction={'row'} width={'350px'}>
       <Typography variant={'body2'}>Posted in&nbsp;</Typography>
       <MyAvatar
         alt={data.group.name}

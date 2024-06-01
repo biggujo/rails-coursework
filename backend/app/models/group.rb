@@ -8,6 +8,11 @@ class Group < ApplicationRecord
   validate :acceptable_image
   has_one_attached :profile_photo
 
+  def self.joined_groups(user_id)
+    Group.joins("INNER JOIN groups_users ON groups.id = groups_users.group_id")
+         .where(groups_users: {user_id:})
+  end
+
   def acceptable_image
     return unless profile_photo.attached?
 

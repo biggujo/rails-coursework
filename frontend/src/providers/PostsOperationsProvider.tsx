@@ -10,7 +10,7 @@ export const PostsOperationsProvider = ({
   apiContext,
   children,
 }: {
-  apiContext: PostsOperations;
+  apiContext: PostsOperations | Pick<PostsOperations, 'fetchAll'>;
   children: ReactNode | Array<ReactNode>;
 }) => {
   return (

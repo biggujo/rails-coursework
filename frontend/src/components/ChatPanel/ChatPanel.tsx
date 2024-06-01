@@ -99,7 +99,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
           sx={{
             display: 'flex',
             flexDirection: 'column-reverse',
-            height: '600px',
+            height: '500px',
             py: 2,
             px: 4,
             overflowX: 'hidden',
