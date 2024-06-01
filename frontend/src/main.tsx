@@ -12,6 +12,7 @@ import { persistor, store } from './redux/store.ts';
 import { PersistGate } from 'redux-persist/integration/react';
 import ThemeProvider from './providers/ThemeProvider.tsx';
 import './styles/main.css';
+import './i18n.ts';
 
 const queryClient = new QueryClient({
   defaultOptions: {

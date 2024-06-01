@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import AuthOperations from '../../redux/auth/operations.ts';
 import { AppDispatch } from '../../redux/store.ts';
+import LanguageChanger from '../LanguageChanger';
 
 export default function IconBar() {
   const dispatch: AppDispatch = useDispatch();
@@ -26,6 +27,7 @@ export default function IconBar() {
         alignItems: 'center',
       }}
     >
+      <LanguageChanger />
       <IconButton onClick={() => navigate('/my_chats')}>
         <MailIcon
           color="action"
