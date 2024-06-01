@@ -25,8 +25,9 @@ const useCommentForm = (
       }) ||
       initialValues,
     validationSchema,
-    onSubmit: async values => {
-      onSubmit(values);
+    onSubmit: async (values, { resetForm }) => {
+      await onSubmit(values);
+      resetForm();
     },
   });
 };

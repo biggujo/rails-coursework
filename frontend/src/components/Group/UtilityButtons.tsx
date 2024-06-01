@@ -5,7 +5,7 @@ import UtilityButtonInterface from '../../interfaces/UtilityButton.interface.ts'
 import { GroupEntity } from '../../interfaces';
 import { Button, ListItem, Stack } from '@mui/material';
 import PostCreateModal from '../PostCreateModal';
-import { Add, Delete, Unsubscribe } from '@mui/icons-material';
+import { Add, Delete, FileCopy, Unsubscribe } from '@mui/icons-material';
 import useDeleteGroupMutation from '../../hooks/mutation/useDeleteGroupMutation.ts';
 import myToast from '../../utils/myToast.tsx';
 import useJoinGroupMutation from '../../hooks/mutation/useJoinGroupMutation.ts';
@@ -14,6 +14,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { GroupPostsOperations } from '../../redux/posts/operations.ts';
 import { PostsOperationsProvider } from '../../providers/PostsOperationsProvider.tsx';
 import { useTranslation } from 'react-i18next';
+import API from '../../utils/api.ts';
+import downloadCsv from '../../utils/download-csv.ts';
 
 interface Props {
   groupData: GroupEntity;
@@ -101,6 +103,19 @@ export default function UtilityButtons({ groupData }: Props) {
       },
     });
   }
+
+  buttonList.push({
+    title: 'CSV',
+    icon: FileCopy,
+    onClick: async () => {
+      myToast({
+        message: t('form.downloadWillStartSoon'),
+        severity: 'info',
+      });
+      const csv = await API.exportToCsv.groupPosts(groupData.id);
+      downloadCsv('posts.csv', csv);
+    },
+  });
 
   return (
     <Stack direction={'column'} alignItems={'stretch'}>

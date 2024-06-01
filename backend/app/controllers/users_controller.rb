@@ -74,7 +74,7 @@ class UsersController < ApiController
   end
 
   def user_params
-    params.require(:user).permit(:email, :nickname, :city, :country, :full_name, :profile_photo)
+    params.require(:user).permit(:email, :nickname, :city, :country, :full_name, :profile_photo, :password)
   end
 
   def set_default_format

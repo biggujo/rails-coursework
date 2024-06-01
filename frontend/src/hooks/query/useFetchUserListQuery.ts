@@ -8,8 +8,6 @@ const useFetchUserListQuery = (
   return useQuery({
     queryKey: apiFn.toString(),
     queryFn: apiFn,
-    // @ts-expect-error of bad typing
-    cacheTime: 0,
     enabled,
   });
 };

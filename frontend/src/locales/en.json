@@ -27,6 +27,7 @@
     "sendMessage": "Send Message",
     "email": "Email",
     "location": "Location",
+    "status": "Status",
     "joinedOn": "Joined On"
   },
   "post": {
@@ -55,6 +56,7 @@
   "group": {
     "createGroup": "Create Group",
     "allGroups": "All Groups",
+    "myGroups": "My Groups",
     "posts": "Group Posts",
     "mainInformation": "Main Information",
     "groupCreator": "Group Creator",
@@ -111,7 +113,8 @@
     "confirmNewPassword": "Confirm New Password",
     "dontHaveAnAccount": "Don't have an account? Sign up",
     "alreadyHaveAnAccount": "Already have an account? Sign in",
-    "forgotPassword": "Forgot Password"
+    "forgotPassword": "Forgot Password",
+    "downloadWillStartSoon": "Download will start soon"
   },
   "passwordRecovery": {
     "requestForm": "Password Recovery Request Form",

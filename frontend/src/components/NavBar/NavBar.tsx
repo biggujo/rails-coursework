@@ -1,10 +1,18 @@
-import { AppBar, Container, Stack, Toolbar, Typography } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  Container,
+  Stack,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import IconBar from '../IconBar';
 import SearchBar from '../SearchBar';
 import { Groups2 } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAuthIsLoggedIn } from '../../redux/auth/selectors.ts';
+import LanguageChanger from '../LanguageChanger';
 
 export default function NavBar() {
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
@@ -42,7 +50,16 @@ export default function NavBar() {
             </Typography>
           </Stack>
           {isLoggedIn && <SearchBar />}
-          {isLoggedIn && <IconBar />}
+          <Stack direction={'row'} alignItems={'center'}>
+            <Box
+              sx={{
+                pr: 1,
+              }}
+            >
+              <LanguageChanger />
+            </Box>
+            {isLoggedIn && <IconBar />}
+          </Stack>
         </Toolbar>
       </Container>
     </AppBar>

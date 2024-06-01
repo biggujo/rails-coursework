@@ -24,7 +24,7 @@ export default function GroupForm({ formik }: Props) {
         alignItems={'stretch'}
       >
         <Stack gap={2}>
-          <Typography variant={'h6'}>Text data</Typography>
+          <Typography variant={'h6'}>{t('form.textData')}</Typography>
           <TextField
             label={t('form.name')}
             type={'text'}

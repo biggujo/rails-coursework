@@ -1,4 +1,4 @@
-import useUpdateProfileForm from '../../hooks/useUpdateProfileForm.ts';
+import useProfileUpdateForm from '../../hooks/forms/useProfileUpdateForm.ts';
 import { FormikProvider } from 'formik';
 import FormField from '../FormField/FormField.tsx';
 import { Stack, Typography } from '@mui/material';
@@ -7,7 +7,7 @@ import MyDropzone from '../MyDropzone/MyDropzone.tsx';
 import { useTranslation } from 'react-i18next';
 
 export default function ProfileUpdateForm() {
-  const formik = useUpdateProfileForm();
+  const formik = useProfileUpdateForm();
   const { t } = useTranslation();
 
   return (
@@ -56,6 +56,13 @@ export default function ProfileUpdateForm() {
             <FormField
               name={'city'}
               label={`${t('form.city')} *`}
+              formik={formik}
+              disabled={formik.isSubmitting}
+            />
+            <FormField
+              name={'password'}
+              type={'password'}
+              label={`${t('form.password')} *`}
               formik={formik}
               disabled={formik.isSubmitting}
             />

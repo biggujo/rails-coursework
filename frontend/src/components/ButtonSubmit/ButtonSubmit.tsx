@@ -15,6 +15,10 @@ export default function ButtonSubmit({ isSubmitting, children }: Props) {
       startIcon={
         isSubmitting ? <CircularProgress size={16} color={'info'} /> : null
       }
+      sx={{
+        alignSelf: 'flex-start',
+        mb: 2,
+      }}
     >
       {children}
     </Button>

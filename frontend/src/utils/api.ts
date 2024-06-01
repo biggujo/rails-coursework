@@ -17,7 +17,7 @@ import UserSignUpFormAPI from '../interfaces/UserSignUpFormAPI.ts';
 import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
 import UserEntity from '../interfaces/UserEntity.interface.ts';
 
-axios.defaults.baseURL = 'http://localhost:5401'; // Rails
+axios.defaults.baseURL = import.meta.env.VITE_API_URL; // Rails
 
 const MULTIPART_FORM_HEADERS = {
   headers: {
@@ -25,110 +25,64 @@ const MULTIPART_FORM_HEADERS = {
   },
 };
 
-const signUp = async (data: UserSignUpFormAPI) => {
-  const response: AxiosResponse = await axios.post('/sign_up', {
-    user: data,
-  });
-
-  return response;
-};
-
-const signIn = async (data: UserSignInFormAPI) => {
-  const response: AxiosResponse = await axios.post('/sign_in', {
-    user: data,
-  });
-
-  return response;
-};
-
-const signOut = async () => {
-  const response: AxiosResponse = await axios.delete('/sign_out');
-
-  return response;
-};
-
-const getById = async (id: number) => {
-  const response: AxiosResponse = await axios.get(`/users/${id}`);
-  return response.data;
-};
-
-const updateById = async (data: ProfileUpdateFormAPI) => {
-  // FormData is needed to correctly send files
-  const formData = new FormData();
-
-  for (const key in data) {
-    // @ts-expect-error because TS doesn't know about Blob serialization
-    formData.append(key, data[key as keyof ProfileUpdateFormAPI]);
-  }
-
-  const response: AxiosResponse = await axios.patch(
-    `/users/${data.id}`,
-    {
+const auth = {
+  signIn: async (data: UserSignInFormAPI) => {
+    const response: AxiosResponse = await axios.post('/sign_in', {
       user: data,
-    },
-    MULTIPART_FORM_HEADERS
-  );
-  return response.data as UserProfile;
-};
+    });
 
-const purgeProfilePhoto = async () => {
-  await axios.delete(`/profile_photo`);
-  return;
-};
+    return response;
+  },
+  signUp: async (data: UserSignUpFormAPI) => {
+    const response: AxiosResponse = await axios.post('/sign_up', {
+      user: data,
+    });
 
-const refreshUser = async () => {
-  const response: AxiosResponse = await axios.get('/refresh');
-  return response.data as UserProfile;
-};
+    return response;
+  },
+  signOut: async () => {
+    const response: AxiosResponse = await axios.delete('/sign_out');
 
-const getAllUsers = async () => {
-  const response: AxiosResponse = await axios.get('/users');
-  return response.data as {
-    data: Array<UserEntity>;
-  };
-};
-
-export interface FetchPreviousMessagesResponse {
-  metadata: {
-    last: number;
-  };
-  items: Array<ChatMessage>;
-  private_chat_id: number;
-}
-
-const messages = {
-  fetchPrevious: async ({
-    chatId,
-    page,
-    offset,
-  }: {
-    chatId: number;
-    page?: number;
-    offset?: number;
-  }) => {
-    const params = new URLSearchParams({});
-
-    if (page) {
-      params.set('page', String(page));
-    }
-
-    if (offset) {
-      params.set('offset', String(offset));
-    }
-
-    const response: AxiosResponse = await axios.get(
-      `/private_chats/${chatId}/messages?${params}`
-    );
-
-    return response.data as FetchPreviousMessagesResponse;
+    return response;
+  },
+  refreshUser: async () => {
+    const response: AxiosResponse = await axios.get('/refresh');
+    return response.data as UserProfile;
   },
 };
 
-const chats = {
-  fetchAll: async () => {
-    const response: AxiosResponse = await axios.get(`/private_chats`);
+const user = {
+  getAll: async () => {
+    const response: AxiosResponse = await axios.get('/users');
+    return response.data as {
+      data: Array<UserEntity>;
+    };
+  },
+  getById: async (id: number) => {
+    const response: AxiosResponse = await axios.get(`/users/${id}`);
+    return response.data;
+  },
+  updateById: async (data: ProfileUpdateFormAPI) => {
+    // FormData is needed to correctly send files
+    const formData = new FormData();
 
-    return response.data as Array<ChatEntity>;
+    for (const key in data) {
+      // @ts-expect-error because TS doesn't know about Blob serialization
+      formData.append(key, data[key as keyof ProfileUpdateFormAPI]);
+    }
+
+    const response: AxiosResponse = await axios.patch(
+      `/users/${data.id}`,
+      {
+        user: data,
+      },
+      MULTIPART_FORM_HEADERS
+    );
+    return response.data as UserProfile;
+  },
+  purgeProfilePhoto: async () => {
+    await axios.delete(`/profile_photo`);
+    return;
   },
 };
 
@@ -184,6 +138,50 @@ const friends = {
     );
 
     return response.data as { success: string };
+  },
+};
+
+export interface FetchPreviousMessagesResponse {
+  metadata: {
+    last: number;
+  };
+  items: Array<ChatMessage>;
+  private_chat_id: number;
+}
+
+const messages = {
+  fetchPrevious: async ({
+    chatId,
+    page,
+    offset,
+  }: {
+    chatId: number;
+    page?: number;
+    offset?: number;
+  }) => {
+    const params = new URLSearchParams({});
+
+    if (page) {
+      params.set('page', String(page));
+    }
+
+    if (offset) {
+      params.set('offset', String(offset));
+    }
+
+    const response: AxiosResponse = await axios.get(
+      `/private_chats/${chatId}/messages?${params}`
+    );
+
+    return response.data as FetchPreviousMessagesResponse;
+  },
+};
+
+const chats = {
+  fetchAll: async () => {
+    const response: AxiosResponse = await axios.get(`/private_chats`);
+
+    return response.data as Array<ChatEntity>;
   },
 };
 
@@ -597,18 +595,18 @@ const reposts = {
   },
 };
 
+const exportToCsv = {
+  allPosts: async () => (await axios.get('/posts.csv')).data,
+  userPosts: async (id: number) =>
+    (await axios.get(`/users/${id}/posts.csv`)).data,
+  groupPosts: async (id: number) =>
+    (await axios.get(`/groups/${id}/posts.csv`)).data,
+};
+
 const API = {
-  auth: {
-    signIn,
-    signUp,
-    signOut,
-    refreshUser,
-  },
+  auth,
   user: {
-    getAll: getAllUsers,
-    getById,
-    updateById,
-    purgeProfilePhoto,
+    ...user,
     friends,
   },
   groups,
@@ -616,14 +614,15 @@ const API = {
   profilePosts,
   groupPosts,
   comments,
-  messages: messages,
+  messages,
   reposts,
   purgePostPhotosById,
   chats,
   search,
   passwordRecovery,
+  exportToCsv,
   webSocket: {
-    URL: 'ws://localhost:5401/cable',
+    URL: import.meta.env.VITE_CABLE_URL,
   },
 };
 

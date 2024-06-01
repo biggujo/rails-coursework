@@ -1,0 +1,1058 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/posts/{post_id}/comments":
+    post:
+      summary: Creates a comment
+      tags:
+      - Comments
+      parameters:
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '201':
+          description: Comment created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Comment"
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+              required:
+              - text
+    get:
+      summary: Retrieves a post's comments
+      tags:
+      - Comments
+      parameters:
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Comments found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Comment"
+  "/posts/{post_id}/comments/{id}":
+    patch:
+      summary: Updates a comment
+      tags:
+      - Comments
+      parameters:
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Comment updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Comment"
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+              required:
+              - text
+    get:
+      summary: Gets a comment
+      tags:
+      - Comments
+      parameters:
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Comments found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Comment"
+        '404':
+          description: Comment not found
+    delete:
+      summary: Deletes a comment
+      tags:
+      - Comments
+      parameters:
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Comment deleted
+  "/users/{user_id}/friends":
+    post:
+      summary: Add a friend
+      tags:
+      - Friends
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Friend added successfully
+        '422':
+          description: Can't add yourself as a friend
+        '404':
+          description: User not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                friend_id:
+                  type: integer
+              required:
+              - friend_id
+  "/users/{user_id}/friends/{id}":
+    delete:
+      summary: Remove a friend
+      tags:
+      - Friends
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: Friend ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Friend removed successfully
+        '404':
+          description: User not found
+  "/users/{user_id}/friends/mutual_friends":
+    get:
+      summary: List mutual friends
+      tags:
+      - Friends
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Mutual friends found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+        '404':
+          description: User not found
+  "/users/{user_id}/friends/followers":
+    get:
+      summary: List followers
+      tags:
+      - Friends
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Followers found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+        '404':
+          description: User not found
+  "/users/{user_id}/friends/following":
+    get:
+      summary: List following
+      tags:
+      - Friends
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Following found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+        '404':
+          description: User not found
+  "/groups":
+    get:
+      summary: Retrieves all groups
+      tags:
+      - Groups
+      responses:
+        '200':
+          description: Groups found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Group"
+    post:
+      summary: Creates a group
+      tags:
+      - Groups
+      parameters: []
+      responses:
+        '200':
+          description: Group created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Group"
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+              - name
+              - description
+  "/groups/{id}":
+    get:
+      summary: Retrieves a group
+      tags:
+      - Groups
+      parameters:
+      - name: id
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Group found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Group"
+        '404':
+          description: Group not found
+    patch:
+      summary: Updates a group
+      tags:
+      - Groups
+      parameters:
+      - name: id
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Group updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Group"
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+              - name
+              - description
+    delete:
+      summary: Deletes a group
+      tags:
+      - Groups
+      parameters:
+      - name: id
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Group deleted
+        '404':
+          description: Group not found
+  "/groups/{id}/members":
+    post:
+      summary: Adds a member to the group
+      tags:
+      - Groups
+      parameters:
+      - name: id
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: query
+        description: User ID
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Member added
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+        '422':
+          description: User is already a member of this group
+        '404':
+          description: Group or User not found
+    get:
+      summary: Lists members of the group
+      tags:
+      - Groups
+      parameters:
+      - name: id
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Members found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+        '404':
+          description: Group not found
+  "/groups/{id}/members/{user_id}":
+    delete:
+      summary: Removes a member from the group
+      tags:
+      - Groups
+      parameters:
+      - name: id
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Member removed
+        '422':
+          description: User is not a member of this group
+        '404':
+          description: Group or User not found
+  "/groups/{id}/posts":
+    get:
+      summary: Lists posts of the group
+      tags:
+      - Groups
+      parameters:
+      - name: id
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Posts found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Post"
+        '404':
+          description: Group not found
+  "/like":
+    post:
+      summary: like an item
+      tags:
+      - Likes
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  likeable:
+                    type: object
+                  likes_count:
+                    type: integer
+                  dislikes_count:
+                    type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                likeable_type:
+                  type: string
+                  enum:
+                  - Post
+                  - Comment
+                  description: Type of the item to like
+                likeable_id:
+                  type: integer
+                  description: ID of the item to like
+              required:
+              - likeable_type
+              - likeable_id
+  "/dislike":
+    post:
+      summary: dislike an item
+      tags:
+      - Likes
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  likeable:
+                    type: object
+                  likes_count:
+                    type: integer
+                  dislikes_count:
+                    type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                likeable_type:
+                  type: string
+                  enum:
+                  - Post
+                  - Comment
+                  description: Type of the item to dislike
+                likeable_id:
+                  type: integer
+                  description: ID of the item to dislike
+              required:
+              - likeable_type
+              - likeable_id
+  "/private_chats/{private_chat_id}/messages":
+    parameters:
+    - name: private_chat_id
+      in: path
+      description: private_chat_id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: list messages
+      tags:
+      - Messages
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Message"
+    post:
+      summary: create message
+      tags:
+      - Messages
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Message"
+  "/password/reset":
+    post:
+      summary: Sends password recovery instructions
+      tags:
+      - Password Recovery
+      parameters: []
+      responses:
+        '200':
+          description: Instructions sent
+        '404':
+          description: Email not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+              - email
+  "/posts":
+    get:
+      summary: Retrieves all posts
+      tags:
+      - Posts
+      responses:
+        '200':
+          description: Posts found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Post"
+    post:
+      summary: Creates a post
+      tags:
+      - Posts
+      parameters: []
+      responses:
+        '201':
+          description: Post created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Post"
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                group_id:
+                  type: integer
+                reposted_post_id:
+                  type: integer
+              required:
+              - content
+  "/posts/{id}":
+    get:
+      summary: Retrieves a post
+      tags:
+      - Posts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Post found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Post"
+    patch:
+      summary: Updates a post
+      tags:
+      - Posts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Post updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Post"
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+              - content
+    delete:
+      summary: Deletes a post
+      tags:
+      - Posts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Post deleted
+  "/private_chats":
+    get:
+      summary: Retrieves all private chats
+      tags:
+      - PrivateChats
+      responses:
+        '200':
+          description: Private chats found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PrivateChat"
+    post:
+      summary: Creates a private chat
+      tags:
+      - PrivateChats
+      parameters: []
+      responses:
+        '201':
+          description: Private chat created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PrivateChat"
+        '400':
+          description: Bad request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_1_id:
+                  type: integer
+                user_2_id:
+                  type: integer
+              required:
+              - user_1
+              - user_2
+  "/private_chats/{id}":
+    get:
+      summary: Retrieves a private chat
+      tags:
+      - PrivateChats
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Private chat found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PrivateChat"
+  "/users":
+    get:
+      summary: Retrieves all users
+      tags:
+      - Users
+      responses:
+        '200':
+          description: Users found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+  "/users/profile":
+    post:
+      summary: Updates a user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '200':
+          description: User updated
+        '422':
+          description: Invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                nickname:
+                  type: string
+                city:
+                  type: string
+                country:
+                  type: string
+                full_name:
+                  type: string
+                profile_photo:
+                  type: string
+              required:
+              - email
+  "/users/{id}":
+    get:
+      summary: Retrieves a user
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/User"
+  "/users/{id}/posts":
+    get:
+      summary: Retrieves a user's posts
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Posts found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Post"
+components:
+  schemas:
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        user:
+          type: object
+          "$ref": "#/components/schemas/User"
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+      required:
+      - id
+      - name
+      - description
+      - user_id
+      - created_at
+      - updated_at
+    Message:
+      type: object
+      properties:
+        id:
+          type: integer
+        private_chat_id:
+          type: integer
+        author_id:
+          type: integer
+        message:
+          type: string
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+      required:
+      - id
+      - private_chat_id
+      - author_id
+      - message
+      - created_at
+      - updated_at
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        text:
+          type: string
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        post_id:
+          type: integer
+        likes_count:
+          type: integer
+        dislikes_count:
+          type: integer
+        user:
+          type: object
+          "$ref": "#/components/schemas/User"
+        liked:
+          type: boolean
+        disliked:
+          type: boolean
+      required:
+      - id
+      - text
+      - created_at
+      - updated_at
+      - post_id
+      - likes_count
+      - dislikes_count
+      - user
+      - liked
+      - disliked
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        full_name:
+          type: string
+        nickname:
+          type: string
+        last_seen_at:
+          type: string
+          format: date_time
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        profile_photo:
+          type: string
+          nullable: true
+      required:
+      - id
+      - email
+      - city
+      - country
+      - full_name
+      - nickname
+      - last_seen_at
+      - created_at
+      - updated_at
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        likes_count:
+          type: integer
+        dislikes_count:
+          type: integer
+        user:
+          type: object
+          "$ref": "#/components/schemas/User"
+        group:
+          type: object
+          "$ref": "#/components/schemas/Group"
+        repost:
+          type: object
+          "$ref": "#/components/schemas/Post"
+          nullable: true
+        liked:
+          type: boolean
+        disliked:
+          type: boolean
+      required:
+      - id
+      - content
+      - created_at
+      - updated_at
+      - likes_count
+      - dislikes_count
+      - user
+      - group
+      - liked
+      - disliked
+    PrivateChat:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_1:
+          type: object
+          "$ref": "#/components/schemas/User"
+        user_2:
+          type: object
+          "$ref": "#/components/schemas/User"
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+      required:
+      - id
+      - user_1
+      - user_2
+      - created_at
+      - updated_at
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

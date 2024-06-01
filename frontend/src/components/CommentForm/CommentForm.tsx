@@ -20,7 +20,6 @@ export default function CommentForm({ formik }: Props) {
           formik.submitForm();
         }}
         gap={4}
-        alignItems={'stretch'}
       >
         <TextField
           label={t('form.content')}

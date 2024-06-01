@@ -36,7 +36,7 @@ function useSignUpForm() {
       } catch (e: unknown) {
         if (e instanceof AxiosError) {
           myToast({
-            message: e.response!.data,
+            message: 'Such user already exists',
             severity: 'error',
           });
           return;

@@ -13,8 +13,6 @@ interface Props {
   chatId: Nullable<number>;
 }
 
-const MIN_OFFLINE_MINUTES = 5;
-
 export default function PrivateChatTitleBar({ chatId }: Props) {
   // No need to track error
   const { data, isLoading } = useFetchAllChatsQuery();
@@ -42,7 +40,7 @@ export default function PrivateChatTitleBar({ chatId }: Props) {
 
   const isOnline =
     DateFormatter.getDistanceInMinutes(otherPerson.last_seen_at) <
-    MIN_OFFLINE_MINUTES;
+    import.meta.env.VITE_MINUTES_TO_APPEAR_OFFLINE;
 
   return (
     <ChatTitleBar
