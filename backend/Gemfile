@@ -88,3 +88,6 @@ gem "pagy", "~> 8.4.0"
 
 gem 'rspec-rails'
 gem 'rswag'
+
+gem 'activeadmin'
+gem 'sassc-rails'

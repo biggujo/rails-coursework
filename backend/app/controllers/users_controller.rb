@@ -2,7 +2,8 @@
 
 require "pagy/extras/array"
 
-class UsersController < ApplicationController
+class UsersController < ApiController
+  include ActiveStorage::SetCurrent
   before_action :authenticate_user!
   before_action :set_default_format
 

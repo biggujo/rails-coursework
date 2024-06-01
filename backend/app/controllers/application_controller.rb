@@ -1,20 +1,18 @@
-# frozen_string_literal: true
+class ApplicationController < ActionController::Base
+  skip_before_action :verify_authenticity_token
 
-class ApplicationController < ActionController::API
-  include Pagy::Backend
-  include ActionController::MimeResponds
-  include ActiveStorage::SetCurrent
+  protected
 
-  before_action :configure_devise_params, if: :devise_controller?
-  before_action :update_last_seen_at, if: -> { user_signed_in? && current_user.last_seen_at < 5.minutes.ago }
+  def authenticate_admin_user!
+    authenticate_user!
+    return if current_user.admin?
 
-  include Pagy::Backend
-
-  def update_last_seen_at
-    current_user.update(last_seen_at: Time.now.getlocal)
+    render json: { error: "Unauthorized access" }, status: :unauthorized
   end
 
-  def configure_devise_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[email password nickname country city full_name])
+  def current_admin_user
+    return unless current_user&.admin?
+
+    current_user
   end
 end

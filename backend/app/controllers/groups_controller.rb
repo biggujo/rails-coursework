@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+require 'pagy/extras/array'
 
-class GroupsController < ApplicationController
+class GroupsController < ApiController
   before_action :authenticate_user!
   before_action :set_group, only: %i[show update destroy add_member delete_member members group_posts]
   before_action :authorize_group_manage!, only: %i[update destroy]

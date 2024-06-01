@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FriendsController < ApplicationController
+class FriendsController < ApiController
   before_action :authenticate_user!
   before_action :authorize_friends_manage!, only: %i[create destroy]
 

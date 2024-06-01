@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "boot"
-
+require "sprockets/railtie"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
@@ -36,6 +36,8 @@ module App
 
     # Required for all session management (regardless of session_store)
     config.middleware.use ActionDispatch::Cookies
+    config.middleware.use Rack::MethodOverride
+    config.middleware.use ActionDispatch::Flash
 
     config.middleware.use config.session_store, config.session_options
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PasswordRecoveryController < ApplicationController
+class PasswordRecoveryController < ApiController
   def reset
     user = User.find_by(email: password_params[:email])
 

@@ -4,6 +4,8 @@
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   devise_for :users, path: "", path_names: {
                                  sign_in: "sign_in",
                                  sign_out: "sign_out",

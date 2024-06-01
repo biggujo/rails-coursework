@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MessagesController < ApplicationController
+class MessagesController < ApiController
   before_action :authenticate_user!
 
   def index

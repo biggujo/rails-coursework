@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PingsController < ApplicationController
+class PingsController < ApiController
   def index
     render json: {
       message: "ping",
