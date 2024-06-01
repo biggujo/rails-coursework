@@ -564,6 +564,16 @@ const groups = {
   },
 };
 
+const search = async (name: string) => {
+  const response: AxiosResponse = await axios.get(`/search?name=${name}`);
+
+  return response.data as Array<{
+    id: number;
+    type: 'user' | 'group';
+    attributes: UserEntity | GroupEntity;
+  }>;
+};
+
 const API = {
   auth: {
     signIn,
@@ -586,6 +596,7 @@ const API = {
   messages: messages,
   purgePostPhotosById,
   chats,
+  search,
   passwordRecovery,
   webSocket: {
     URL: 'ws://localhost:5401/cable',

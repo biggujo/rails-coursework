@@ -1,4 +1,4 @@
-import { Box, IconButton, Menu, MenuItem, Stack } from '@mui/material';
+import { IconButton, Menu, MenuItem, Stack } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import { useRef, useState } from 'react';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
@@ -34,20 +34,18 @@ export default function IconBar() {
           }}
         />
       </IconButton>
-      <IconButton>
-        <Box
-          onClick={handleOpen}
-          ref={avatarRef}
-          sx={{
-            cursor: 'pointer',
-          }}
-        >
-          <MyAvatar
-            alt={currentUser.nickname}
-            size={'small'}
-            src={currentUser.profile_photo}
-          />
-        </Box>
+      <IconButton
+        onClick={handleOpen}
+        ref={avatarRef}
+        sx={{
+          cursor: 'pointer',
+        }}
+      >
+        <MyAvatar
+          alt={currentUser.nickname}
+          size={'small'}
+          src={currentUser.profile_photo}
+        />
       </IconButton>
       <Menu anchorEl={avatarRef.current} open={isOpen} onClose={handleClose}>
         <MenuItem

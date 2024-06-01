@@ -6,7 +6,7 @@ class PrivateChatsController < ApplicationController
 
   def index
     private_chats = PrivateChat.where("user_1_id = ? OR user_2_id = ?", current_user.id, current_user.id)
-    prepared_private_chats = private_chats.map { |chat| prepare_chat_render(chat) }
+    prepared_private_chats = private_chats.map {|chat| prepare_chat_render(chat) }
     sorted_private_chats = prepare_chat_sort(prepared_private_chats).reverse
 
     render json: sorted_private_chats
@@ -32,7 +32,7 @@ class PrivateChatsController < ApplicationController
       begin
         private_chat = PrivateChat.create!(user_1_id:, user_2_id:)
       rescue ActiveRecord::RecordInvalid => e
-        render json: { message: "Record invalid: #{e.message}" }, status: :bad_request
+        render json: {message: "Record invalid: #{e.message}"}, status: :bad_request
         return
       end
     end
@@ -43,7 +43,7 @@ class PrivateChatsController < ApplicationController
   private
 
   def prepare_chat_sort(private_chats)
-    private_chats = private_chats.reject { |chat| chat[:latest_message].nil? }
+    private_chats = private_chats.reject {|chat| chat[:latest_message].nil? }
 
     private_chats.sort_by do |hash|
       hash[:latest_message] ? hash[:latest_message][:created_at] : Time.at(0).getlocal
@@ -66,6 +66,6 @@ class PrivateChatsController < ApplicationController
   def validate_create_params
     params.require(%i[user_1 user_2])
   rescue ActionController::ParameterMissing => e
-    render json: { message: "Bad request: #{e.message}" }, status: :bad_request
+    render json: {message: "Bad request: #{e.message}"}, status: :bad_request
   end
 end
