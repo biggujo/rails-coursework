@@ -2,9 +2,11 @@ import { Stack, TextField } from '@mui/material';
 import usePasswordRecoveryRequestForm from '../../hooks/forms/usePasswordRecoveryRequestForm.ts';
 import { FormikProvider } from 'formik';
 import ButtonSubmit from '../ButtonSubmit';
+import { useTranslation } from 'react-i18next';
 
 export default function PasswordRecoveryRequestForm() {
   const formik = usePasswordRecoveryRequestForm();
+  const { t } = useTranslation();
 
   return (
     <FormikProvider value={formik}>
@@ -18,7 +20,7 @@ export default function PasswordRecoveryRequestForm() {
         alignItems={'stretch'}
       >
         <TextField
-          label={'Email'}
+          label={t('form.email')}
           placeholder={'cage@acme.com'}
           {...formik.getFieldProps('email')}
           error={formik.touched.email && Boolean(formik.errors.email)}
@@ -26,7 +28,7 @@ export default function PasswordRecoveryRequestForm() {
           required
         />
         <ButtonSubmit isSubmitting={formik.isSubmitting}>
-          Request Recovery
+          {t('form.requestRecoverySubmit')}
         </ButtonSubmit>
       </Stack>
     </FormikProvider>

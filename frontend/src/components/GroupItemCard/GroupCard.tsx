@@ -4,6 +4,7 @@ import { Stack, Typography, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   data: GroupEntity;
@@ -13,6 +14,7 @@ export default function GroupCard({ data }: Props) {
   const theme = useTheme();
   const navigate = useNavigate();
   const currentUser = useSelector(selectAuthUser);
+  const { t } = useTranslation();
 
   const isCurrentUserGroupOwner = currentUser.id === data.user.id;
 
@@ -54,7 +56,7 @@ export default function GroupCard({ data }: Props) {
                 color: '#808080',
               }}
             >
-              (members: {data.members_count})
+              ({t('group.members').toLowerCase()}: {data.members_count})
             </span>
           </span>
           {isCurrentUserGroupOwner && (
@@ -64,7 +66,7 @@ export default function GroupCard({ data }: Props) {
               }}
             >
               {' '}
-              [Owner]
+              [{t('group.owner')}]
             </span>
           )}
         </Stack>

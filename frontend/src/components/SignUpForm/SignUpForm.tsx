@@ -3,9 +3,11 @@ import { Link, Stack, TextField } from '@mui/material';
 import { FormikProvider } from 'formik';
 import ButtonSubmit from '../ButtonSubmit';
 import useSignUpForm from '../../hooks/forms/useSignUpForm.tsx';
+import { useTranslation } from 'react-i18next';
 
 export default function SignUpForm() {
   const formik = useSignUpForm();
+  const { t } = useTranslation();
 
   return (
     <FormikProvider value={formik}>
@@ -13,7 +15,7 @@ export default function SignUpForm() {
         <Stack gap={4} alignItems={'stretch'}>
           <TextField
             placeholder="cage@acme.com"
-            label={'Email address'}
+            label={t('form.email')}
             required
             {...formik.getFieldProps('email')}
             error={formik.touched.email && Boolean(formik.errors.email)}
@@ -22,7 +24,7 @@ export default function SignUpForm() {
           <TextField
             type="text"
             placeholder={'johnny_cage'}
-            label={'Nickname'}
+            label={t('form.nickname')}
             required
             {...formik.getFieldProps('nickname')}
             error={formik.touched.nickname && Boolean(formik.errors.nickname)}
@@ -31,7 +33,7 @@ export default function SignUpForm() {
           <TextField
             type="text"
             placeholder={'johnny_cage'}
-            label={'Full Name'}
+            label={t('form.fullName')}
             required
             {...formik.getFieldProps('full_name')}
             error={formik.touched.full_name && Boolean(formik.errors.full_name)}
@@ -39,8 +41,8 @@ export default function SignUpForm() {
           />
           <TextField
             type="text"
-            placeholder={'Ukraine'}
-            label={'Country'}
+            placeholder={t('form.countryPlaceholder')}
+            label={t('form.country')}
             required
             {...formik.getFieldProps('country')}
             error={formik.touched.country && Boolean(formik.errors.country)}
@@ -48,8 +50,8 @@ export default function SignUpForm() {
           />
           <TextField
             type="text"
-            placeholder={'Kyiv'}
-            label={'City'}
+            placeholder={t('form.cityPlaceholder')}
+            label={t('form.city')}
             required
             {...formik.getFieldProps('city')}
             error={formik.touched.city && Boolean(formik.errors.city)}
@@ -58,16 +60,18 @@ export default function SignUpForm() {
           <TextField
             type="password"
             placeholder="1234"
-            label={'Password'}
+            label={t('form.password')}
             required
             {...formik.getFieldProps('password')}
             error={formik.touched.password && Boolean(formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
           <Link component={RouterLink} to={'/sign-in'} variant="body2">
-            {'Already have an account? Sign In'}
+            {t('form.alreadyHaveAnAccount')}
           </Link>
-          <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
+          <ButtonSubmit isSubmitting={formik.isSubmitting}>
+            {t('form.submit')}
+          </ButtonSubmit>
         </Stack>
       </form>
     </FormikProvider>

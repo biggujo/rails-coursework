@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ReactElement } from 'react';
 import { Nullable } from '../../interfaces';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   parentElId: Nullable<string>;
@@ -23,6 +24,8 @@ export default function MyInfiniteScroll({
   children,
   ...props
 }: Props) {
+  const { t } = useTranslation();
+
   return (
     <InfiniteScroll
       dataLength={dataLength}
@@ -30,7 +33,7 @@ export default function MyInfiniteScroll({
       hasMore={hasMore}
       loader={
         <Typography align={'center'} fontWeight={'bold'} my={4}>
-          Loading...
+          {t('status.loading')}
         </Typography>
       }
       endMessage={

@@ -5,6 +5,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import { Box, Button } from '@mui/material';
 import API from '../../utils/api.ts';
 import myToast from '../../utils/myToast.tsx';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   postId: number;
@@ -12,7 +13,10 @@ interface Props {
 }
 
 export default function PostUpdateModal({ postId, onPurgePhotos }: Props) {
-  const toggler = <Button startIcon={<EditNoteIcon />}>Edit</Button>;
+  const { t } = useTranslation();
+  const toggler = (
+    <Button startIcon={<EditNoteIcon />}>{t('action.edit')}</Button>
+  );
 
   const handlePurgePostPhotos = async () => {
     try {
@@ -20,37 +24,39 @@ export default function PostUpdateModal({ postId, onPurgePhotos }: Props) {
       onPurgePhotos();
 
       myToast({
-        message: 'The photos has been deleted',
+        message: t('action.postPhotos.successPhotosDelete'),
         severity: 'info',
       });
     } catch (error) {
       myToast({
-        message: 'An error occurred. Please, try again later',
+        message: t('action.postPhotos.failurePhotosDelete'),
         severity: 'error',
       });
     }
   };
 
   const modalContent = (
-    <FormWrapper title={'Post update'}>
-      <PostUpdateForm postId={postId} />
+    <FormWrapper title={t('post.postUpdate')}>
+      <>
+        <PostUpdateForm postId={postId} />
 
-      <Box mt={2}>
-        <Button
-          type={'submit'}
-          onClick={() => {
-            if (!confirm('Are you sure you want to remove the post photos?')) {
-              return;
-            }
+        <Box mt={2}>
+          <Button
+            type={'submit'}
+            onClick={() => {
+              if (!confirm(t('action.postPhotos.confirmPhotosDelete'))) {
+                return;
+              }
 
-            handlePurgePostPhotos();
-          }}
-          color={'error'}
-          variant={'contained'}
-        >
-          Delete photos
-        </Button>
-      </Box>
+              handlePurgePostPhotos();
+            }}
+            color={'error'}
+            variant={'contained'}
+          >
+            {t('action.postPhotos.delete')}
+          </Button>
+        </Box>
+      </>
     </FormWrapper>
   );
 

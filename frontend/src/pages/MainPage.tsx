@@ -5,16 +5,18 @@ import Loader from '../components/Loader';
 import { PostsOperationsProvider } from '../providers/PostsOperationsProvider.tsx';
 import PostListInfiniteWrapper from '../components/PostListInfiniteWrapper';
 import createSubtitle from '../utils/create-subtitle.tsx';
+import { useTranslation } from 'react-i18next';
 
 export default function MainPage() {
   const postsQuery = useGetPostsQuery({
     id: null,
     operations: AllPostsOperations,
   });
+  const { t } = useTranslation();
 
   return (
     <>
-      {createSubtitle('Latest posts')}
+      {createSubtitle(t('post.latestPosts'))}
       {postsQuery.isLoading && (
         <Box height={400}>
           <Loader />

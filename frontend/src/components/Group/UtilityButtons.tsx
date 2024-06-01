@@ -13,6 +13,7 @@ import useLeaveGroupMutation from '../../hooks/mutation/useLeaveGroupMutation.ts
 import SettingsIcon from '@mui/icons-material/Settings';
 import { GroupPostsOperations } from '../../redux/posts/operations.ts';
 import { PostsOperationsProvider } from '../../providers/PostsOperationsProvider.tsx';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   groupData: GroupEntity;
@@ -24,6 +25,7 @@ export default function UtilityButtons({ groupData }: Props) {
   const deleteGroupMutation = useDeleteGroupMutation(groupData.id);
   const joinGroupMutation = useJoinGroupMutation(groupData.id);
   const leaveGroupMutation = useLeaveGroupMutation(groupData.id);
+  const { t } = useTranslation();
 
   const buttonList: Array<UtilityButtonInterface> = [];
 
@@ -31,7 +33,7 @@ export default function UtilityButtons({ groupData }: Props) {
 
   if (groupData.is_joined && !isCurrentUserGroupCreator) {
     buttonList.push({
-      title: 'Unsubscribe',
+      title: t('action.unsubscribe'),
       icon: Unsubscribe,
       color: 'error',
       onClick: async () => {
@@ -39,7 +41,7 @@ export default function UtilityButtons({ groupData }: Props) {
           await leaveGroupMutation.mutateAsync();
         } catch (e) {
           myToast({
-            message: "Couldn't leave the group",
+            message: t('action.failureUnsubscribe'),
             severity: 'error',
           });
         }
@@ -49,7 +51,7 @@ export default function UtilityButtons({ groupData }: Props) {
 
   if (!groupData.is_joined && !isCurrentUserGroupCreator) {
     buttonList.push({
-      title: 'Subscribe',
+      title: t('action.subscribe'),
       icon: Add,
       color: 'success',
       onClick: async () => {
@@ -57,7 +59,7 @@ export default function UtilityButtons({ groupData }: Props) {
           await joinGroupMutation.mutateAsync();
         } catch (e) {
           myToast({
-            message: "Couldn't join the group",
+            message: t('action.failureSubscribe'),
             severity: 'error',
           });
         }
@@ -67,32 +69,32 @@ export default function UtilityButtons({ groupData }: Props) {
 
   if (isCurrentUserGroupCreator) {
     buttonList.push({
-      title: 'Edit Group',
+      title: t('action.groupEdit'),
       icon: SettingsIcon,
       onClick: () => navigate(`/group_edit/${groupData.id}`),
     });
 
     buttonList.push({
-      title: 'Delete group',
+      title: t('action.group.delete'),
       icon: Delete,
       color: 'error',
       onClick: async () => {
         try {
-          if (!confirm('Are you sure you want to delete the group?')) {
+          if (!confirm(t('action.group.confirmDelete'))) {
             return;
           }
 
           await deleteGroupMutation.mutateAsync();
 
           myToast({
-            message: 'The group has been deleted',
+            message: t('action.group.successDelete'),
             severity: 'success',
           });
 
           navigate('/');
         } catch (e) {
           myToast({
-            message: "Couldn't delete the group",
+            message: t('action.group.failureDelete'),
             severity: 'error',
           });
         }

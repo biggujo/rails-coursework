@@ -5,6 +5,7 @@ import MyInfiniteScroll from '../MyInfiniteScroll';
 import { AppDispatch } from '../../redux/store.ts';
 import { Nullable, PostEntity } from '../../interfaces';
 import PostList from '../PostList';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   id: number;
@@ -17,6 +18,7 @@ export default function PostListInfiniteWrapper({ id, items }: Props) {
   const { page, maxPage, offset, isInitialised } =
     useSelector(selectPostsMetadata);
   const Operations = usePostsOperationsContext();
+  const { t } = useTranslation();
 
   const hasMore = page <= maxPage;
 
@@ -38,7 +40,7 @@ export default function PostListInfiniteWrapper({ id, items }: Props) {
     <MyInfiniteScroll
       parentElId={null}
       hasMore={hasMore}
-      endMessage={'This is the end of posts'}
+      endMessage={t('post.thisIsTheEnd')}
       dataLength={items.length}
       next={handleFetchNextPage}
       scrollThreshold={'1000px'}

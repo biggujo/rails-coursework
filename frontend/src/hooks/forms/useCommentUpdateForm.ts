@@ -4,6 +4,7 @@ import { selectCommentById } from '../../redux/comments/selectors.ts';
 import myToast from '../../utils/myToast.tsx';
 import useCommentForm, { CommentFormValues } from './useCommentForm.ts';
 import CommentsOperations from '../../redux/comments/operations.ts';
+import { useTranslation } from 'react-i18next';
 
 interface FunctionInterface {
   postId: number;
@@ -12,6 +13,7 @@ interface FunctionInterface {
 
 const useCommentUpdateForm = ({ postId, commentId }: FunctionInterface) => {
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation();
 
   const currentComment = useSelector(
     selectCommentById({
@@ -33,12 +35,12 @@ const useCommentUpdateForm = ({ postId, commentId }: FunctionInterface) => {
       ).unwrap();
 
       myToast({
-        message: 'The comment has been updated',
+        message: t('action.successCommentUpdate'),
         severity: 'success',
       });
     } catch (e) {
       myToast({
-        message: e as string,
+        message: t('action.failureCommentUpdate'),
         severity: 'error',
       });
     }

@@ -1,3 +1,193 @@
 {
-  "welcome": "Ласкаво просимо"
+  "chat": {
+    "chat": "Чат",
+    "myChats": "Мої чати",
+    "noChatsAvailable": "Нема доступних чатів",
+    "sendMessage": "Надіслати повідомлення",
+    "latestMessage": "Останнє повідомлення",
+    "sayHiToStart": "Напишіть 'Привіт' задля початку спілкування",
+    "goToBottom": "Перейти до низу",
+    "thisIsTheStart": "Це початок чату"
+  },
+  "comments": {
+    "comments": "Коментарі",
+    "noCommentsAvailable": "Нема доступних коментарів"
+  },
+  "users": {
+    "usersList": "Список користувачів",
+    "noUsersAvailable": "Нема доступних користувачів"
+  },
+  "search": {
+    "noResultsAvailable": "Нема доступних результатів"
+  },
+  "profile": {
+    "profile": "Профіль",
+    "profilePosts": "Дописи користувача",
+    "connections": "Звʼязки",
+    "sendMessage": "Написати",
+    "email": "Пошта",
+    "location": "Місцезнаходження",
+    "joinedOn": "Зареєструвався"
+  },
+  "post": {
+    "posts": "Дописи",
+    "latestPosts": "Останні дописи",
+    "noPostsAvailable": "Нема доступних дописів",
+    "postUpdate": "Оновлення допису",
+    "postedIn": "Розміщено у",
+    "originalPost": "Оригінальний допис",
+    "thisIsTheEnd": "Це кінець дописів"
+  },
+  "repost": {
+    "repostCreation": "Створення поста"
+  },
+  "menu": {
+    "profile": "Профіль",
+    "logout": "Вийти"
+  },
+  "navigation": {
+    "homePage": "Домашня",
+    "myProfile": "Мій профіль",
+    "myChats": "Мої чати",
+    "myFriends": "Мої друзі",
+    "myGroups": "Мої групи"
+  },
+  "group": {
+    "createGroup": "Створити групу",
+    "allGroups": "Усі групи",
+    "posts": "Пости групи",
+    "mainInformation": "Головна інформація",
+    "groupCreator": "Творець групи",
+    "stats": "Статистика",
+    "description": "Опис",
+    "members": "Учасники",
+    "owner": "Власник"
+  },
+  "friends": {
+    "myFriends": "Мої друзі",
+    "following": "Підписаний",
+    "followers": "Підписники",
+    "friends": "Друзі",
+    "follow": "Підписатися",
+    "unfollow": "Відписатися"
+  },
+  "status": {
+    "loading": "Завантаження",
+    "online": "Онлайн",
+    "offline": "Офлайн"
+  },
+  "form": {
+    "email": "Пошта",
+    "nickname": "Нікнейм",
+    "fullName": "Повне імʼя",
+    "country": "Країна",
+    "city": "Місто",
+    "content": "Вміст",
+    "title": "Назва",
+    "name": "Назва",
+    "description": "Опис",
+    "startDate": "Початкова дата",
+    "endDate": "Кінцева дата",
+    "dateSort": "Сортування за датою",
+    "popularitySort": "Сортування за популярністю",
+    "ascending": "За зростанням",
+    "descending": "За спаданням",
+    "originalInformation": "Оригінальна інформація",
+    "updatedInformation": "Оновлена інформація",
+    "newAvatar": "Новий аватар",
+    "newPhotos": "Нові фотографії",
+    "textData": "Текстова інформація",
+    "namePlaceholder": "Артем Шевченко",
+    "countryPlaceholder": "Україна",
+    "cityPlaceholder": "Київ",
+    "newPhotosWithLimit": "Нові фотографії (до {{maxAmount}} включно)",
+    "requestRecoverySubmit": "Запитати відновлення",
+    "filters": "Фільтри",
+    "submit": "Відправити",
+    "update": "Оновити",
+    "clear": "Очистити",
+    "password": "Пароль",
+    "newPassword": "Новий пароль",
+    "confirmNewPassword": "Підтвердіть новий пароль",
+    "dontHaveAnAccount": "Не маєш акаунту? Зареєструйся",
+    "alreadyHaveAnAccount": "Вже маєте акаунт? Увійдіть",
+    "forgotPassword": "Забув пароль"
+  },
+  "passwordRecovery": {
+    "requestForm": "Запит на відновлення паролю",
+    "processionForm": "Відновлення паролю"
+  },
+  "action": {
+    "confirmCommentDelete": "Ви впевнені, що хочете видалити коментар?",
+    "successCommentDelete": "Коментар успішно видалено",
+    "failureCommentDelete": "Не вдалося видалити коментар",
+    "successCommentCreate": "Коментар успішно створено",
+    "failureCommentCreate": "Не вдалося створити коментар",
+    "successCommentUpdate": "Коментар успішно оновлено",
+    "failureCommentUpdate": "Не вдалося оновити коментар",
+    "commentEdit": "Змінення коментаря",
+    "profileEdit": "Змінити профіль",
+    "groupEdit": "Змінити групу",
+    "delete": "Видалити",
+    "edit": "Змінити",
+    "unsubscribe": "Відписатися",
+    "failureUnsubscribe": "Помилка відписки",
+    "subscribe": "Підписатися",
+    "failureSubscribe": "Помилка підписки",
+    "profilePhoto": {
+      "delete": "Видалити фотографію",
+      "successPhotoDelete": "Фото успішно видалено",
+      "failurePhotoDelete": "Фото не вдалося видалити"
+    },
+    "postPhotos": {
+      "delete": "Видалити фотографії",
+      "confirmPhotosDelete": "Ви впевнені, що хочете видалити фотографії з посту?",
+      "successPhotosDelete": "Фотографії успішно видалено",
+      "failurePhotosDelete": "Не вдалося видалити фотографії"
+    },
+    "post": {
+      "create": "Створити пост",
+      "creation": "Створення поста",
+      "confirmDelete": "Ви впевнені, що хочете видалити пост?",
+      "successDelete": "Пост успішно видалено",
+      "failureDelete": "Пост не вдалося видалити",
+      "successPostCreate": "Пост успішно створено",
+      "failurePostCreate": "Не вдалося створити пост"
+    },
+    "group": {
+      "delete": "Видалити групу",
+      "deletePhoto": "Видалити фотографію",
+      "deleteSuccess": "Групу успішно видалено",
+      "deleteFailure": "Помилка видалення групи",
+      "confirmDelete": "Ви впевнені, що хочете видалити групу?",
+      "successDelete": "Групу успішно видалено",
+      "failureDelete": "Групу не вдалося видалити",
+      "successGroupCreate": "Групу успішно створено",
+      "failureGroupCreate": "Не вдалося створити групу",
+      "successGroupUpdate": "Групу успішно оновлено",
+      "failureGroupUpdate": "Не вдалося оновити групу"
+    },
+    "passwordRecovery": {
+      "successRequestCreate": "Запит надіслано. Очікуйте повідомлення на пошті",
+      "failureRequestCreate": "Помилка надсилання запиту",
+      "successChange": "Пароль успішно змінено",
+      "failureChange": "Помилка зміни паролю"
+    }
+  },
+  "signIn": {
+    "formName": "Форма входу"
+  },
+  "signUp": {
+    "formName": "Форма реєстрації"
+  },
+  "dropzone": {
+    "validationError": "Дозволяється лише PNG/WEBP/JPEG розміром 2 МБ або менше",
+    "actionMessage": "Перетягніть файли сюди або натисніть, щоб вибрати файли",
+    "attachments": "Прикріплення",
+    "preview": "Попередній перегляд",
+    "uploadedPhoto": "Завантажена фотографія"
+  },
+  "error": {
+    "tryAgainLater": "Сталася помилка. Будь-ласка спробуйте пізніше"
+  }
 }

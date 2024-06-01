@@ -39,6 +39,7 @@ import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { usePostsOperationsContext } from '../../providers/PostsOperationsProvider.tsx';
 import MyCarousel from '../MyCarousel/MyCarousel.tsx';
 import RepostCreateModal from '../RepostCreateModal/RepostCreateModal.tsx';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   data: PostEntity;
@@ -52,10 +53,14 @@ export default function PostItem({ data, dontShowControls }: Props) {
   const currentUser = useSelector(selectAuthUser);
   const Operations = usePostsOperationsContext();
   const theme = useTheme();
+  const { t, i18n } = useTranslation();
 
   const { isOpen, toggle } = useToggle();
 
-  const formattedDate = DateFormatter.formatRelativeToNow(data.created_at);
+  const formattedDate = DateFormatter.formatRelativeToNow(
+    data.created_at,
+    i18n.language
+  );
 
   const handlePurgePhotos = () => {
     dispatch(Operations.fetchAll(data?.group?.id || data.user.id));
@@ -68,7 +73,7 @@ export default function PostItem({ data, dontShowControls }: Props) {
 
   const postSubtitle = shouldShowGroupInfo ? (
     <Stack direction={'row'} width={'350px'}>
-      <Typography variant={'body2'}>Posted in&nbsp;</Typography>
+      <Typography variant={'body2'}>{t('post.postedIn')}&nbsp;</Typography>
       <MyAvatar
         alt={data.group.name}
         size={'smaller'}
@@ -122,24 +127,26 @@ export default function PostItem({ data, dontShowControls }: Props) {
                     action: null,
                   },
                   {
-                    title: <Button startIcon={<Delete />}>Delete</Button>,
+                    title: (
+                      <Button startIcon={<Delete />}>
+                        {t('action.delete')}
+                      </Button>
+                    ),
                     action: async () => {
                       try {
-                        if (
-                          !confirm('Are you sure you want to delete the post?')
-                        ) {
+                        if (!confirm(t('action.post.confirmDelete'))) {
                           return;
                         }
 
                         await dispatch(Operations.deleteById(data.id)).unwrap();
 
                         myToast({
-                          message: 'The post has been deleted',
+                          message: t('action.post.successDelete'),
                           severity: 'success',
                         });
                       } catch (e) {
                         myToast({
-                          message: e,
+                          message: t('action.post.failureDelete'),
                           severity: 'error',
                         });
                       }
@@ -161,7 +168,7 @@ export default function PostItem({ data, dontShowControls }: Props) {
             {data.repost && (
               <>
                 <Typography fontWeight={'bold'} mb={1}>
-                  Original post:
+                  {t('post.originalPost')}:
                 </Typography>
                 <PostItem data={data.repost} dontShowControls={true} />
               </>
@@ -238,7 +245,7 @@ export default function PostItem({ data, dontShowControls }: Props) {
                 }}
               />
               <Typography variant={'h6'} fontWeight={'normal'} pl={4}>
-                Comments
+                {t('comments.comments')}
               </Typography>
               <CommentList postId={data.id} />
               <CommentCreateForm postId={data.id} />

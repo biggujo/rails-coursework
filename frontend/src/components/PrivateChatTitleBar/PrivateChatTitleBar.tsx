@@ -7,6 +7,7 @@ import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import UserEntity from '../../interfaces/UserEntity.interface.ts';
 import ChatTitleBar from '../ChatTitleBar/ChatTitleBar.tsx';
 import DateFormatter from '../../utils/date-formatter.ts';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   chatId: Nullable<number>;
@@ -19,6 +20,7 @@ export default function PrivateChatTitleBar({ chatId }: Props) {
   const { data, isLoading } = useFetchAllChatsQuery();
   const [otherPerson, setOtherPerson] = useState<Nullable<UserEntity>>(null);
   const { id: currentUserId } = useSelector(selectAuthUser);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!chatId) {
@@ -35,7 +37,7 @@ export default function PrivateChatTitleBar({ chatId }: Props) {
   }, [chatId, currentUserId, data, setOtherPerson]);
 
   if (!otherPerson || isLoading) {
-    return <ChatTitleBar title={'Loading...'} />;
+    return <ChatTitleBar title={t('status.loading')} />;
   }
 
   const isOnline =

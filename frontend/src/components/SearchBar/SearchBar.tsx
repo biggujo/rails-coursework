@@ -18,12 +18,14 @@ import GroupCard from '../GroupItemCard';
 import UserEntity from '../../interfaces/UserEntity.interface.ts';
 import { GroupEntity } from '../../interfaces';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function SearchBar() {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState('');
   const navigate = useNavigate();
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const { data, isPending, isSuccess, isError, mutateAsync, reset } =
     useSearchGroupsAndUsersMutation();
@@ -63,7 +65,7 @@ export default function SearchBar() {
             </InputAdornment>
           ),
         }}
-        placeholder={'John Smith'}
+        placeholder={t('form.namePlaceholder')}
         size={'small'}
         sx={{
           bgcolor: 'primary.contrastText',
@@ -92,9 +94,9 @@ export default function SearchBar() {
               <Loader />
             </Box>
           )}
-          {isError && <Typography>Couldn't load results</Typography>}
+          {isError && <Typography>{t('error.tryAgainLater')}</Typography>}
           {isSuccess && data.length === 0 && (
-            <Typography>No results found</Typography>
+            <Typography>{t('search.noResultsAvailable')}</Typography>
           )}
           {isSuccess && data.length > 0 && (
             <Stack>
@@ -105,6 +107,22 @@ export default function SearchBar() {
                     m: 0,
                     p: 0,
                   }}
+                  onClick={() => {
+                    let createNavigatePath;
+
+                    switch (item.type) {
+                      case 'user':
+                        createNavigatePath = (id: number) => `/profile/${id}`;
+                        break;
+                      case 'group':
+                        createNavigatePath = (id: number) => `/group/${id}`;
+                        break;
+                      default:
+                        createNavigatePath = () => ``;
+                    }
+
+                    navigate(createNavigatePath(item.id));
+                  }}
                 >
                   {index > 0 && (
                     <Divider
@@ -113,31 +131,12 @@ export default function SearchBar() {
                       }}
                     />
                   )}
-                  <Box
-                    onClick={() => {
-                      let createNavigatePath;
-
-                      switch (item.type) {
-                        case 'user':
-                          createNavigatePath = (id: number) => `/profile/${id}`;
-                          break;
-                        case 'group':
-                          createNavigatePath = (id: number) => `/group/${id}`;
-                          break;
-                        default:
-                          createNavigatePath = () => ``;
-                      }
-
-                      navigate(createNavigatePath(item.id));
-                    }}
-                  >
-                    {item.type === 'user' && (
-                      <UserProfileCard data={item.attributes as UserEntity} />
-                    )}
-                    {item.type === 'group' && (
-                      <GroupCard data={item.attributes as GroupEntity} />
-                    )}
-                  </Box>
+                  {item.type === 'user' && (
+                    <UserProfileCard data={item.attributes as UserEntity} />
+                  )}
+                  {item.type === 'group' && (
+                    <GroupCard data={item.attributes as GroupEntity} />
+                  )}
                 </ListItem>
               ))}
             </Stack>

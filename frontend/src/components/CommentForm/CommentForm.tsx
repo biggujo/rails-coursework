@@ -2,12 +2,15 @@ import { FormikProps, FormikProvider } from 'formik';
 import { Stack, TextField } from '@mui/material';
 import ButtonSubmit from '../ButtonSubmit';
 import { CommentFormValues } from '../../hooks/forms/useCommentForm.ts';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   formik: FormikProps<CommentFormValues>;
 }
 
 export default function CommentForm({ formik }: Props) {
+  const { t } = useTranslation();
+
   return (
     <FormikProvider value={formik}>
       <Stack
@@ -20,7 +23,7 @@ export default function CommentForm({ formik }: Props) {
         alignItems={'stretch'}
       >
         <TextField
-          label={'Updated content'}
+          label={t('form.content')}
           type={'text'}
           {...formik.getFieldProps('text')}
           error={formik.touched.text && Boolean(formik.errors.text)}
@@ -29,7 +32,9 @@ export default function CommentForm({ formik }: Props) {
           minRows={3}
           required
         />
-        <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
+        <ButtonSubmit isSubmitting={formik.isSubmitting}>
+          {t('form.submit')}
+        </ButtonSubmit>
       </Stack>
     </FormikProvider>
   );

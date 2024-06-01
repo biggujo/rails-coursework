@@ -7,6 +7,7 @@ import createSubtitle from '../../utils/create-subtitle.tsx';
 import Loader from '../Loader';
 import UserProfileList from '../UserProfileList/UserProfileList.tsx';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   title: string;
@@ -17,7 +18,8 @@ interface Props {
 export default function FetchUsersModal({ title, toggler, apiFn }: Props) {
   const queryClient = useQueryClient();
   const { refetch, data, isLoading, isSuccess, isError } =
-    useFetchUserListQuery(apiFn);
+    useFetchUserListQuery(apiFn, false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -28,14 +30,12 @@ export default function FetchUsersModal({ title, toggler, apiFn }: Props) {
 
   const modalContent = (
     <Box>
-      {isError && (
-        <Typography>An error has happened. Please, try again later.</Typography>
-      )}
+      {isError && <Typography>{t('error.tryAgainLater')}</Typography>}
       {createSubtitle(title)}
       <Box height={'400px'}>
         {isLoading && <Loader />}
         {isSuccess && data.length === 0 && (
-          <Typography>No users available.</Typography>
+          <Typography>{t('users.noUsersAvailable')}</Typography>
         )}
         {isSuccess && (
           <UserProfileList items={data} shouldShowCurrentUser={true} />

@@ -5,10 +5,8 @@ import { Groups2 } from '@mui/icons-material';
 import { Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAuthIsLoggedIn } from '../../redux/auth/selectors.ts';
-import { useTranslation } from 'react-i18next';
 
 export default function NavBar() {
-  const { t } = useTranslation();
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
 
   return (
@@ -38,7 +36,6 @@ export default function NavBar() {
               textDecoration: 'none',
             }}
           >
-            {t('welcome')}
             <Groups2 fontSize={'large'} />
             <Typography variant="h6" textTransform={'uppercase'}>
               Social X

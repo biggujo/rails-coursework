@@ -1,13 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { CssBaseline } from '@mui/material';
 import { Toaster } from 'react-hot-toast';
-import {
-  HomePage,
-  NotFound,
-  ProfilePage,
-  SignInPage,
-  SignUpPage,
-} from '../../pages';
+import { NotFound, ProfilePage, SignInPage, SignUpPage } from '../../pages';
 import PrivateRoute from '../PrivateRoute';
 import UsersPage from '../../pages/UsersPage.tsx';
 import useRefreshUser from '../../hooks/query/useRefreshUser.ts';
@@ -48,7 +42,6 @@ export default function App() {
               <PrivateRoute redirectTo={'/sign-in'} component={<MainPage />} />
             }
           />
-          <Route path={'/old'} element={<HomePage />} />
           <Route
             path={'/sign-in'}
             element={

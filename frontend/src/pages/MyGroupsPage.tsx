@@ -33,12 +33,12 @@ export default function MyGroupsPage() {
       >
         {createSubtitle('My Groups')}
         {createGroupButton}
-        {isLoading && (
-          <Box height={400}>
-            <Loader />
-          </Box>
-        )}
       </Stack>
+      {isLoading && (
+        <Box height={400}>
+          <Loader />
+        </Box>
+      )}
       {isError && <Typography>Couldn't load groups</Typography>}
       {isSuccess && data.length === 0 && (
         <Typography>No groups available.</Typography>

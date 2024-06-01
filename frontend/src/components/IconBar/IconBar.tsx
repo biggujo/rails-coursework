@@ -1,4 +1,4 @@
-import { IconButton, Menu, MenuItem, Stack } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, Stack } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import { useRef, useState } from 'react';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthOperations from '../../redux/auth/operations.ts';
 import { AppDispatch } from '../../redux/store.ts';
 import LanguageChanger from '../LanguageChanger';
+import { useTranslation } from 'react-i18next';
 
 export default function IconBar() {
   const dispatch: AppDispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function IconBar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const avatarRef = useRef(null);
+  const { t } = useTranslation();
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -27,7 +29,13 @@ export default function IconBar() {
         alignItems: 'center',
       }}
     >
-      <LanguageChanger />
+      <Box
+        sx={{
+          pr: 1,
+        }}
+      >
+        <LanguageChanger />
+      </Box>
       <IconButton onClick={() => navigate('/my_chats')}>
         <MailIcon
           color="action"
@@ -56,7 +64,7 @@ export default function IconBar() {
             handleClose();
           }}
         >
-          Profile
+          {t('menu.profile')}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -64,7 +72,7 @@ export default function IconBar() {
             handleClose();
           }}
         >
-          Logout
+          {t('menu.logout')}
         </MenuItem>
       </Menu>
     </Stack>
