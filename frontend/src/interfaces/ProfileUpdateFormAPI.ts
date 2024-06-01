@@ -7,5 +7,6 @@ export interface ProfileUpdateFormAPI {
   country: string;
   city: string;
   full_name: string;
+  password?: string;
   profile_photo: Nullable<File>;
 }

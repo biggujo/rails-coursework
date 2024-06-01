@@ -1,12 +1,12 @@
 import { useFormik } from 'formik';
-import API from '../utils/api.ts';
+import API from '../../utils/api.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { ProfileUpdateFormAPI } from '../interfaces/ProfileUpdateFormAPI.ts';
-import { AppDispatch } from '../redux/store.ts';
-import ProfileOperations from '../redux/profile/operations.ts';
-import myToast from '../utils/myToast.tsx';
-import { fullProfileValidationSchema } from '../validations';
-import { selectProfileData } from '../redux/profile/selectors.ts';
+import { ProfileUpdateFormAPI } from '../../interfaces/ProfileUpdateFormAPI.ts';
+import { AppDispatch } from '../../redux/store.ts';
+import ProfileOperations from '../../redux/profile/operations.ts';
+import myToast from '../../utils/myToast.tsx';
+import { fullProfileValidationSchema } from '../../validations';
+import { selectProfileData } from '../../redux/profile/selectors.ts';
 
 export default function useUpdateProfileForm() {
   const dispatch: AppDispatch = useDispatch();

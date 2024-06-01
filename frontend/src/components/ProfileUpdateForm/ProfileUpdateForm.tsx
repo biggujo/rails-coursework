@@ -1,4 +1,4 @@
-import useUpdateProfileForm from '../../hooks/useUpdateProfileForm.ts';
+import useUpdateProfileForm from '../../hooks/forms/useUpdateProfileForm.ts';
 import { FormikProvider } from 'formik';
 import FormField from '../FormField/FormField.tsx';
 import { Stack, Typography } from '@mui/material';
@@ -56,6 +56,13 @@ export default function ProfileUpdateForm() {
             <FormField
               name={'city'}
               label={`${t('form.city')} *`}
+              formik={formik}
+              disabled={formik.isSubmitting}
+            />
+            <FormField
+              name={'password'}
+              type={'password'}
+              label={`${t('form.password')} *`}
               formik={formik}
               disabled={formik.isSubmitting}
             />
