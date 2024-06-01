@@ -1,4 +1,4 @@
-import { Menu, MenuItem, Stack } from '@mui/material';
+import { IconButton, Menu, MenuItem, Stack } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import { useRef, useState } from 'react';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';

@@ -6,6 +6,7 @@ import {
   PostsFilters,
 } from '../../interfaces';
 import API from '../../utils/api.ts';
+import thunkErrorWrapper from '../../utils/async-thunk-error-wrapper.ts';
 
 const ERROR_MESSAGE = 'An error just happened. Please, try again later.';
 
@@ -34,15 +35,8 @@ const createOperations = (api: PostsApi | Pick<PostsApi, 'fetchAll'>) => ({
     }
   ),
 
-  add: createAsyncThunk(
-    'posts/add',
-    async (data: NewPostEntity, { rejectWithValue }) => {
-      try {
-        return await api.add(data);
-      } catch (e) {
-        return rejectWithValue(ERROR_MESSAGE);
-      }
-    }
+  add: createAsyncThunk('posts/add', async (data: NewPostEntity, thunkAPI) =>
+    thunkErrorWrapper(data, api.add, thunkAPI)
   ),
 
   updateById: createAsyncThunk(
@@ -71,35 +65,20 @@ const createOperations = (api: PostsApi | Pick<PostsApi, 'fetchAll'>) => ({
 
   deleteById: createAsyncThunk(
     'posts/deleteById',
-    async (postId: number, { rejectWithValue }) => {
-      try {
-        return await api.deleteById(postId);
-      } catch (e) {
-        return rejectWithValue(ERROR_MESSAGE);
-      }
-    }
+    async (postId: number, thunkAPI) =>
+      thunkErrorWrapper(postId, api.deleteById, thunkAPI)
   ),
 
   likeById: createAsyncThunk(
     'posts/likeById',
-    async (postId: number, { rejectWithValue }) => {
-      try {
-        return await api.likes.likeById(postId);
-      } catch (e) {
-        return rejectWithValue(ERROR_MESSAGE);
-      }
-    }
+    async (postId: number, thunkAPI) =>
+      thunkErrorWrapper(postId, api.likes.likeById, thunkAPI)
   ),
 
   dislikeById: createAsyncThunk(
     'posts/dislikeById',
-    async (postId: number, { rejectWithValue }) => {
-      try {
-        return await api.likes.dislikeById(postId);
-      } catch (e) {
-        return rejectWithValue(ERROR_MESSAGE);
-      }
-    }
+    async (postId: number, thunkAPI) =>
+      thunkErrorWrapper(postId, api.likes.dislikeById, thunkAPI)
   ),
 });
 

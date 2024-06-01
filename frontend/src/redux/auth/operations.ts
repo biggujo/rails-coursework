@@ -3,16 +3,10 @@ import API from '../../utils/api.ts';
 import { UserSignInFormAPI } from '../../interfaces';
 import { AxiosResponse } from 'axios';
 import UserSignUpFormAPI from '../../interfaces/UserSignUpFormAPI.ts';
+import thunkErrorWrapper from '../../utils/async-thunk-error-wrapper.ts';
 
-const refreshUser = createAsyncThunk(
-  'auth/refreshUser',
-  async (_, { rejectWithValue }) => {
-    try {
-      return await API.auth.refreshUser();
-    } catch (e) {
-      return rejectWithValue(e);
-    }
-  }
+const refreshUser = createAsyncThunk('auth/refreshUser', async (_, thunkAPI) =>
+  thunkErrorWrapper(null, API.auth.refreshUser, thunkAPI)
 );
 
 const signingOperation = (
@@ -45,15 +39,8 @@ const signIn = signingOperation(API.auth.signIn);
 
 const signUp = signingOperation(API.auth.signUp);
 
-const signOut = createAsyncThunk(
-  'auth/SignOut',
-  async (_, { rejectWithValue }) => {
-    try {
-      await API.auth.signOut();
-    } catch (e) {
-      return rejectWithValue(e);
-    }
-  }
+const signOut = createAsyncThunk('auth/SignOut', async (_, thunkAPI) =>
+  thunkErrorWrapper(null, API.auth.signOut, thunkAPI)
 );
 
 const AuthOperations = {

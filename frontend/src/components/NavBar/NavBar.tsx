@@ -50,7 +50,7 @@ export default function NavBar() {
             </Typography>
           </Stack>
           {isLoggedIn && <SearchBar />}
-          <Stack direction={'row'}>
+          <Stack direction={'row'} alignItems={'center'}>
             <Box
               sx={{
                 pr: 1,
