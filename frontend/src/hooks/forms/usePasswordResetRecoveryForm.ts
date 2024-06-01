@@ -1,10 +1,10 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import myToast from '../../utils/myToast.tsx';
-import { AxiosError } from 'axios';
 import { PasswordRecoveryFormData } from '../../interfaces';
 import usePasswordResetRecoveryMutation from '../mutation/usePasswordResetRecoveryMutation.ts';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const passwordValidation = Yup.string()
   .min(6, 'Password have to be more than 6 symbols')
@@ -33,25 +33,22 @@ const usePasswordResetRecoveryForm = ({
 }) => {
   const navigate = useNavigate();
   const passwordRecoveryResetMutation = usePasswordResetRecoveryMutation();
+  const { t } = useTranslation();
 
   return useFormik({
     initialValues: initialValues(confirmToken),
     validationSchema,
     onSubmit: async (data: PasswordRecoveryFormData) => {
       try {
-        const response = await passwordRecoveryResetMutation.mutateAsync(data);
+        await passwordRecoveryResetMutation.mutateAsync(data);
         myToast({
-          message: response.message,
+          message: t('action.passwordRecovery.successChange'),
           severity: 'success',
         });
         navigate('/sign-in');
       } catch (error) {
         myToast({
-          message: (
-            (error as AxiosError).response!.data as {
-              status: { error: string };
-            }
-          ).status.error,
+          message: t('action.passwordRecovery.failureChange'),
           severity: 'error',
         });
       }

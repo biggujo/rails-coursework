@@ -1,12 +1,15 @@
 import { GroupEntity } from '../../interfaces';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
 import { Stack, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   groupData: GroupEntity;
 }
 
 export default function MainGroupData({ groupData }: Props) {
+  const { t } = useTranslation();
+
   return (
     <Stack direction={'row'} gap={4}>
       <MyAvatar
@@ -22,7 +25,7 @@ export default function MainGroupData({ groupData }: Props) {
           </Typography>
         </Stack>
         <Typography variant="subtitle1">
-          <b>Description</b>: {groupData.description}
+          <b>{t('group.description')}</b>: {groupData.description}
         </Typography>
       </Stack>
     </Stack>

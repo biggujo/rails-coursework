@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import myToast from '../../utils/myToast.tsx';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
 import CloseIcon from '@mui/icons-material/Close';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   title: string;
@@ -24,6 +25,7 @@ const AVAILABLE_IMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.png', '.webp'];
 function MyDropzone({ title, onAddFile, maxFiles }: Props) {
   const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const { isFocused, isDragAccept, getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -43,7 +45,7 @@ function MyDropzone({ title, onAddFile, maxFiles }: Props) {
     },
     onError: () => {
       myToast({
-        message: 'Only PNG/WEBP/JPEG of size 2 MB or less are allowed',
+        message: t('dropzone.validationError'),
         severity: 'error',
       });
     },
@@ -124,12 +126,12 @@ function MyDropzone({ title, onAddFile, maxFiles }: Props) {
                 position: 'absolute',
               }}
             >
-              Drag'n'drop some files here, or click to select files
+              {t('dropzone.actionMessage')}
             </Typography>
           </Box>
           {files.length > 0 && (
             <Typography fontWeight={'bold'} pt={2}>
-              Attachments:
+              {t('dropzone.attachments')}:
             </Typography>
           )}
           {files.length > 0 && maxFiles === 1 && (
@@ -141,10 +143,10 @@ function MyDropzone({ title, onAddFile, maxFiles }: Props) {
                 alignItems: 'center',
               }}
             >
-              <Typography py={1}>Preview:</Typography>
+              <Typography py={1}>{t('dropzone.preview')}:</Typography>
 
               <MyAvatar
-                alt={'Uploaded photo'}
+                alt={t('dropzone.uploadedPhoto')}
                 src={files[0].preview}
                 onLoad={() => {
                   URL.revokeObjectURL(files[0].preview);
@@ -162,7 +164,7 @@ function MyDropzone({ title, onAddFile, maxFiles }: Props) {
                     position: 'relative',
                   }}
                 >
-                  <img alt={'Uploaded photo'} src={file.preview} />
+                  <img alt={t('dropzone.uploadedPhoto')} src={file.preview} />
                   <Box
                     sx={{
                       position: 'absolute',

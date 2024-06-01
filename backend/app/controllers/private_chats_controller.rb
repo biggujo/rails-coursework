@@ -7,8 +7,9 @@ class PrivateChatsController < ApplicationController
   def index
     private_chats = PrivateChat.where("user_1_id = ? OR user_2_id = ?", current_user.id, current_user.id)
     prepared_private_chats = private_chats.map {|chat| prepare_chat_render(chat) }
+    sorted_private_chats = prepare_chat_sort(prepared_private_chats).reverse
 
-    render json: prepared_private_chats
+    render json: sorted_private_chats
   end
 
   def show
@@ -41,11 +42,22 @@ class PrivateChatsController < ApplicationController
 
   private
 
+  def prepare_chat_sort(private_chats)
+    private_chats = private_chats.reject {|chat| chat[:latest_message].nil? }
+
+    private_chats.sort_by do |hash|
+      hash[:latest_message] ? hash[:latest_message][:created_at] : Time.at(0).getlocal
+    end
+  end
+
   def prepare_chat_render(private_chat)
+    last_message = private_chat.messages.last
+
     {
       id: private_chat.id,
       user_1: UserSerializer.new(private_chat.user_1).to_h,
       user_2: UserSerializer.new(private_chat.user_2).to_h,
+      latest_message: last_message,
       created_at: private_chat.created_at,
       updated_at: private_chat.updated_at
     }

@@ -2,6 +2,7 @@ import { Box, ListItem, Stack, Typography } from '@mui/material';
 import Loader from '../Loader';
 import CommentItem from '../CommentItem/CommentItem.tsx';
 import useFetchCommentsByPostId from '../../hooks/query/useFetchCommentsByPostId.ts';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   postId: number;
@@ -9,6 +10,7 @@ interface Props {
 
 export default function CommentList({ postId }: Props) {
   const { items, isLoading, error } = useFetchCommentsByPostId(postId);
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (
@@ -19,15 +21,13 @@ export default function CommentList({ postId }: Props) {
   }
 
   if (error) {
-    return (
-      <Typography>An error have just happened. Try again later</Typography>
-    );
+    return <Typography>{t('error.tryAgainLater')}</Typography>;
   }
 
   if (items!.length === 0) {
     return (
       <Typography pl={4} pb={4}>
-        No comments available.
+        {t('comments.noCommentsAvailable')}
       </Typography>
     );
   }

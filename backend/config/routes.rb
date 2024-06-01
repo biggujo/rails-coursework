@@ -58,6 +58,8 @@ Rails.application.routes.draw do
   delete "/group_profile_photo/:id", to: "groups#purge_profile_photo"
   delete "/post_photos/:id", to: "posts#purge_photos"
 
+  get "/my_groups", to: "groups#my_joined_groups"
+
   get "/users/:id/posts", to: "users#user_posts"
 
   get "/chats", to: "private_chats#my_chats"

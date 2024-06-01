@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import useFetchGroupQuery from '../hooks/query/useFetchGroupQuery.ts';
 import Loader from '../components/Loader';
@@ -15,6 +15,7 @@ import { useEffect } from 'react';
 import { resetPosts } from '../redux/posts/slice.ts';
 import createSmallSubtitle from '../utils/create-small-subtitle.tsx';
 import PostsFiltersForm from '../components/PostsFilters/PostsFiltersForm.tsx';
+import { useTranslation } from 'react-i18next';
 
 export default function GroupPage() {
   const { id } = useParams();
@@ -26,6 +27,7 @@ export default function GroupPage() {
     id: Number(id),
     operations: GroupPostsOperations,
   });
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -34,7 +36,7 @@ export default function GroupPage() {
   }, [dispatch]);
 
   return (
-    <Container>
+    <>
       {isLoading && (
         <Box height={400}>
           <Loader />
@@ -46,10 +48,10 @@ export default function GroupPage() {
       {isSuccess && (
         <>
           <GroupProfile groupData={data} />
-          {createSubtitle('Group posts')}
-          {createSmallSubtitle('Filters')}
+          {createSubtitle(t('group.posts'))}
+          {createSmallSubtitle(t('form.filters'))}
           <PostsFiltersForm />
-          {createSmallSubtitle('Posts')}
+          {createSmallSubtitle(t('post.posts'))}
 
           {postsQuery.isLoading && (
             <Box height={400}>
@@ -68,12 +70,12 @@ export default function GroupPage() {
                   />
                 </PostsOperationsProvider>
               ) : (
-                <Typography>No posts available.</Typography>
+                <Typography>{t('post.noPostsAvailable')}</Typography>
               )}
             </>
           )}
         </>
       )}
-    </Container>
+    </>
   );
 }

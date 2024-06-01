@@ -3,12 +3,15 @@ import { Box, Stack, TextField, Typography } from '@mui/material';
 import ButtonSubmit from '../ButtonSubmit';
 import { GroupFormValues } from '../../interfaces';
 import MyDropzone from '../MyDropzone/MyDropzone.tsx';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   formik: FormikProps<GroupFormValues>;
 }
 
 export default function GroupForm({ formik }: Props) {
+  const { t } = useTranslation();
+
   return (
     <FormikProvider value={formik}>
       <Stack
@@ -23,7 +26,7 @@ export default function GroupForm({ formik }: Props) {
         <Stack gap={2}>
           <Typography variant={'h6'}>Text data</Typography>
           <TextField
-            label={'Updated name'}
+            label={t('form.name')}
             type={'text'}
             {...formik.getFieldProps('name')}
             error={formik.touched.name && Boolean(formik.errors.name)}
@@ -31,7 +34,7 @@ export default function GroupForm({ formik }: Props) {
             required
           />
           <TextField
-            label={'Updated description'}
+            label={t('form.description')}
             type={'text'}
             {...formik.getFieldProps('description')}
             error={
@@ -45,10 +48,10 @@ export default function GroupForm({ formik }: Props) {
         </Stack>
         <Box>
           <Typography variant={'h6'} pb={2}>
-            New Avatar
+            {t('form.newAvatar')}
           </Typography>
           <MyDropzone
-            title={'New avatar'}
+            title={t('form.newAvatar')}
             onAddFile={([file]) => {
               formik.setFieldValue('profile_photo', file);
             }}
@@ -56,7 +59,9 @@ export default function GroupForm({ formik }: Props) {
           />
         </Box>
         <Box alignSelf={'flex-start'}>
-          <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
+          <ButtonSubmit isSubmitting={formik.isSubmitting}>
+            {t('form.submit')}
+          </ButtonSubmit>
         </Box>
       </Stack>
     </FormikProvider>

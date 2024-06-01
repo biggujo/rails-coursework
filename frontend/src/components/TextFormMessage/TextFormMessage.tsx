@@ -2,6 +2,7 @@ import { Button, Grid, TextField, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import useTextMessageForm from '../../hooks/forms/useTextMessageForm.ts';
 import { FormikProvider } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onSubmit: (value: string) => void;
@@ -10,6 +11,7 @@ interface Props {
 
 export default function TextFormMessage({ onSubmit }: Props) {
   const { formik, maxLength } = useTextMessageForm(onSubmit);
+  const { t } = useTranslation();
 
   return (
     <FormikProvider value={formik}>
@@ -60,7 +62,7 @@ export default function TextFormMessage({ onSubmit }: Props) {
               type={'submit'}
               endIcon={<SendIcon />}
             >
-              Send message
+              {t('chat.sendMessage')}
             </Button>
           </Grid>
         </Grid>

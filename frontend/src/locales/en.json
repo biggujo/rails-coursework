@@ -1,0 +1,193 @@
+{
+  "chat": {
+    "chat": "Chat",
+    "myChats": "My Chats",
+    "noChatsAvailable": "No Chats Available",
+    "sendMessage": "Send Message",
+    "latestMessage": "Latest Message",
+    "sayHiToStart": "Say 'Hi' to Start a Conversation",
+    "goToBottom": "Go to Bottom",
+    "thisIsTheStart": "This is the Start of the Chat"
+  },
+  "comments": {
+    "comments": "Comments",
+    "noCommentsAvailable": "No Comments Available"
+  },
+  "users": {
+    "usersList": "Users List",
+    "noUsersAvailable": "No Users Available"
+  },
+  "search": {
+    "noResultsAvailable": "No Results Available"
+  },
+  "profile": {
+    "profile": "Profile",
+    "profilePosts": "User Posts",
+    "connections": "Connections",
+    "sendMessage": "Send Message",
+    "email": "Email",
+    "location": "Location",
+    "joinedOn": "Joined On"
+  },
+  "post": {
+    "posts": "Posts",
+    "latestPosts": "Latest Posts",
+    "noPostsAvailable": "No Posts Available",
+    "postUpdate": "Post Update",
+    "postedIn": "Posted In",
+    "originalPost": "Original Post",
+    "thisIsTheEnd": "This is the End of Posts"
+  },
+  "repost": {
+    "repostCreation": "Repost Creation"
+  },
+  "menu": {
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "navigation": {
+    "homePage": "Home Page",
+    "myProfile": "My Profile",
+    "myChats": "My Chats",
+    "myFriends": "My Friends",
+    "myGroups": "My Groups"
+  },
+  "group": {
+    "createGroup": "Create Group",
+    "allGroups": "All Groups",
+    "posts": "Group Posts",
+    "mainInformation": "Main Information",
+    "groupCreator": "Group Creator",
+    "stats": "Stats",
+    "description": "Description",
+    "members": "Members",
+    "owner": "Owner"
+  },
+  "friends": {
+    "myFriends": "My Friends",
+    "following": "Following",
+    "followers": "Followers",
+    "friends": "Friends",
+    "follow": "Follow",
+    "unfollow": "Unfollow"
+  },
+  "status": {
+    "loading": "Loading",
+    "online": "Online",
+    "offline": "Offline"
+  },
+  "form": {
+    "email": "Email",
+    "nickname": "Nickname",
+    "fullName": "Full Name",
+    "country": "Country",
+    "city": "City",
+    "content": "Content",
+    "title": "Title",
+    "name": "Name",
+    "description": "Description",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "dateSort": "Sort by Date",
+    "popularitySort": "Sort by Popularity",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "originalInformation": "Original Information",
+    "updatedInformation": "Updated Information",
+    "newAvatar": "New Avatar",
+    "newPhotos": "New Photos",
+    "textData": "Text Data",
+    "namePlaceholder": "John Smith",
+    "countryPlaceholder": "Ukraine",
+    "cityPlaceholder": "Kyiv",
+    "newPhotosWithLimit": "New Photos (up to {{maxAmount}} included)",
+    "requestRecoverySubmit": "Request Recovery",
+    "filters": "Filters",
+    "submit": "Submit",
+    "update": "Update",
+    "clear": "Clear",
+    "password": "Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "dontHaveAnAccount": "Don't have an account? Sign up",
+    "alreadyHaveAnAccount": "Already have an account? Sign in",
+    "forgotPassword": "Forgot Password"
+  },
+  "passwordRecovery": {
+    "requestForm": "Password Recovery Request Form",
+    "processionForm": "Password Recovery"
+  },
+  "action": {
+    "confirmCommentDelete": "Are you sure you want to delete the comment?",
+    "successCommentDelete": "Comment successfully deleted",
+    "failureCommentDelete": "Failed to delete comment",
+    "successCommentCreate": "Comment successfully created",
+    "failureCommentCreate": "Failed to create comment",
+    "successCommentUpdate": "Comment successfully updated",
+    "failureCommentUpdate": "Failed to update comment",
+    "commentEdit": "Edit Comment",
+    "profileEdit": "Edit Profile",
+    "groupEdit": "Edit Group",
+    "delete": "Delete",
+    "edit": "Edit",
+    "unsubscribe": "Unsubscribe",
+    "failureUnsubscribe": "Unsubscribe Error",
+    "subscribe": "Subscribe",
+    "failureSubscribe": "Subscribe Error",
+    "profilePhoto": {
+      "delete": "Delete Photo",
+      "successPhotoDelete": "Photo successfully deleted",
+      "failurePhotoDelete": "Failed to delete photo"
+    },
+    "postPhotos": {
+      "delete": "Delete Photos",
+      "confirmPhotosDelete": "Are you sure you want to delete the photos from the post?",
+      "successPhotosDelete": "Photos successfully deleted",
+      "failurePhotosDelete": "Failed to delete photos"
+    },
+    "post": {
+      "create": "Create Post",
+      "creation": "Post Creation",
+      "confirmDelete": "Are you sure you want to delete the post?",
+      "successDelete": "Post successfully deleted",
+      "failureDelete": "Failed to delete post",
+      "successPostCreate": "Post successfully created",
+      "failurePostCreate": "Failed to create post"
+    },
+    "group": {
+      "delete": "Delete Group",
+      "deletePhoto": "Delete Photo",
+      "deleteSuccess": "Group successfully deleted",
+      "deleteFailure": "Group deletion error",
+      "confirmDelete": "Are you sure you want to delete the group?",
+      "successDelete": "Group successfully deleted",
+      "failureDelete": "Failed to delete group",
+      "successGroupCreate": "Group successfully created",
+      "failureGroupCreate": "Failed to create group",
+      "successGroupUpdate": "Group successfully updated",
+      "failureGroupUpdate": "Failed to update group"
+    },
+    "passwordRecovery": {
+      "successRequestCreate": "Request sent. Check your email",
+      "failureRequestCreate": "Failed to send request",
+      "successChange": "Password successfully changed",
+      "failureChange": "Failed to change password"
+    }
+  },
+  "signIn": {
+    "formName": "Sign In Form"
+  },
+  "signUp": {
+    "formName": "Sign Up Form"
+  },
+  "dropzone": {
+    "validationError": "Only PNG/WEBP/JPEG files up to 2 MB are allowed",
+    "actionMessage": "Drag files here or click to select files",
+    "attachments": "Attachments",
+    "preview": "Preview",
+    "uploadedPhoto": "Uploaded Photo"
+  },
+  "error": {
+    "tryAgainLater": "An error occurred. Please try again later"
+  }
+}

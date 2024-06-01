@@ -4,9 +4,11 @@ import FormField from '../FormField/FormField.tsx';
 import { Stack, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import MyDropzone from '../MyDropzone/MyDropzone.tsx';
+import { useTranslation } from 'react-i18next';
 
 export default function ProfileUpdateForm() {
   const formik = useUpdateProfileForm();
+  const { t } = useTranslation();
 
   return (
     <FormikProvider value={formik}>
@@ -21,25 +23,25 @@ export default function ProfileUpdateForm() {
         gap={2}
       >
         <Typography variant={'h6'} pb={2}>
-          Text data
+          {t('form.textData')}
         </Typography>
         <Stack direction={'row'} gap={8}>
           <Stack direction={'column'} gap={2}>
             <FormField
               name={'email'}
-              label={'New email *'}
+              label={`${t('form.email')} *`}
               formik={formik}
               disabled={formik.isSubmitting}
             />
             <FormField
               name={'nickname'}
-              label={'New nickname *'}
+              label={`${t('form.nickname')} *`}
               formik={formik}
               disabled={formik.isSubmitting}
             />
             <FormField
               name={'full_name'}
-              label={'New full name *'}
+              label={`${t('form.fullName')} *`}
               formik={formik}
               disabled={formik.isSubmitting}
             />
@@ -47,23 +49,23 @@ export default function ProfileUpdateForm() {
           <Stack direction={'column'} gap={2}>
             <FormField
               name={'country'}
-              label={'New country *'}
+              label={`${t('form.country')} *`}
               formik={formik}
               disabled={formik.isSubmitting}
             />
             <FormField
               name={'city'}
-              label={'New city *'}
+              label={`${t('form.city')} *`}
               formik={formik}
               disabled={formik.isSubmitting}
             />
           </Stack>
         </Stack>
         <Typography variant={'h6'} pb={2}>
-          New Avatar
+          {t('form.newAvatar')}
         </Typography>
         <MyDropzone
-          title={'New avatar'}
+          title={t('form.newAvatar')}
           onAddFile={([file]) => {
             formik.setFieldValue('profile_photo', file);
           }}
@@ -74,7 +76,7 @@ export default function ProfileUpdateForm() {
           loading={formik.isSubmitting}
           variant={'contained'}
         >
-          Update
+          {t('form.update')}
         </LoadingButton>
       </Stack>
     </FormikProvider>

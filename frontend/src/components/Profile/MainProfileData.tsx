@@ -2,6 +2,7 @@ import DateConverters from '../../utils/date-converters.ts';
 import { Stack, Typography } from '@mui/material';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
 import { UserProfile } from '../../interfaces';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   userData: UserProfile;
@@ -9,6 +10,7 @@ interface Props {
 
 const MainProfileData = ({ userData }: Props) => {
   const formattedJoinData = DateConverters.extractReadable(userData.updated_at);
+  const { t } = useTranslation();
 
   return (
     <Stack direction={'row'} gap={4}>
@@ -27,13 +29,13 @@ const MainProfileData = ({ userData }: Props) => {
           </Typography>
         </Stack>
         <Typography variant="subtitle1">
-          <b>Email</b>: {userData.email}
+          <b>{t('profile.email')}</b>: {userData.email}
         </Typography>
         <Typography variant="subtitle1">
-          <b>Location</b>: {userData.city}, {userData.country}
+          <b>{t('profile.location')}</b>: {userData.city}, {userData.country}
         </Typography>
         <Typography variant="subtitle1">
-          <b>Joined on</b>: {formattedJoinData}
+          <b>{t('profile.joinedOn')}</b>: {formattedJoinData}
         </Typography>
       </Stack>
     </Stack>

@@ -26,6 +26,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CommentUpdateModal from '../CommentUpdateModal';
 import useHandleOperationWithNotify from '../../hooks/useHandleOperationWithNotify.ts';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   data: CommentEntity;
@@ -33,9 +34,14 @@ interface Props {
 }
 
 export default function CommentItem({ data, postId }: Props) {
+  const { t, i18n } = useTranslation();
+
   const dispatch: AppDispatch = useDispatch();
   const operationHandler = useHandleOperationWithNotify();
-  const formattedDate = DateFormatter.formatRelativeToNow(data.created_at);
+  const formattedDate = DateFormatter.formatRelativeToNow(
+    data.created_at,
+    i18n.language
+  );
   const currentUser = useSelector(selectAuthUser);
 
   return (
@@ -64,12 +70,12 @@ export default function CommentItem({ data, postId }: Props) {
                   action: null,
                 },
                 {
-                  title: <Button startIcon={<Delete />}>Delete</Button>,
+                  title: (
+                    <Button startIcon={<Delete />}>{t('action.delete')}</Button>
+                  ),
                   action: async () => {
                     try {
-                      if (
-                        !confirm('Are you sure you want to delete the comment?')
-                      ) {
+                      if (!confirm(t('action.confirmCommentDelete'))) {
                         return;
                       }
 
@@ -81,15 +87,12 @@ export default function CommentItem({ data, postId }: Props) {
                       ).unwrap();
 
                       myToast({
-                        message: 'The comment has been deleted',
+                        message: t('action.successCommentDelete'),
                         severity: 'success',
                       });
                     } catch (e) {
                       myToast({
-                        message:
-                          e instanceof Error
-                            ? e.message
-                            : (e as unknown as string),
+                        message: t('action.failureCommentDelete'),
                         severity: 'error',
                       });
                     }

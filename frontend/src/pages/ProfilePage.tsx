@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import useGetProfileQuery from '../hooks/query/useGetProfileQuery.ts';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { resetPosts } from '../redux/posts/slice.ts';
 import PostsFiltersForm from '../components/PostsFilters/PostsFiltersForm.tsx';
 import createSmallSubtitle from '../utils/create-small-subtitle.tsx';
+import { useTranslation } from 'react-i18next';
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -24,6 +25,7 @@ export default function ProfilePage() {
     id: Number(id),
     operations: ProfilePostsOperations,
   });
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -32,7 +34,7 @@ export default function ProfilePage() {
   }, [dispatch]);
 
   return (
-    <Container id={'container'}>
+    <>
       {profileQuery.isLoading && (
         <Box height={400}>
           <Loader />
@@ -46,10 +48,10 @@ export default function ProfilePage() {
       {!profileQuery.isLoading && profileQuery.data && (
         <>
           <UserProfile userData={profileQuery.data} />
-          {createSubtitle('User posts')}
-          {createSmallSubtitle('Filters')}
+          {createSubtitle(t('profile.profilePosts'))}
+          {createSmallSubtitle(t('form.filters'))}
           <PostsFiltersForm />
-          {createSmallSubtitle('Posts')}
+          {createSmallSubtitle(t('post.posts'))}
 
           {postsQuery.isLoading && (
             <Box height={400}>
@@ -68,11 +70,11 @@ export default function ProfilePage() {
                   items={postsQuery.data}
                 />
               ) : (
-                <Typography>No posts available.</Typography>
+                <Typography>{t('post.noPostsAvailable')}</Typography>
               ))}
           </PostsOperationsProvider>
         </>
       )}
-    </Container>
+    </>
   );
 }

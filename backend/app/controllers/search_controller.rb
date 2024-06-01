@@ -3,7 +3,7 @@
 class SearchController < ApplicationController
   def search
     query = params[:name]
-    results = SearchService.new(query).call
+    results = SearchService.new(query, current_user).call
     render json: results
   end
 end

@@ -17,6 +17,14 @@ class GroupsController < ApplicationController
     render json: GroupSerializer.new(@group, params: {current_user:}).to_h, status: :ok
   end
 
+  def my_joined_groups
+    joined_groups = Group.joined_groups(current_user.id)
+    created_groups = User.find(current_user.id).groups
+
+    serialized_groups = GroupSerializer.new(created_groups + joined_groups, params: {current_user:}).to_h
+    render json: serialized_groups
+  end
+
   # POST /groups
   def create
     @group = Group.new(group_params)

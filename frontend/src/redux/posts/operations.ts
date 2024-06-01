@@ -9,7 +9,7 @@ import API from '../../utils/api.ts';
 
 const ERROR_MESSAGE = 'An error just happened. Please, try again later.';
 
-const createOperations = (api: PostsApi) => ({
+const createOperations = (api: PostsApi | Pick<PostsApi, 'fetchAll'>) => ({
   fetchAll: createAsyncThunk(
     'posts/fetchAll',
     async (
@@ -104,6 +104,9 @@ const createOperations = (api: PostsApi) => ({
 });
 
 export type PostsOperations = ReturnType<typeof createOperations>;
+
+export const AllPostsOperations: Pick<PostsOperations, 'fetchAll'> =
+  createOperations(API.allPosts);
 
 export const ProfilePostsOperations: PostsOperations = createOperations(
   API.profilePosts

@@ -1,16 +1,18 @@
 import { useParams } from 'react-router-dom';
 import useFetchGroupQuery from '../hooks/query/useFetchGroupQuery.ts';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import createSubtitle from '../utils/create-subtitle.tsx';
 import MainGroupData from '../components/Group/MainGroupData.tsx';
 import GroupUpdateForm from '../components/GroupUpdateForm';
 import Loader from '../components/Loader';
 import API from '../utils/api.ts';
 import myToast from '../utils/myToast.tsx';
+import { useTranslation } from 'react-i18next';
 
 export default function EditGroupPage() {
   const { id } = useParams();
   const { data, isLoading, isError, refetch } = useFetchGroupQuery(Number(id));
+  const { t } = useTranslation();
 
   if (isLoading) {
     return (
@@ -21,9 +23,7 @@ export default function EditGroupPage() {
   }
 
   if (isError) {
-    return (
-      <Typography>An error has just occurred. Try again later.</Typography>
-    );
+    return <Typography>{t('error.tryAgainLater')}</Typography>;
   }
 
   const handlePurgeProfilePhoto = async () => {
@@ -32,23 +32,23 @@ export default function EditGroupPage() {
       await refetch();
 
       myToast({
-        message: 'The photo has been deleted',
+        message: t('action.profilePhoto.successPhotoDelete'),
         severity: 'info',
       });
     } catch (error) {
       myToast({
-        message: 'An error occurred. Please, try again later',
+        message: t('action.profilePhoto.failurePhotoDelete'),
         severity: 'error',
       });
     }
   };
 
   return (
-    <Container>
-      {createSubtitle('Original information')}
+    <>
+      {createSubtitle(t('form.originalInformation'))}
       <MainGroupData groupData={data} />
 
-      {createSubtitle('Updated information')}
+      {createSubtitle(t('form.updatedInformation'))}
       <Box width={'450px'}>
         <GroupUpdateForm groupId={Number(id)} />
       </Box>
@@ -66,9 +66,9 @@ export default function EditGroupPage() {
           color={'error'}
           variant={'contained'}
         >
-          Delete photo
+          {t('action.group.deletePhoto')}
         </Button>
       </Box>
-    </Container>
+    </>
   );
 }
