@@ -6,9 +6,9 @@ class PasswordRecoveryController < ApiController
 
     if user.present?
       user.send_reset_password_instructions
-      render json: { message: 'Password recovery instructions have been sent to your email.' }, status: :ok
+      render json: {message: "Password recovery instructions have been sent to your email."}, status: :ok
     else
-      render json: { error: 'Email not found.' }, status: :not_found
+      render json: {error: "Email not found."}, status: :not_found
     end
   end
 

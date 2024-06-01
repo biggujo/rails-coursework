@@ -1,5 +1,5 @@
 import { ChatMessage } from '../../interfaces';
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import MessageItem from '../MessageItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
@@ -9,7 +9,8 @@ import {
 } from '../../redux/chatMessages/selectors.ts';
 import { AppDispatch } from '../../redux/store.ts';
 import ChatMessagesOperations from '../../redux/chatMessages/operations.ts';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import MyInfiniteScroll from '../MyInfiniteScroll';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   items: Array<ChatMessage>;
@@ -23,6 +24,7 @@ export default function MessageList({ items, parentElId }: Props) {
   );
   const chatId = useSelector(selectChatCurrentId);
   const user = useSelector(selectAuthUser);
+  const { t } = useTranslation();
 
   const hasMorePages = page <= maxPage;
 
@@ -41,24 +43,14 @@ export default function MessageList({ items, parentElId }: Props) {
   };
 
   return (
-    <InfiniteScroll
+    <MyInfiniteScroll
+      parentElId={parentElId}
       dataLength={items.length}
       next={handleFetchNextPage}
       hasMore={hasMorePages}
-      loader={
-        <Typography align={'center'} fontWeight={'bold'}>
-          Loading...
-        </Typography>
-      }
-      endMessage={
-        <Typography align={'center'} fontWeight={'bold'}>
-          This is the start of the chat
-        </Typography>
-      }
-      scrollThreshold={'400px'}
+      endMessage={t('chat.thisIsTheStart')}
       inverse={true}
       style={{ display: 'flex', flexDirection: 'column-reverse' }}
-      scrollableTarget={parentElId}
     >
       <Grid container direction={'column'} spacing={2}>
         {items.map(({ id, message, author_id, created_at }) => {
@@ -72,6 +64,6 @@ export default function MessageList({ items, parentElId }: Props) {
           );
         })}
       </Grid>
-    </InfiniteScroll>
+    </MyInfiniteScroll>
   );
 }

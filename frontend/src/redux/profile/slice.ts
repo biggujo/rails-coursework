@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Nullable, UserEntityExtended } from '../../interfaces';
+import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
+import { Nullable, UserProfile } from '../../interfaces';
 import ProfileOperations from './operations.ts';
 
 const initialState: {
-  data: UserEntityExtended;
+  data: UserProfile;
   isLoading: boolean;
   error: Nullable<object>;
 } = {
@@ -18,21 +18,35 @@ const slice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(ProfileOperations.fetchProfileData.pending, state => ({
-        ...state,
-        isLoading: true,
-        error: null,
-      }))
-      .addCase(
-        ProfileOperations.fetchProfileData.fulfilled,
-        (state, action: PayloadAction<UserEntityExtended>) => ({
+      .addMatcher(
+        isAnyOf(
+          ProfileOperations.fetchProfileData.pending,
+          ProfileOperations.fetchProfileDataWithoutLoading.pending
+        ),
+        (state, action) => ({
+          ...state,
+          isLoading:
+            action.type ===
+            ProfileOperations.fetchProfileData.pending.toString(),
+          error: null,
+        })
+      )
+      .addMatcher(
+        isAnyOf(
+          ProfileOperations.fetchProfileData.fulfilled,
+          ProfileOperations.fetchProfileDataWithoutLoading.fulfilled
+        ),
+        (state, action: PayloadAction<UserProfile>) => ({
           ...state,
           data: action.payload,
           isLoading: false,
         })
       )
-      .addCase(
-        ProfileOperations.fetchProfileData.rejected,
+      .addMatcher(
+        isAnyOf(
+          ProfileOperations.fetchProfileData.rejected,
+          ProfileOperations.fetchProfileDataWithoutLoading.rejected
+        ),
         (state, action) => ({
           ...state,
           isLoading: false,

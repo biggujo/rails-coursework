@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :post
@@ -5,11 +7,11 @@ class Comment < ApplicationRecord
   acts_as_votable
 
   def likes_count
-    self.get_upvotes.size
+    get_upvotes.size
   end
 
   def dislikes_count
-    self.get_downvotes.size
+    get_downvotes.size
   end
 
   def self.ransackable_associations(auth_object = nil)

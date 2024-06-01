@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SetMaxLengthOfMessage < ActiveRecord::Migration[7.1]
   def change
     change_column :messages, :message, :string, limit: 500

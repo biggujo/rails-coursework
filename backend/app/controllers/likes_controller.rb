@@ -25,14 +25,15 @@ class LikesController < ApiController
   end
 
   private
+
   def find_likeable
     @likeable_type = params[:likeable_type].classify
     @likeable = @likeable_type.constantize.find(params[:likeable_id])
   end
 
   def render_json_with_likes_count
-    render json: { "#{@likeable_type}": @likeable,
-                   likes_count: @likeable.likes_count,
-                   dislikes_count: @likeable.dislikes_count }
+    render json: {"#{@likeable_type}": @likeable,
+                  likes_count: @likeable.likes_count,
+                  dislikes_count: @likeable.dislikes_count}
   end
 end

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class Users::PasswordsController < Devise::PasswordsController
+  include ActiveStorage::SetCurrent
   respond_to :json
 
-  def respond_with(resource, _opts = {})
+  def respond_with(resource, _opts={})
     if resource.persisted?
       render json: {
-        message: 'Password changed successfully',
+        message: "Password changed successfully"
       }, status: :ok
     else
       render json: {
@@ -16,5 +17,4 @@ class Users::PasswordsController < Devise::PasswordsController
       }, status: :unprocessable_entity
     end
   end
-
 end

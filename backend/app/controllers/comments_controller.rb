@@ -6,7 +6,7 @@ class CommentsController < ApiController
   # GET /comments/1
   # GET /comments/1.json
   def show
-    render json: CommentSerializer.new(@comment, params: { current_user: current_user }).to_h, status: :created
+    render json: CommentSerializer.new(@comment, params: {current_user:}).to_h, status: :created
   end
 
   # POST /comments
@@ -17,7 +17,7 @@ class CommentsController < ApiController
     @comment.user_id = current_user.id
 
     if @comment.save
-      render json: CommentSerializer.new(@comment, params: { current_user: current_user }).to_h, status: :created
+      render json: CommentSerializer.new(@comment, params: {current_user:}).to_h, status: :created
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -27,7 +27,7 @@ class CommentsController < ApiController
   # PATCH/PUT /comments/1.json
   def update
     if @comment.update(comment_params)
-      render json: CommentSerializer.new(@comment, params: { current_user: current_user }).to_h, status: :ok
+      render json: CommentSerializer.new(@comment, params: {current_user:}).to_h, status: :ok
     else
       render json: @comment.errors, status: :unprocessable_entity
     end
@@ -40,23 +40,24 @@ class CommentsController < ApiController
   end
 
   def post_comments
-    render json: CommentSerializer.new(@post.comments, params: { current_user: current_user }).to_h
+    render json: CommentSerializer.new(@post.comments, params: {current_user:}).to_h
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_comment
-      @comment = Comment.find(params[:id])
-    end
 
-    def set_post
-      @post = Post.find(params[:post_id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_comment
+    @comment = Comment.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def comment_params
-      params.require(:comment).permit(:text)
-    end
+  def set_post
+    @post = Post.find(params[:post_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def comment_params
+    params.require(:comment).permit(:text)
+  end
 
   def authorize_comment_manage!
     authorize! :manage, @comment

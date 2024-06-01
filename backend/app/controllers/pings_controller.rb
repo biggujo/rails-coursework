@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PingsController < ApiController
   def index
     render json: {

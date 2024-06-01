@@ -3,9 +3,11 @@ import { FormikProvider } from 'formik';
 import { Link, Stack, TextField } from '@mui/material';
 import ButtonSubmit from '../ButtonSubmit';
 import useSignInForm from '../../hooks/forms/useSignInForm.tsx';
+import { useTranslation } from 'react-i18next';
 
 export default function SignInForm() {
   const formik = useSignInForm();
+  const { t } = useTranslation();
 
   return (
     <FormikProvider value={formik}>
@@ -16,7 +18,7 @@ export default function SignInForm() {
             name="email"
             placeholder="jane@acme.com"
             value={formik.values.email}
-            label={'Email address'}
+            label={t('form.email')}
             required
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -28,7 +30,7 @@ export default function SignInForm() {
             type="password"
             name="password"
             placeholder="1234"
-            label={'Password'}
+            label={t('form.password')}
             required
             value={formik.values.password}
             onChange={formik.handleChange}
@@ -37,16 +39,18 @@ export default function SignInForm() {
             helperText={formik.touched.password && formik.errors.password}
           />
           <Link component={RouterLink} to={'/sign-up'} variant="body2">
-            {"Don't have an account? Sign Up"}
+            {t('form.dontHaveAnAccount')}
           </Link>
           <Link
             component={RouterLink}
             to={'/password/reset/request'}
             variant="body2"
           >
-            {'Forgot password'}
+            {t('form.forgotPassword')}
           </Link>
-          <ButtonSubmit isSubmitting={formik.isSubmitting}>Submit</ButtonSubmit>
+          <ButtonSubmit isSubmitting={formik.isSubmitting}>
+            {t('form.submit')}
+          </ButtonSubmit>
         </Stack>
       </form>
     </FormikProvider>

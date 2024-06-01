@@ -1,57 +1,79 @@
-import { Avatar, Badge, IconButton, Menu, MenuItem, Stack } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, Stack } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useRef, useState } from 'react';
+import MyAvatar from '../MyAvatar/MyAvatar.tsx';
+import { selectAuthUser } from '../../redux/auth/selectors.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import AuthOperations from '../../redux/auth/operations.ts';
+import { AppDispatch } from '../../redux/store.ts';
+import LanguageChanger from '../LanguageChanger';
+import { useTranslation } from 'react-i18next';
 
-type Props = {};
-
-export default function IconBar({}: Props) {
+export default function IconBar() {
+  const dispatch: AppDispatch = useDispatch();
+  const currentUser = useSelector(selectAuthUser);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   const avatarRef = useRef(null);
+  const { t } = useTranslation();
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
 
   return (
-    <Stack direction={'row'} spacing={0.5} sx={{
-      alignItems: 'center',
-    }}>
-      <IconButton>
-        <Badge badgeContent={4} color={'secondary'} sx={{
-          cursor: 'pointer',
-        }}>
-          <MailIcon color="action" sx={{
-            color: 'primary.contrastText',
-          }} />
-        </Badge>
-      </IconButton>
-      <IconButton>
-        <Badge badgeContent={4} color={'secondary'} sx={{
-          cursor: 'pointer',
-        }}>
-          <NotificationsIcon color="action" sx={{
-            color: 'primary.contrastText',
-          }} />
-        </Badge>
-      </IconButton>
-      <IconButton>
-        <Avatar
+    <Stack
+      direction={'row'}
+      spacing={0.5}
+      sx={{
+        alignItems: 'center',
+      }}
+    >
+      <Box
+        sx={{
+          pr: 1,
+        }}
+      >
+        <LanguageChanger />
+      </Box>
+      <IconButton onClick={() => navigate('/my_chats')}>
+        <MailIcon
+          color="action"
           sx={{
-            cursor: 'pointer',
+            color: 'primary.contrastText',
           }}
-          src={'https://cdn.pixabay.com/photo/2023/11/29/21/05/animal-8420313_1280.jpg'}
-          onClick={handleOpen}
-          ref={avatarRef}
         />
       </IconButton>
-      <Menu
-        anchorEl={avatarRef.current}
-        open={isOpen}
-        onClose={handleClose}
+      <IconButton
+        onClick={handleOpen}
+        ref={avatarRef}
+        sx={{
+          cursor: 'pointer',
+        }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MyAvatar
+          alt={currentUser.nickname}
+          size={'small'}
+          src={currentUser.profile_photo}
+        />
+      </IconButton>
+      <Menu anchorEl={avatarRef.current} open={isOpen} onClose={handleClose}>
+        <MenuItem
+          onClick={() => {
+            navigate(`/profile/${currentUser.id}`);
+            handleClose();
+          }}
+        >
+          {t('menu.profile')}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            dispatch(AuthOperations.signOut());
+            handleClose();
+          }}
+        >
+          {t('menu.logout')}
+        </MenuItem>
       </Menu>
     </Stack>
   );

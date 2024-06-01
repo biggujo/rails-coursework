@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import TextFormMessage from '../TextFormMessage';
 import MessageList from '../MessageList';
-import { UserEntityExtended } from '../../interfaces';
+import { UserProfile } from '../../interfaces';
 import useChatPanel from '../../hooks/useChatPanel.ts';
 import { useLayoutEffect, useReducer, useRef } from 'react';
 import Loader from '../Loader';
@@ -12,9 +12,10 @@ import PrivateChatTitleBar from '../PrivateChatTitleBar/PrivateChatTitleBar.tsx'
 import { useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { Navigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
-  otherPersonId: UserEntityExtended['id'];
+  otherPersonId: UserProfile['id'];
 }
 
 const MESSAGES_CONTAINER_ID = 'message-container';
@@ -27,11 +28,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
   const messageContainerRef = useRef<HTMLElement>(null);
   const bottomRef = useRef<HTMLElement>(null);
   const user = useSelector(selectAuthUser);
-
-  // Prohibit messaging to yourself
-  if (user.id === otherPersonId) {
-    return <Navigate to={'/'} />;
-  }
+  const { t } = useTranslation();
 
   // Track if user wants to be scrolled to bottom
   // If user at the bottom, prefer to scroll to the last messages
@@ -65,12 +62,15 @@ export default function ChatPanel({ otherPersonId }: Props) {
     }
   }, []);
 
+  // Prohibit messaging to yourself
+  if (user.id === otherPersonId) {
+    return <Navigate to={'/'} />;
+  }
+
   if (error) {
     return (
       <Box>
-        <Typography variant={'h2'}>
-          Error: {error}. Please, try again later.
-        </Typography>
+        <Typography variant={'h6'}>{t('error.tryAgainLater')}</Typography>
       </Box>
     );
   }
@@ -99,7 +99,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
           sx={{
             display: 'flex',
             flexDirection: 'column-reverse',
-            height: '600px',
+            height: '500px',
             py: 2,
             px: 4,
             overflowX: 'hidden',
@@ -114,7 +114,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
               {items && items.length === 0 && (
                 <FullHeightCenter>
                   <Typography fontSize={'large'}>
-                    Say "Hi" to start chatting
+                    {t('chat.sayHiToStart')}
                   </Typography>
                 </FullHeightCenter>
               )}
@@ -136,7 +136,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
                       }}
                     >
                       <ChatScrollButton
-                        text={'Go to the bottom'}
+                        text={t('chat.goToBottom')}
                         onClick={() => {
                           messageContainerRef.current!.scrollTop =
                             messageContainerRef.current!.scrollHeight;

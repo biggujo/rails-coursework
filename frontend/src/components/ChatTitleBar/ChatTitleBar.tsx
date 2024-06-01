@@ -1,19 +1,41 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Stack, Typography } from '@mui/material';
 import OnlineStatusChip from '../OnlineStatusChip';
 import LoadingChip from '../LoadingChip/LoadingChip';
+import MyAvatar from '../MyAvatar/MyAvatar.tsx';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
+  id: number;
   title: string;
   isOnline?: boolean;
+  avatarSrc?: string;
 }
 
-export default function ChatTitleBar({ title, isOnline }: Props) {
+export default function ChatTitleBar({
+  id,
+  title,
+  isOnline,
+  avatarSrc,
+}: Props) {
+  const navigate = useNavigate();
   return (
     <Grid container justifyContent={'space-between'} alignItems={'center'}>
       <Grid item>
-        <Typography variant={'h6'} component={'h3'}>
-          Name: {title}
-        </Typography>
+        {/* @ts-expect-error of bad TS typing */}
+        <Stack
+          gap={2}
+          direction={'row'}
+          alignItems={'center'}
+          onClick={id && (() => navigate(`/profile/${id}`))}
+          sx={{
+            cursor: 'pointer',
+          }}
+        >
+          <MyAvatar alt={title} size={'small'} src={avatarSrc} />
+          <Typography variant={'h6'} component={'h3'}>
+            {title}
+          </Typography>
+        </Stack>
       </Grid>
       <Grid item>
         {typeof isOnline === 'undefined' && <LoadingChip />}

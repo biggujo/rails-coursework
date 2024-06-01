@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Messages < ActiveRecord::Migration[7.1]
   def change
     create_table :messages do |t|
@@ -10,6 +12,5 @@ class Messages < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
-
   end
 end

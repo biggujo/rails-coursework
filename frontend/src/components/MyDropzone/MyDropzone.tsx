@@ -1,39 +1,51 @@
-import { Box, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  ImageList,
+  ImageListItem,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { DropEvent, useDropzone } from 'react-dropzone';
 import { useEffect, useState } from 'react';
-import { Nullable } from '../../interfaces';
 import myToast from '../../utils/myToast.tsx';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
+import CloseIcon from '@mui/icons-material/Close';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   title: string;
   onAddFile: <T extends File>(file: T[], event: DropEvent) => void;
+  maxFiles: number;
 }
 
 const MAX_ATTACHMENT_SIZE_MB = 2;
 const AVAILABLE_IMAGE_EXTENSIONS = ['.jpeg', '.jpg', '.png', '.webp'];
 
-function MyDropzone({ title, onAddFile }: Props) {
-  const [file, setFile] = useState<Nullable<File & { preview: string }>>(null);
+function MyDropzone({ title, onAddFile, maxFiles }: Props) {
+  const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const { isFocused, isDragAccept, getRootProps, getInputProps } = useDropzone({
     accept: {
       'image/*': AVAILABLE_IMAGE_EXTENSIONS,
     },
     maxSize: 1048576 * MAX_ATTACHMENT_SIZE_MB, // 2 MB
-    maxFiles: 1,
+    maxFiles: maxFiles || 1,
     onDropAccepted: onAddFile,
     onDrop: acceptedFiles => {
-      setFile(
-        Object.assign(acceptedFiles[0], {
-          preview: URL.createObjectURL(acceptedFiles[0]),
-        })
+      setFiles(
+        acceptedFiles.map(file =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        )
       );
     },
     onError: () => {
       myToast({
-        message: 'Only PNG/WEBP/JPEG of size 2 MB or less are allowed',
+        message: t('dropzone.validationError'),
         severity: 'error',
       });
     },
@@ -41,14 +53,20 @@ function MyDropzone({ title, onAddFile }: Props) {
 
   // Avoid memory leaks
   useEffect(() => {
-    return () => {
-      if (!file) {
-        return;
-      }
+    return () => files.forEach(file => URL.revokeObjectURL(file.preview));
+  }, [files]);
 
-      URL.revokeObjectURL(file.preview);
-    };
-  }, []);
+  const handleRemoveAttachmentByIndex = (givenIndex: number) => {
+    setFiles(prevState =>
+      prevState.filter((_, index) => {
+        if (index === givenIndex) {
+          URL.revokeObjectURL(prevState[index].preview);
+        }
+
+        return index !== givenIndex;
+      })
+    );
+  };
 
   return (
     <Box>
@@ -97,9 +115,8 @@ function MyDropzone({ title, onAddFile }: Props) {
               {...getInputProps()}
               style={{
                 display: 'block',
-                width: '420px',
+                width: '400px',
                 height: '100px',
-                padding: '20px',
                 opacity: 0,
               }}
             />
@@ -109,10 +126,15 @@ function MyDropzone({ title, onAddFile }: Props) {
                 position: 'absolute',
               }}
             >
-              Drag 'n' drop some files here, or click to select files
+              {t('dropzone.actionMessage')}
             </Typography>
           </Box>
-          {file?.preview && (
+          {files.length > 0 && (
+            <Typography fontWeight={'bold'} pt={2}>
+              {t('dropzone.attachments')}:
+            </Typography>
+          )}
+          {files.length > 0 && maxFiles === 1 && (
             <Box
               py={2}
               sx={{
@@ -121,15 +143,46 @@ function MyDropzone({ title, onAddFile }: Props) {
                 alignItems: 'center',
               }}
             >
-              <Typography py={1}>Preview:</Typography>
+              <Typography py={1}>{t('dropzone.preview')}:</Typography>
+
               <MyAvatar
-                alt={'Uploaded photo'}
-                src={file.preview}
+                alt={t('dropzone.uploadedPhoto')}
+                src={files[0].preview}
                 onLoad={() => {
-                  URL.revokeObjectURL(file.preview);
+                  URL.revokeObjectURL(files[0].preview);
                 }}
+                size={'large'}
               />
             </Box>
+          )}
+          {files.length > 0 && maxFiles > 1 && (
+            <ImageList sx={{ width: '100%' }} rowHeight={150}>
+              {files.map((file, index) => (
+                <ImageListItem
+                  key={file.name}
+                  sx={{
+                    position: 'relative',
+                  }}
+                >
+                  <img alt={t('dropzone.uploadedPhoto')} src={file.preview} />
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: 4,
+                      right: 4,
+                      bgcolor: '#ffffff',
+                      borderRadius: '50%',
+                      border: '1px solid #808080',
+                    }}
+                    onClick={() => handleRemoveAttachmentByIndex(index)}
+                  >
+                    <IconButton size={'small'}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Box>
+                </ImageListItem>
+              ))}
+            </ImageList>
           )}
         </Box>
       </Box>
