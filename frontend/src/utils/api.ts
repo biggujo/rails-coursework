@@ -595,6 +595,14 @@ const reposts = {
   },
 };
 
+const exportToCsv = {
+  allPosts: async () => (await axios.get('/posts.csv')).data,
+  userPosts: async (id: number) =>
+    (await axios.get(`/users/${id}/posts.csv`)).data,
+  groupPosts: async (id: number) =>
+    (await axios.get(`/groups/${id}/posts.csv`)).data,
+};
+
 const API = {
   auth,
   user: {
@@ -612,6 +620,7 @@ const API = {
   chats,
   search,
   passwordRecovery,
+  exportToCsv,
   webSocket: {
     URL: import.meta.env.VITE_CABLE_URL,
   },

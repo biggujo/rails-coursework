@@ -5,7 +5,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { UserProfile } from '../../interfaces';
 import { useNavigate } from 'react-router-dom';
-import { PersonAdd, PersonRemove } from '@mui/icons-material';
+import { FileCopy, PersonAdd, PersonRemove } from '@mui/icons-material';
 import API from '../../utils/api.ts';
 import { AppDispatch } from '../../redux/store.ts';
 import ProfileOperations from '../../redux/profile/operations.ts';
@@ -13,6 +13,7 @@ import myToast from '../../utils/myToast.tsx';
 import PostCreateModal from '../PostCreateModal';
 import UtilityButtonInterface from '../../interfaces/UtilityButton.interface.ts';
 import { useTranslation } from 'react-i18next';
+import downloadCsv from '../../utils/download-csv.ts';
 
 interface Props {
   userData: UserProfile;
@@ -94,6 +95,19 @@ const UtilityButtons = ({ userData }: Props) => {
       onClick: () => navigate(`/profile_edit`),
     });
   }
+
+  buttonList.push({
+    title: 'CSV',
+    icon: FileCopy,
+    onClick: async () => {
+      myToast({
+        message: t('form.downloadWillStartSoon'),
+        severity: 'info',
+      });
+      const csv = await API.exportToCsv.userPosts(userData.id);
+      downloadCsv('posts.csv', csv);
+    },
+  });
 
   return (
     <Stack direction={'column'} alignItems={'stretch'}>

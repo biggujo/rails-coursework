@@ -4,6 +4,7 @@ import SideBar from '../components/SideBar';
 import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { selectAuthIsLoggedIn } from '../redux/auth/selectors.ts';
+import Footer from '../components/Footer/Footer.tsx';
 
 interface Props {
   children: ReactElement;
@@ -28,6 +29,7 @@ export default function MainWrapper({ children }: Props) {
           </Container>
         </Stack>
       </Container>
+      <Footer />
     </>
   );
 }

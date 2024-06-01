@@ -27,6 +27,7 @@
     "sendMessage": "Написати",
     "email": "Пошта",
     "location": "Місцезнаходження",
+    "status": "Статус",
     "joinedOn": "Зареєструвався"
   },
   "post": {
@@ -112,7 +113,8 @@
     "confirmNewPassword": "Підтвердіть новий пароль",
     "dontHaveAnAccount": "Не маєш акаунту? Зареєструйся",
     "alreadyHaveAnAccount": "Вже маєте акаунт? Увійдіть",
-    "forgotPassword": "Забув пароль"
+    "forgotPassword": "Забув пароль",
+    "downloadWillStartSoon": "Завантаження скоро почнеться"
   },
   "passwordRecovery": {
     "requestForm": "Запит на відновлення паролю",
