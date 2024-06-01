@@ -124,6 +124,7 @@ function MyDropzone({ title, onAddFile, maxFiles }: Props) {
               variant="body1"
               sx={{
                 position: 'absolute',
+                maxWidth: '350px',
               }}
             >
               {t('dropzone.actionMessage')}

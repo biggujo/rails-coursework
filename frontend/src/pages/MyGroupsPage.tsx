@@ -5,10 +5,12 @@ import useFetchMyGroups from '../hooks/query/useFetchMyGroups.ts';
 import createSubtitle from '../utils/create-subtitle.tsx';
 import { Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function MyGroupsPage() {
   const navigate = useNavigate();
   const { data, isLoading, isSuccess, isError } = useFetchMyGroups();
+  const { t } = useTranslation();
 
   const createGroupButton = (
     <Button
@@ -20,7 +22,7 @@ export default function MyGroupsPage() {
       onClick={() => navigate('/group_create')}
       color={'success'}
     >
-      Create group
+      {t('group.createGroup')}
     </Button>
   );
 
@@ -31,7 +33,7 @@ export default function MyGroupsPage() {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        {createSubtitle('My Groups')}
+        {createSubtitle(t('group.myGroups'))}
         {createGroupButton}
       </Stack>
       {isLoading && (

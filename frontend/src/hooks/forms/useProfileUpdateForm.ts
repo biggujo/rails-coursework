@@ -8,7 +8,7 @@ import myToast from '../../utils/myToast.tsx';
 import { fullProfileValidationSchema } from '../../validations';
 import { selectProfileData } from '../../redux/profile/selectors.ts';
 
-export default function useUpdateProfileForm() {
+export default function useProfileUpdateForm() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(selectProfileData);
 
