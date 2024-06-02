@@ -1,4 +1,4 @@
-import { IconButton, Menu, MenuItem, Stack } from '@mui/material';
+import { IconButton, Link, Menu, MenuItem, Stack } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import { useRef, useState } from 'react';
 import MyAvatar from '../MyAvatar/MyAvatar.tsx';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthOperations from '../../redux/auth/operations.ts';
 import { AppDispatch } from '../../redux/store.ts';
 import { useTranslation } from 'react-i18next';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 export default function IconBar() {
   const dispatch: AppDispatch = useDispatch();
@@ -36,6 +37,24 @@ export default function IconBar() {
           }}
         />
       </IconButton>
+      {currentUser.admin && (
+        <IconButton>
+          <Link
+            href={import.meta.env.VITE_ADMIN_PANEL_URL}
+            sx={{
+              mt: 0.5,
+            }}
+            target={'_blank'}
+          >
+            <AdminPanelSettingsIcon
+              color="action"
+              sx={{
+                color: 'primary.contrastText',
+              }}
+            />
+          </Link>
+        </IconButton>
+      )}
       <IconButton
         onClick={handleOpen}
         ref={avatarRef}
