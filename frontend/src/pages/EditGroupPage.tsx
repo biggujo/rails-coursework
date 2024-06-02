@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useFetchGroupQuery from '../hooks/query/useFetchGroupQuery.ts';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import createSubtitle from '../utils/create-subtitle.tsx';
 import MainGroupData from '../components/Group/MainGroupData.tsx';
 import GroupUpdateForm from '../components/GroupUpdateForm';
@@ -13,6 +13,7 @@ export default function EditGroupPage() {
   const { id } = useParams();
   const { data, isLoading, isError, refetch } = useFetchGroupQuery(Number(id));
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -45,7 +46,10 @@ export default function EditGroupPage() {
 
   return (
     <>
-      {createSubtitle(t('form.originalInformation'))}
+      <Stack direction={'row'} justifyContent={'space-between'}>
+        {createSubtitle(t('form.originalInformation'))}
+        <Button onClick={() => navigate(`/group/${id}`)}>Back to group</Button>
+      </Stack>
       <MainGroupData groupData={data} />
 
       {createSubtitle(t('form.updatedInformation'))}

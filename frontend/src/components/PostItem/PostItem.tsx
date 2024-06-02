@@ -189,7 +189,15 @@ export default function PostItem({ data, dontShowControls }: Props) {
               />
             )
           }
-          title={data.title}
+          title={
+            <Box
+              sx={{
+                ml: 0.5,
+              }}
+            >
+              {data.title}
+            </Box>
+          }
           subheader={postSubtitle}
           titleTypographyProps={{ variant: 'h6', component: 'h3' }}
         />

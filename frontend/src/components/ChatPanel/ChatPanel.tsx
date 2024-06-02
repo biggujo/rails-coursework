@@ -12,7 +12,6 @@ import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useReachBottom from '../../hooks/useReachBottom.ts';
-import ChatScrollButton from '../ChatScrollButton';
 
 interface Props {
   otherPersonId: UserProfile['id'];
@@ -132,15 +131,7 @@ export default function ChatPanel({ otherPersonId }: Props) {
                         left: -1,
                         width: 'calc(100% + 2px)',
                       }}
-                    >
-                      <ChatScrollButton
-                        text={t('chat.goToBottom')}
-                        onClick={() => {
-                          messageContainerRef.current!.scrollTop =
-                            messageContainerRef.current!.scrollHeight;
-                        }}
-                      />
-                    </Box>
+                    ></Box>
                   )}
                 </Box>
               )}

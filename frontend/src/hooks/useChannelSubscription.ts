@@ -40,6 +40,12 @@ const useChannelSubscription: FunctionInterface = (
     );
 
     onChannelInitialisation(channel.current);
+
+    return () => {
+      // eslint-disable-next-line
+      consumer.current.disconnect();
+    };
+
     // eslint-disable-next-line
   }, []);
 };
