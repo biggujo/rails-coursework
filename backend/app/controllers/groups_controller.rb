@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'pagy/extras/array'
+
+require "pagy/extras/array"
 
 class GroupsController < ApiController
   before_action :authenticate_user!

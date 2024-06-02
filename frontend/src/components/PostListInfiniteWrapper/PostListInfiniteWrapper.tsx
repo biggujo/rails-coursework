@@ -6,6 +6,7 @@ import { AppDispatch } from '../../redux/store.ts';
 import { Nullable, PostEntity } from '../../interfaces';
 import PostList from '../PostList';
 import { useTranslation } from 'react-i18next';
+import { selectPostsFilters } from '../../redux/filters/selectors.ts';
 
 interface Props {
   id: number;
@@ -17,6 +18,7 @@ export default function PostListInfiniteWrapper({ id, items }: Props) {
   const dispatch: AppDispatch = useDispatch();
   const { page, maxPage, offset, isInitialised } =
     useSelector(selectPostsMetadata);
+  const filters = useSelector(selectPostsFilters);
   const Operations = usePostsOperationsContext();
   const { t } = useTranslation();
 
@@ -32,6 +34,7 @@ export default function PostListInfiniteWrapper({ id, items }: Props) {
         id,
         page,
         offset,
+        filterData: filters,
       })
     );
   };

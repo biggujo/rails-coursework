@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Post do
+ActiveAdmin.register Post do # rubocop:disable Metrics/BlockLength
   permit_params :content, :user_id, :group_id, :reposted_post_id
 
   index do
@@ -49,4 +49,3 @@ ActiveAdmin.register Post do
     active_admin_comments
   end
 end
-

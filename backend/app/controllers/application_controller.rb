@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
 
@@ -7,7 +9,7 @@ class ApplicationController < ActionController::Base
     authenticate_user!
     return if current_user.admin?
 
-    render json: { error: "Unauthorized access" }, status: :unauthorized
+    render json: {error: "Unauthorized access"}, status: :unauthorized
   end
 
   def current_admin_user

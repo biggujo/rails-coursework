@@ -1,9 +1,10 @@
 # frozen_string_literal: true
+
 # app/admin/dashboard.rb
-ActiveAdmin.register_page "Dashboard" do
+ActiveAdmin.register_page "Dashboard" do # rubocop:disable Metrics/BlockLength
   menu priority: 1, label: proc { I18n.t("active_admin.dashboard") }
 
-  content title: proc { I18n.t("active_admin.dashboard") } do
+  content title: proc { I18n.t("active_admin.dashboard") } do # rubocop:disable Metrics/BlockLength
     columns do
       column do
         panel "Recent Posts" do
@@ -41,7 +42,8 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Recent Private Chats" do
           ul do
             PrivateChat.order(created_at: :desc).limit(5).map do |chat|
-              li link_to("Chat between #{chat.user_1.nickname} and #{chat.user_2.nickname}", admin_private_chat_path(chat))
+              li link_to("Chat between #{chat.user_1.nickname} and #{chat.user_2.nickname}",
+                         admin_private_chat_path(chat))
             end
           end
         end
@@ -66,5 +68,5 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
     end
-  end # content
+  end
 end

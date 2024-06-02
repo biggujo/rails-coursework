@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register PrivateChat do
+ActiveAdmin.register PrivateChat do # rubocop:disable Metrics/BlockLength
   permit_params :user_1_id, :user_2_id
 
   index do

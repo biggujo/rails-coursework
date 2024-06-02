@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-#
-ActiveAdmin.register Group do
+
+ActiveAdmin.register Group do # rubocop:disable Metrics/BlockLength
   permit_params :name, :description, :user_id, user_ids: []
 
   index do

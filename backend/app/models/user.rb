@@ -59,7 +59,7 @@ class User < ApplicationRecord
     errors.add(:profile_photo, "must be either a JPEG, PNG or WEBP")
   end
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object=nil)
     %w[admin city country created_at email full_name id id_value last_seen_at nickname updated_at]
   end
 end
