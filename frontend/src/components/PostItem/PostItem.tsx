@@ -21,7 +21,7 @@ import {
   ThumbUp,
   ThumbUpOutlined,
 } from '@mui/icons-material';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import MyMenu from '../MyMenu';
 import { PostEntity } from '../../interfaces';
@@ -48,7 +48,7 @@ interface Props {
 
 export default function PostItem({ data, dontShowControls }: Props) {
   const dispatch: AppDispatch = useDispatch();
-  const location = useLocation();
+  const navigate = useNavigate();
   const operationHandler = useHandleOperationWithNotify();
   const currentUser = useSelector(selectAuthUser);
   const Operations = usePostsOperationsContext();
@@ -66,32 +66,58 @@ export default function PostItem({ data, dontShowControls }: Props) {
     dispatch(Operations.fetchAll(data?.group?.id || data.user.id));
   };
 
-  const isInProfile = location.pathname.includes('/profile/');
+  const shouldShowGroupInfo = data.group !== null;
 
-  const shouldShowGroupInfo =
-    currentUser.id === data.user.id && data.group !== null && isInProfile;
-
-  const postSubtitle = shouldShowGroupInfo ? (
-    <Stack direction={'row'} width={'350px'}>
-      <Typography variant={'body2'}>{t('post.postedIn')}&nbsp;</Typography>
-      <MyAvatar
-        alt={data.group.name}
-        size={'smaller'}
-        src={data.group.profile_photo}
-        isGroup={true}
-      />
-      <Typography variant={'body2'}>
-        &nbsp;
-        {
-          <Link component={RouterLink} to={`/group/${data.group.id}`}>
-            {data.group.name}
-          </Link>
-        }{' '}
+  const postSubtitle = (
+    <Stack direction={'row'}>
+      {shouldShowGroupInfo && (
+        <>
+          <Typography variant={'body2'}>{t('post.postedIn')}&nbsp;</Typography>
+          <Box
+            onClick={() => navigate(`/group/${data.group.id}`)}
+            sx={{
+              cursor: 'pointer',
+            }}
+          >
+            <MyAvatar
+              alt={data.group.name}
+              size={'smaller'}
+              src={data.group.profile_photo}
+              isGroup={true}
+            />
+          </Box>
+          <Typography variant={'body2'}>
+            &nbsp;
+            {
+              <Link component={RouterLink} to={`/group/${data.group.id}`}>
+                {data.group.name}
+              </Link>
+            }{' '}
+          </Typography>
+        </>
+      )}
+      <Typography
+        variant={'body2'}
+        sx={{
+          ml: 0.5,
+        }}
+      >
         {formattedDate}
       </Typography>
+      <Typography
+        variant={'body2'}
+        sx={{
+          ml: 0.5,
+        }}
+      >
+        by{' '}
+        {
+          <Link component={RouterLink} to={`/profile/${data.user.id}`}>
+            {data.user.nickname}
+          </Link>
+        }
+      </Typography>
     </Stack>
-  ) : (
-    <Typography variant={'body2'}>{formattedDate}</Typography>
   );
 
   return (
@@ -106,11 +132,18 @@ export default function PostItem({ data, dontShowControls }: Props) {
       >
         <CardHeader
           avatar={
-            <MyAvatar
-              alt={data.user.nickname}
-              src={data.user.profile_photo}
-              size={'bigger'}
-            />
+            <Box
+              onClick={() => navigate(`/profile/${data.user.id}`)}
+              sx={{
+                cursor: 'pointer',
+              }}
+            >
+              <MyAvatar
+                alt={data.user.nickname}
+                src={data.user.profile_photo}
+                size={'bigger'}
+              />
+            </Box>
           }
           action={
             currentUser.id === data.user.id &&

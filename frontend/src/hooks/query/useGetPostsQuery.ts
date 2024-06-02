@@ -6,8 +6,11 @@ import {
   selectPostsItems,
   selectPostsMetadata,
 } from '../../redux/posts/selectors.ts';
-import { useEffect, useRef } from 'react';
-import { PostsOperations } from '../../redux/posts/operations.ts';
+import { useEffect, useState } from 'react';
+import {
+  PostsOperations,
+  resetPostsMetadata,
+} from '../../redux/posts/operations.ts';
 import { selectPostsFilters } from '../../redux/filters/selectors.ts';
 import { Nullable } from '../../interfaces';
 
@@ -21,7 +24,7 @@ const useGetPostsQuery = ({
   operations: Operations,
 }: FunctionInterface) => {
   const dispatch: AppDispatch = useDispatch();
-  const isFirstRender = useRef(true);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const data = useSelector(selectPostsItems);
   const isLoading = useSelector(selectPostsIsLoading);
@@ -38,14 +41,17 @@ const useGetPostsQuery = ({
   };
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    (async () => {
+      if (isFirstRender) {
+        await dispatch(resetPostsMetadata()).unwrap();
+        setIsFirstRender(false);
+        return;
+      }
 
-    dispatch(Operations.fetchAll(options));
+      dispatch(Operations.fetchAll(options));
+    })();
     // eslint-disable-next-line
-  }, [filters]);
+  }, [filters, isFirstRender]);
 
   return { data, isLoading, error };
 };

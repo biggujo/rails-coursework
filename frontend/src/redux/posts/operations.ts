@@ -82,6 +82,19 @@ const createOperations = (api: PostsApi | Pick<PostsApi, 'fetchAll'>) => ({
   ),
 });
 
+export const resetPostsMetadata = createAsyncThunk(
+  'posts/resetMetadata',
+  async (_, { rejectWithValue }) => {
+    try {
+      return {
+        a: '1',
+      };
+    } catch (e) {
+      return rejectWithValue(ERROR_MESSAGE);
+    }
+  }
+);
+
 export type PostsOperations = ReturnType<typeof createOperations>;
 
 export const AllPostsOperations: Pick<PostsOperations, 'fetchAll'> =

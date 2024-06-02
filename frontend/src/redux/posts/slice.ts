@@ -1,6 +1,6 @@
 import { createSlice, isAnyOf, PayloadAction } from '@reduxjs/toolkit';
 import { Nullable, PostEntity } from '../../interfaces';
-import { ProfilePostsOperations } from './operations.ts';
+import { ProfilePostsOperations, resetPostsMetadata } from './operations.ts';
 import { FetchAllPostsResponse, LikeResponse } from '../../utils/api.ts';
 
 const resetMetadataFn = state => ({
@@ -39,11 +39,11 @@ const slice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    resetPostsMetadata: resetMetadataFn,
     resetPosts: () => ({ ...initialState }),
   },
   extraReducers: builder => {
     builder
+      .addCase(resetPostsMetadata.fulfilled, resetMetadataFn)
       .addCase('filters/setPostsFilters', () => {
         return {
           ...initialState,
@@ -209,6 +209,6 @@ const slice = createSlice({
   },
 });
 
-export const { resetPostsMetadata, resetPosts } = slice.actions;
+export const { resetPosts } = slice.actions;
 
 export const postsReducer = slice.reducer;
