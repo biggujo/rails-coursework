@@ -203,7 +203,13 @@ export default function PostItem({ data, dontShowControls }: Props) {
                 <Typography fontWeight={'bold'} mb={1}>
                   {t('post.originalPost')}:
                 </Typography>
-                <PostItem data={data.repost} dontShowControls={true} />
+                <Box
+                  sx={{
+                    mb: 1,
+                  }}
+                >
+                  <PostItem data={data.repost} dontShowControls={true} />
+                </Box>
               </>
             )}
             {data.photos.length > 0 && (
