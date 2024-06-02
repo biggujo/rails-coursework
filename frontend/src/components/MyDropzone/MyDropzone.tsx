@@ -33,7 +33,6 @@ function MyDropzone({ title, onAddFile, maxFiles }: Props) {
     },
     maxSize: 1048576 * MAX_ATTACHMENT_SIZE_MB, // 2 MB
     maxFiles: maxFiles || 1,
-    onDropAccepted: onAddFile,
     onDrop: acceptedFiles => {
       setFiles(
         acceptedFiles.map(file =>
@@ -53,7 +52,10 @@ function MyDropzone({ title, onAddFile, maxFiles }: Props) {
 
   // Avoid memory leaks
   useEffect(() => {
+    onAddFile(files);
+
     return () => files.forEach(file => URL.revokeObjectURL(file.preview));
+    // eslint-disable-next-line
   }, [files]);
 
   const handleRemoveAttachmentByIndex = (givenIndex: number) => {

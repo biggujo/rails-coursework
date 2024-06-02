@@ -3,7 +3,7 @@ import TextFormMessage from '../TextFormMessage';
 import MessageList from '../MessageList';
 import { UserProfile } from '../../interfaces';
 import useChatPanel from '../../hooks/useChatPanel.ts';
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useReducer, useRef } from 'react';
 import Loader from '../Loader';
 import FullHeightCenter from '../FullHeightCenter';
 import PrivateChatTitleBar from '../PrivateChatTitleBar/PrivateChatTitleBar.tsx';
@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import { selectAuthUser } from '../../redux/auth/selectors.ts';
 import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import useReachBottom from '../../hooks/useReachBottom.ts';
+import ChatScrollButton from '../ChatScrollButton';
 
 interface Props {
   otherPersonId: UserProfile['id'];
@@ -22,10 +24,25 @@ export default function ChatPanel({ otherPersonId }: Props) {
   const { items, isLoading, error, chatId, handleSubmit } =
     useChatPanel(otherPersonId);
   const isAtBottom = useRef(true);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
   const messageContainerRef = useRef<HTMLElement>(null);
-  const bottomRef = useRef<HTMLElement>(null);
   const user = useSelector(selectAuthUser);
   const { t } = useTranslation();
+
+  // Track if user wants to be scrolled to bottom
+  // If user at the bottom, prefer to scroll to the last messages
+  // Else don't prefer to scroll
+  useReachBottom({
+    onBottomReached: () => {
+      isAtBottom.current = true;
+      forceUpdate();
+    },
+    onUnBottom: () => {
+      isAtBottom.current = false;
+      forceUpdate();
+    },
+    elementId: MESSAGES_CONTAINER_ID,
+  });
 
   // Always scroll to the bottom on new messages
   useLayoutEffect(() => {
@@ -106,7 +123,6 @@ export default function ChatPanel({ otherPersonId }: Props) {
                     items={items}
                     parentElId={MESSAGES_CONTAINER_ID}
                   />
-                  <Box ref={bottomRef}></Box>
 
                   {!isAtBottom.current && (
                     <Box
@@ -116,7 +132,15 @@ export default function ChatPanel({ otherPersonId }: Props) {
                         left: -1,
                         width: 'calc(100% + 2px)',
                       }}
-                    ></Box>
+                    >
+                      <ChatScrollButton
+                        text={t('chat.goToBottom')}
+                        onClick={() => {
+                          messageContainerRef.current!.scrollTop =
+                            messageContainerRef.current!.scrollHeight;
+                        }}
+                      />
+                    </Box>
                   )}
                 </Box>
               )}

@@ -28,8 +28,14 @@ const useFetchPreviousMessagesQuery = ({
   const isLoading = useSelector(selectChatIsLoading);
   const error = useSelector(selectChatError);
   const chatId = useRef<number | null>(null);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     if (!data) {
       return;
     }

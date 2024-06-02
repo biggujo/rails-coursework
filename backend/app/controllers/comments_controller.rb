@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class CommentsController < ApiController
-  before_action :set_comment, only: %i[ show update destroy ]
-  before_action :set_post, only: %i[ post_comments ]
-  before_action :authorize_comment_manage!, only: %i[ update destroy ]
+  before_action :set_comment, only: %i[show update destroy]
+  before_action :set_post, only: %i[post_comments]
+  before_action :authorize_comment_manage!, only: %i[update destroy]
 
   # GET /comments/1
   # GET /comments/1.json

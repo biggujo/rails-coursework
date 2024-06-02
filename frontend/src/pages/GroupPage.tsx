@@ -12,7 +12,7 @@ import PostListInfiniteWrapper from '../components/PostListInfiniteWrapper';
 import { AppDispatch } from '../redux/store.ts';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { resetPosts, resetPostsMetadata } from '../redux/posts/slice.ts';
+import { resetPosts } from '../redux/posts/slice.ts';
 import createSmallSubtitle from '../utils/create-small-subtitle.tsx';
 import PostsFiltersForm from '../components/PostsFilters/PostsFiltersForm.tsx';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,6 @@ export default function GroupPage() {
 
   useEffect(() => {
     return () => {
-      dispatch(resetPostsMetadata());
       dispatch(resetPosts());
     };
   }, [dispatch]);

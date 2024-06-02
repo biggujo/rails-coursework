@@ -11,7 +11,7 @@ import API from '../utils/api.ts';
 import { FileCopy } from '@mui/icons-material';
 import myToast from '../utils/myToast.tsx';
 import { useEffect } from 'react';
-import { resetPosts, resetPostsMetadata } from '../redux/posts/slice.ts';
+import { resetPosts } from '../redux/posts/slice.ts';
 import { useDispatch } from 'react-redux';
 
 export default function MainPage() {
@@ -24,7 +24,6 @@ export default function MainPage() {
 
   useEffect(() => {
     return () => {
-      dispatch(resetPostsMetadata());
       dispatch(resetPosts());
     };
   }, [dispatch]);

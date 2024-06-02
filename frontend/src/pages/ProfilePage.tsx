@@ -12,7 +12,7 @@ import PostListInfiniteWrapper from '../components/PostListInfiniteWrapper';
 import { useEffect } from 'react';
 import { AppDispatch } from '../redux/store.ts';
 import { useDispatch } from 'react-redux';
-import { resetPosts, resetPostsMetadata } from '../redux/posts/slice.ts';
+import { resetPosts } from '../redux/posts/slice.ts';
 import PostsFiltersForm from '../components/PostsFilters/PostsFiltersForm.tsx';
 import createSmallSubtitle from '../utils/create-small-subtitle.tsx';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +29,6 @@ export default function ProfilePage() {
 
   useEffect(() => {
     return () => {
-      dispatch(resetPostsMetadata());
       dispatch(resetPosts());
     };
   }, [dispatch]);

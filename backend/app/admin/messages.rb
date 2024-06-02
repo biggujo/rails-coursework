@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Message do
+ActiveAdmin.register Message do # rubocop:disable Metrics/BlockLength
   permit_params :private_chat_id, :author_id, :message
 
   index do

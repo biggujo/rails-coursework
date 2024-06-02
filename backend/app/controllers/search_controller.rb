@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SearchController < ApplicationController
+class SearchController < ApiController
   def search
     query = params[:name]
     results = SearchService.new(query, current_user).call

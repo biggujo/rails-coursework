@@ -22,11 +22,11 @@ class Post < ApplicationRecord
     get_downvotes.size
   end
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object=nil)
     %w[content created_at group_id id id_value reposted_post_id updated_at user_id]
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object=nil)
     %w[comments group repost user votes_for]
   end
 

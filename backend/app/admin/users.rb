@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register User do
+ActiveAdmin.register User do # rubocop:disable Metrics/BlockLength
   permit_params :email, :nickname, :last_seen_at, :country, :city, :full_name, :admin, :profile_photo
 
   index do
@@ -33,7 +33,7 @@ ActiveAdmin.register User do
       f.input :email
       f.input :nickname
       f.input :last_seen_at
-      f.input :country, :as => :string
+      f.input :country, as: :string
       f.input :city
       f.input :full_name
       f.input :admin
@@ -57,7 +57,7 @@ ActiveAdmin.register User do
         if user.profile_photo.attached?
           image_tag url_for(user.profile_photo), size: "100x100"
         else
-          content_tag(:span, "No photo available")
+          tag.span("No photo available")
         end
       end
     end

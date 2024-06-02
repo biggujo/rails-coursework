@@ -23,7 +23,7 @@ const queryClient = new QueryClient({
 });
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  <>
     <BrowserRouter>
       <PersistGate persistor={persistor}>
         <Provider store={store}>
@@ -35,5 +35,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </Provider>
       </PersistGate>
     </BrowserRouter>
-  </React.StrictMode>
+  </>
 );

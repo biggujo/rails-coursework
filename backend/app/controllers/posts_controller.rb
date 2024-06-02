@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'pagy/extras/array'
+require "pagy/extras/array"
 
 class PostsController < ApiController
   before_action :authenticate_user!

@@ -30,7 +30,7 @@ const MainProfileData = ({ userData }: Props) => {
           <Typography variant={'h3'} color={'primary'}>
             {userData.nickname}
           </Typography>
-          <Typography variant={'h4'} color={'gray'}>
+          <Typography variant={'h5'} color={'gray'}>
             a.k.a. {userData.full_name}
           </Typography>
         </Stack>

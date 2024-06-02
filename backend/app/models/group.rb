@@ -13,7 +13,7 @@ class Group < ApplicationRecord
 
   def self.joined_groups(user_id)
     Group.joins("INNER JOIN groups_users ON groups.id = groups_users.group_id")
-         .where(groups_users: { user_id: })
+         .where(groups_users: {user_id:})
   end
 
   def acceptable_image
@@ -26,13 +26,12 @@ class Group < ApplicationRecord
 
     errors.add(:profile_photo, "must be either a JPEG, PNG or WEBP")
   end
-  has_many :posts
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object=nil)
     %w[created_at description id id_value name updated_at user_id]
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object=nil)
     %w[posts user users]
   end
 end
