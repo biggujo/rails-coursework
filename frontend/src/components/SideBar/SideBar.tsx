@@ -63,6 +63,7 @@ export default function SideBar() {
         <List>
           {createNavigationLinks(id, t).map(({ title, to, icon, isExact }) => (
             <MyListItem
+              key={to}
               title={title}
               to={to}
               icon={icon}

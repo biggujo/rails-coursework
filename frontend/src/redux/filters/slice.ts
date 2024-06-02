@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PostsFilters } from '../../interfaces';
+import { resetPostsFilters } from './operations.ts';
 
 const initialState: {
   posts: PostsFilters;
@@ -21,10 +22,12 @@ const slice = createSlice({
       ...state,
       posts: action.payload,
     }),
-    clearPostsFilters: () => ({ ...initialState }),
+  },
+  extraReducers: builder => {
+    builder.addCase(resetPostsFilters.fulfilled, () => ({ ...initialState }));
   },
 });
 
-export const { setPostsFilters, clearPostsFilters } = slice.actions;
+export const { setPostsFilters } = slice.actions;
 
 export const filtersReducer = slice.reducer;

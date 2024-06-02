@@ -13,6 +13,7 @@ import {
 } from '../../redux/posts/operations.ts';
 import { selectPostsFilters } from '../../redux/filters/selectors.ts';
 import { Nullable } from '../../interfaces';
+import { resetPostsFilters } from '../../redux/filters/operations.ts';
 
 interface FunctionInterface {
   id: Nullable<number>;
@@ -43,6 +44,7 @@ const useGetPostsQuery = ({
   useEffect(() => {
     (async () => {
       if (isFirstRender) {
+        await dispatch(resetPostsFilters()).unwrap();
         await dispatch(resetPostsMetadata()).unwrap();
         setIsFirstRender(false);
         return;
